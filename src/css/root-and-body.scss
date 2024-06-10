@@ -95,11 +95,11 @@ $dark-darkest: $color-1-6;
   border: none;
 }
 
-html, body {
-  //  height: 100%;
-  // max-width: 100vw !important;
-  overflow-x: hidden;
-}
+// html, body {
+//   //  height: 100%;
+//   // max-width: 100vw !important;
+//   // overflow-x: hidden;
+// }
 
 #__docusaurus_skipToContent_fallback > main > pre {
   position: fixed;
@@ -186,6 +186,19 @@ html, body {
   z-index: -1;
 }
 
+[data-theme="dark"] [class^="docRoot"]::before { 
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 70vh; /* Adjust this value as needed */
+  background: radial-gradient(ellipse 315.122px 352.987px at 80% 50%, rgba(#4E00F4, var(--ellipis-transparency)) 40%, transparent 90%) no-repeat;
+  background-size: 100% 200%;
+  animation: gradientAnimation 10s ease infinite;
+  z-index: -1;
+}
+
 [class^="docPage"] {
   position: relative;
   background-color: rgba(255, 255, 255, 0.68);
@@ -197,7 +210,31 @@ html, body {
   // border: 1px solid rgba(209, 213, 219, 0.3);
 }
 
+// [class^="docRoot"] {
+//   position: relative;
+//   background-color: rgba(255, 255, 255, 0.68);
+//   overflow: visible;
+//   border: none;
+//   backdrop-filter: blur(25px) saturate(180%);
+//   -webkit-backdrop-filter: blur(25px) saturate(180%);
+//   border-radius: 12px;
+//   // border: 1px solid rgba(209, 213, 219, 0.3);
+// }
+
 [data-theme="light"] [class^="docPage"]::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 200px; /* Adjust this value as needed */
+  background: radial-gradient(ellipse 50vw 80px at 95% 40%, rgba(#ff83e2, 20%) 40%, transparent 95%);
+  background-size: 100% 200%;
+  animation: gradientAnimation 10s ease infinite;
+  z-index: -1;
+}
+
+[data-theme="light"] [class^="docRoot"]::before { 
   content: "";
   position: absolute;
   top: 0;
@@ -230,7 +267,7 @@ html, body {
   z-index: -1;
 }
 
-[class^="docPage"] {
+[class^="docRoot"] {
   @media (min-width: 1400px) {
     padding-left: 5em;
     padding-right: 5em;
