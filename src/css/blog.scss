@@ -1,7 +1,3 @@
-// [aria-label="Blog recent posts navigation"] {
-//     display: none;
-// }
-
 @mixin conditional-styles($class) {
   $selector: if(&, "#{&}.#{$class}", false);
   @if $selector {
@@ -17,7 +13,7 @@
   background-color: white;
 }
 
-[itemprop="blogPost"] {
+.blog-wrapper {
   header {
     display: none;
   }
@@ -27,14 +23,16 @@
 //   color: white !important;
 // }
 
-[itemprop="articleBody"] {
-  display: flex;
-  flex-direction: column;
-  li {
-    margin-bottom: 1rem;
-  }
-}
+
 .blog-post-page {
+
+  #__blog-post-container {
+    display: flex;
+    flex-direction: column;
+    li {
+      margin-bottom: 1rem;
+    }
+  }
 
   @include conditional-styles("col--2");
   .row {
@@ -183,7 +181,7 @@
     }
   }
 
-  [itemtype="http://schema.org/BlogPosting"]
+  article
   {
     margin-bottom: 2em !important;
     padding-bottom: 0px !important;
