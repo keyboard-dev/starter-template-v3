@@ -21,7 +21,7 @@
     "@docusaurus/theme-live-codeblock": "^3.0.0",
     "@fontsource/inter": "^5.0.8",
     "@gocapsule/column-extension": "^1.0.0-beta-3",
-    "@mdx-js/react": "^1.6.22",
+    "@mdx-js/react": "^3.0.1",
     "@monaco-editor/react": "^4.4.6",
     "@orama/plugin-docusaurus-v3": "^2.0.19",
     "@orama/searchbox": "1.0.0-rc33",
