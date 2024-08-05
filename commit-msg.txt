@@ -1,2 +1,2 @@
-early starters
+fixes edit button and blog
 

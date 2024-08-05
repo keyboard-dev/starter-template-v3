@@ -45,7 +45,7 @@ export default function MDXContentWrapper(props) {
           >
             <h1 style={{ color: props?.children?.type?.frontMatter?.text_color}}>
               <a style={{ color: props?.children?.type?.frontMatter?.text_color}} href={props.children.type.metadata.permalink}>
-                {props.children.type.metadata.title}
+                {props.children.type.metadata.title || "yo"}
               </a>
             </h1>
             <h3
