@@ -52,17 +52,20 @@
 
 
 
-  // li {
-  //   list-style: auto !important;
-  // }
+  li {
+    list-style: auto !important;
+  }
 
   .table-of-contents {
     display: none;
   }
 
-  p {
-    font-size: 18px;
+  .dev-docs-blog {
+    p {
+      font-size: 18px;
+    }
   }
+
 
 
   .blog-header-title-card {
@@ -147,6 +150,8 @@
     min-width: 100vw !important;
   }
 
+
+
   .blog-header-title-card {
     line-break: strict;
     height: 40vh !important;
@@ -213,9 +218,8 @@
         }
       }
 
-      > *:not(.blog-header-title-card) {
+      .dev-docs-blog {
         display: none;
-        // styles for all children except the one with the class "exclude-child"
       }
     }
   }

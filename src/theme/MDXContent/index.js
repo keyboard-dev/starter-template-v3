@@ -4,7 +4,7 @@ import MDXContent from "@theme-original/MDXContent";
 import TracingBeam from "@site/src/components/tracing-beam";
 import svgToDataUri from "mini-svg-data-uri";
 import { BackgroundGradientAnimation } from "@site/src/components/background-gradient-animation";
-import { useHistory } from "@docusaurus/router";
+
 
 export default function MDXContentWrapper(props) {
   let image = `url("${svgToDataUri(
@@ -79,7 +79,9 @@ export default function MDXContentWrapper(props) {
               </div>
             </div>
           </BackgroundGradientAnimation>
-          <MDXContent style={{ backgroundImage: image }} {...props} />
+          <div className="dev-docs-blog">
+            <MDXContent style={{ backgroundImage: image }} {...props} />
+          </div>
         </>
       ) : (
         <TracingBeam>
