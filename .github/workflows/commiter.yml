@@ -3,6 +3,9 @@ name: Update Commit Message
 on:
   push:
     branches: [main]
+    paths:
+      - docs/**
+      - blog/**
 
 permissions: write-all
 jobs:
