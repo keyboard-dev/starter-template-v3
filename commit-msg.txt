@@ -1,2 +1,2 @@
-fixes edit button and blog
+blog issues fixed
 
