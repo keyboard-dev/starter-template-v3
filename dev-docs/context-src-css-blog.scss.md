@@ -1,10 +1,3 @@
-
-
----
-# High Level Context
-## context
-**Last Updated at:** 8/6/2024, 4:14:01 PM
-
 # blog.scss
 
 ## Overview
@@ -73,3 +66,7 @@ To customize the `blog.scss` file for your specific needs, consider the followin
      ```
 
 Remember to test your changes thoroughly across different devices and browsers to ensure a consistent experience for all users. You may also need to rebuild your Docusaurus site to see the changes take effect.
+
+## Customize Styling
+
+If you want to customize styling you can refere to the 

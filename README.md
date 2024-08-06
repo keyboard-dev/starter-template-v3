@@ -1,6 +1,6 @@
 # Getting Started with the Dev-Docs Starter Template
 
-The Dev-Docs starter template is designed to help you create your own documentation quickly and easily. Whether you're building public-facing documentation for your APIs, SDKs, or applications, or internal documentation for your software engineering organization, this template provides a solid foundation to get started.
+The Dev-Docs Docusaurus starter template is designed to help you create your own documentation quickly and easily. Whether you're building public-facing documentation for your APIs, SDKs, or applications, or internal documentation for your software engineering organization, this template provides a solid foundation to get started.  This is a Docusaurus template that should retain most if not all the same functionality found outlined in the 
 
 ## Setting Up the Template
 
@@ -8,7 +8,7 @@ The Dev-Docs starter template is designed to help you create your own documentat
 
 2. **Install dependencies and start the project**: Navigate to the project directory and install the required dependencies by running the appropriate command for your package manager: `npm install`.  Once installed run `npm run start`
 
-3. **Customize the content**: The template comes with a basic structure and some sample content to help you get started. Modify the existing files or create new ones to suit your documentation needs.  To make your life easier you can use Dev-Docs with this template to automatically generate documentation or manually add new pages.  Remember at least one page as should have an index slug.  Learn more about document pages [here](https://docusaurus.io/docs/3.2.1/create-doc).
+3. **Customize the content**: The template comes with a basic structure and some sample content to help you get started. Modify the existing files or create new ones to suit your documentation needs.  To make your life easier you can use [Dev-Docs AI](https://dev-docs.dev/docs) with this template to automatically generate documentation or manually add new pages.  Remember at least one page as should have an index slug.  Learn more about document pages [here](https://docusaurus.io/docs/3.2.1/create-doc).
 
 4. **Configure the theme**: The template uses a modern and responsive theme out of the box, but you can customize it further by modifying the styles and layout according to your project's branding and requirements.
 

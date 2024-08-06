@@ -1,11 +1,4 @@
-
-
----
-# High Level Context
-## context
-**Last Updated at:** 8/6/2024, 4:20:14 PM
-
-Based on the overviews of all the SCSS files in this folder, here's a high-level overview of the folder's purpose and functionality:
+# css
 
 This folder contains a collection of SCSS (Sass) files that form the core styling system for a Docusaurus-based documentation website. The purpose of this folder is to provide a comprehensive, customizable, and modular approach to styling various components and layouts of the documentation site.
 

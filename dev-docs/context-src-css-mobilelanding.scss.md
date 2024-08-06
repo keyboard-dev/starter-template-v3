@@ -1,12 +1,3 @@
-
-
----
-# High Level Context
-## context
-**Last Updated at:** 8/6/2024, 4:17:34 PM
-
-Here's a markdown documentation page for the provided SCSS file:
-
 # mobilelanding.scss
 
 ## Overview

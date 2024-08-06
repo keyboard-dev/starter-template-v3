@@ -1,12 +1,3 @@
-
-
----
-# High Level Context
-## context
-**Last Updated at:** 8/6/2024, 4:18:41 PM
-
-Here's a markdown documentation page for the given code file:
-
 # root-and-body.scss
 
 ## Overview

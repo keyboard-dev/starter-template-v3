@@ -1,10 +1,3 @@
-
-
----
-# High Level Context
-## context
-**Last Updated at:** 8/6/2024, 4:16:21 PM
-
 # headings-and-paragraphs.scss
 
 ## Overview

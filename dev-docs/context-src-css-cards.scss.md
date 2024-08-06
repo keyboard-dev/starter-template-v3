@@ -1,10 +1,3 @@
-
-
----
-# High Level Context
-## context
-**Last Updated at:** 8/6/2024, 4:14:13 PM
-
 # cards.scss
 
 ## Overview

@@ -1,10 +1,3 @@
-
-
----
-# High Level Context
-## context
-**Last Updated at:** 8/6/2024, 4:20:00 PM
-
 # Table of Contents (table-of-contents.scss)
 
 ## Overview
