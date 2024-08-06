@@ -1,3 +1,7 @@
+---
+sidebar_position: 1
+---
+
 # css
 
 This folder contains a collection of SCSS (Sass) files that form the core styling system for a Docusaurus-based documentation website. The purpose of this folder is to provide a comprehensive, customizable, and modular approach to styling various components and layouts of the documentation site.

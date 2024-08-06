@@ -203,3 +203,7 @@ a:hover {
   "Noto Sans", sans-serif, "system-ui", "Segoe UI", Helvetica, Arial,
   sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol" !important;
 }
+
+.markdown li > p {
+  margin-top: 1rem !important;
+}
