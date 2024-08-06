@@ -1,3 +1,5 @@
 {
-    "external": true
+    "ai": {
+        "contextPrompt": "dev-docs/context-instructions.md"
+    }
 }
