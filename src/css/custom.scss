@@ -3,6 +3,7 @@
 @import 'tailwindcss/components';
 @import 'tailwindcss/utilities';
 @import "./design-preferences.scss";
+@import "./set-default-colors-if-missing.scss";
 @import "./secondaryColors.scss";
 @import "./shadcn.scss";
 @import "./root-and-body.scss";

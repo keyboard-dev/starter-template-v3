@@ -41,6 +41,13 @@
   width: 4rem !important;
 }
 
+[class^="search"] {
+  kbd {
+    color: transparent !important;
+  }
+  border: none !important;
+}
+
 [data-theme="dark"] .navbar__items--right {
   [class^="toggle"] {
     .clean-btn {
