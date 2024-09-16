@@ -74,7 +74,7 @@ $dark-darkest: $color-1-6;
   .rounded-full {
     background: $color-1 !important;
     background-color: $color-1 !important;
-    border-color: $color-1 !important; 
+    border-color: $color-1 !important;
   }
 }
 
@@ -179,7 +179,7 @@ $dark-gradient-color-2: if(variable-exists(graident-dark-color-2), $graident-dar
   z-index: -1;
 }
 
-[data-theme="dark"] [class^="docRoot"]::before { 
+[data-theme="dark"] [class^="docRoot"]::before {
   content: "";
   position: absolute;
   top: 0;
@@ -230,7 +230,7 @@ $light-gradient-color-2: if(variable-exists(graident-light-color-2), $graident-l
   z-index: -1;
 }
 
-[data-theme="light"] [class^="docRoot"]::before { 
+[data-theme="light"] [class^="docRoot"]::before {
   content: "";
   position: absolute;
   top: 0;
@@ -264,12 +264,14 @@ $light-gradient-color-2: if(variable-exists(graident-light-color-2), $graident-l
 }
 
 [class^="docRoot"] {
+  background-color: transparent;
+
   @media (min-width: 1400px) {
     padding-left: 5em;
     padding-right: 5em;
     padding-top: 2em;
   }
-  background-color: transparent;
+
   // backdrop-filter: blur(16px) saturate(10%);
   // -webkit-backdrop-filter: blur(16px) saturate(10%);
 
@@ -280,6 +282,3 @@ $light-gradient-color-2: if(variable-exists(graident-light-color-2), $graident-l
   }
   /* Styles for elements with a class that starts with "word" */
 }
-
-
-
