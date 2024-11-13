@@ -4,6 +4,7 @@
 const lightCodeTheme = require('prism-react-renderer').themes.github;
 const darkCodeTheme = require('prism-react-renderer').themes.dracula;
 
+
 // [item, [[], [], []]]
 const apiConfig = require('./dev-docs-openapi.js');
 const openApiCongfig = apiConfig.config
@@ -26,10 +27,6 @@ const config = {
   ],
   stylesheets: [
     {
-      href: 'https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/styles/default.min.css',
-    },
-    'src/css/custom.css',
-    {
       href: 'https://cdn.tailwindcss.com/2.2.19/tailwind.min.css'
     }
   ],
@@ -45,8 +42,18 @@ const config = {
   // If you aren't using GitHub pages, you don't need these.
   organizationName: 'facebook', // Usually your GitHub org/user name.
   projectName: 'docusaurus', // Usually your repo name.
-  plugins: ['docusaurus-plugin-sass', "@orama/plugin-docusaurus-v3",
-  async function myPlugin(context, options) {
+  plugins: [
+    'docusaurus-plugin-sass',
+    [
+      './oramaSearchPlugin',
+      {
+        // Optional plugin config
+        indexDocs: true,
+        indexBlog: true,
+        indexPages: true,
+      },
+    ],
+    async function myPlugin(context, options) {
       return {
         name: "docusaurus-tailwindcss",
         configurePostCss(postcssOptions) {
@@ -58,15 +65,10 @@ const config = {
       };
     },
   ],
-
-  // Even if you don't use internalization, you can use this field to set useful
-  // metadata like html lang. For example, if your site is Chinese, you may want
-  // to replace "en" with "zh-Hans".
   i18n: {
     defaultLocale: 'en',
     locales: ['en'],
   },
-
   presets: [
     [
       'classic',
@@ -74,15 +76,11 @@ const config = {
       ({
         docs: {
           sidebarPath: require.resolve('./sidebars.js'),
-          // Please change this to your repo.
-          // Remove this to remove the "edit this page" links.
           editUrl:
             'https://github.com/facebook/docusaurus/tree/main/packages/create-docusaurus/templates/shared/',
         },
         blog: {
           showReadingTime: true,
-          // Please change this to your repo.
-          // Remove this to remove the "edit this page" links.
           editUrl:
             'https://github.com/facebook/docusaurus/tree/main/packages/create-docusaurus/templates/shared/',
         },
@@ -92,7 +90,6 @@ const config = {
       }),
     ],
   ],
-
   themeConfig:
     /** @type {import('@docusaurus/preset-classic').ThemeConfig} */
     ({
