@@ -24,12 +24,26 @@ module.exports = function oramaSearchPlugin(context, options) {
 
       // Read all markdown files in the docs directory
       const files = await fs.readdir(docsDir);
-      const markdownFiles = files.filter(file => file.endsWith('.md'));
+      async function getAllMarkdownFiles(dir) {
+        const entries = await fs.readdir(dir, { withFileTypes: true });
+        const files = await Promise.all(entries.map(async (entry) => {
+          const fullPath = path.join(dir, entry.name);
+          if (entry.isDirectory()) {
+            return getAllMarkdownFiles(fullPath);
+          }
+          return entry.name.endsWith('.md') ? [fullPath] : [];
+        }));
+        return files.flat();
+      }
+
+      const markdownFiles = await getAllMarkdownFiles(docsDir);
+      //const markdownFiles = files.filter(file => file.endsWith('.md'));
+      console.log("this is the files", files);
       console.log("this is the markdown files", markdownFiles);
       // Process each markdown file
       for (const file of markdownFiles) {
-        const filePath = path.join(docsDir, file);
-        const content = await fs.readFile(filePath, 'utf-8');
+        console.log("what is the file path", file);
+        const content = await fs.readFile(file, 'utf-8');
         console.log(content);
         // Extract title from the first line (assuming it's a # heading)
         const title = content.split('\n')[0].replace('#', '').trim();
