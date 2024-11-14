@@ -107,18 +107,38 @@ module.exports = function oramaSearchPlugin(context, options) {
         const content = await fs.readFile(file, 'utf-8');
         console.log(content);
    
-        const title = content.split('\n')[0].replace('#', '').trim();
+        
  
-     
- 
-   
+        const divideContent = (content) => {
+          const frontmatterRegex = /^---\s*\n([\s\S]*?)\n---/;
+          const match = content.match(frontmatterRegex);
+          
+          if (!match) {
+            return {
+              frontmatter: '',
+              markdown: content.trim()
+            };
+          }
+
+          const frontmatter = match[1];
+          const markdown = content.slice(match[0].length).trim();
+          
+          return {
+            frontmatter,
+            markdown
+          };
+        };
+
+        const { frontmatter, markdown } = divideContent(content);
+        const title = markdown.split('\n')[0].replace('#', '').trim();
+        
         let url = file.split(context.siteDir)[1];
         let slug = parseSlug(content, url);
         
         // Insert document into Orama database
         await insert(db, {
           title,
-          content,
+          content: markdown,
           url: `${url.replace('.md', '')}`,
           slug: slug,
         });
