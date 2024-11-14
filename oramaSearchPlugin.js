@@ -81,8 +81,9 @@ module.exports = function oramaSearchPlugin(context, options) {
               type: 'text/javascript',
             },
             innerHTML: `
-              // Your client-side search logic here
-              console.log('Orama search initialized');
+            window.oramaDb = ${JSON.stringify(Object.values(db.data.docs.docs))};
+            console.log('Orama search initialized');
+        
             `,
           },
         ],
