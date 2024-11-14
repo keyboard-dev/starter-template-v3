@@ -5,15 +5,10 @@ import { Input } from "../components/ui/input"
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "../components/ui/dialog"
 import { Card, CardContent } from "../components/ui/card"
 import { Search, Loader2 } from 'lucide-react'
+// import useIsDarkTheme from '@docusaurus/theme-common/internal/hooks/useIsDarkTheme';
+// import { useColorMode } from '@docusaurus/theme-common';
 
-// Fake data for demonstration
-const fakeData = [
-    { id: "1", title: "Introduction to React", content: "React is a JavaScript library for building user interfaces." },
-    { id: "2", title: "State Management in React", content: "Learn about useState and useReducer hooks for managing state in React applications." },
-    { id: "3", title: "React Router", content: "React Router is a standard library for routing in React applications." },
-    { id: "4", title: "Hooks in React", content: "Hooks are functions that let you use state and other React features without writing a class." },
-    { id: "5", title: "Server Components", content: "Server Components let you write UI that can be rendered and optionally cached on the server." }
-]
+
 
 function OramaSearchModalComponent() {
     const [isOpen, setIsOpen] = useState(false)
@@ -75,7 +70,7 @@ function OramaSearchModalComponent() {
     }, [query, isOpen, isLoading])
 
     return (
-        (<Dialog open={isOpen} onOpenChange={setIsOpen}>
+        <Dialog open={isOpen} onOpenChange={setIsOpen}>
             <DialogTrigger asChild>
                 <Button variant="outline">
                     <Search className="w-4 h-4 mr-2" />
@@ -97,26 +92,28 @@ function OramaSearchModalComponent() {
                         {isLoading && <Loader2 className="w-4 h-4 animate-spin" />}
                     </div>
                     {results.length > 0 && (
-                        <Card>
-                            <CardContent className="p-4">
-                                <ul className="space-y-2">
-                                    {results.map((result) => (
-                                        <li key={result.id}>
-                                            <h3 className="text-lg font-semibold text-primary">
-                                                {result.document.title}
-                                            </h3>
-                                            <p className="text-sm text-muted-foreground">
-                                                {result.document.content}
-                                            </p>
-                                        </li>
-                                    ))}
-                                </ul>
-                            </CardContent>
-                        </Card>
+                        <div className="overflow-y-auto max-h-60">
+                            <Card>
+                                <CardContent className="p-4">
+                                    <ul className="space-y-2">
+                                        {results.map((result) => (
+                                            <li key={result.id}>
+                                                <h3 className="text-lg font-semibold text-primary">
+                                                    {result.document.title}
+                                                </h3>
+                                                <p className="text-sm text-muted-foreground truncate">
+                                                    {result.document.content}
+                                                </p>
+                                            </li>
+                                        ))}
+                                    </ul>
+                                </CardContent>
+                            </Card>
+                        </div>
                     )}
                 </div>
             </DialogContent>
-        </Dialog>)
+        </Dialog>
     );
 }
 
