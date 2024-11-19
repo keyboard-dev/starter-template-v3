@@ -4,6 +4,8 @@ import MDXContent from "@theme-original/MDXContent";
 import TracingBeam from "@site/src/components/tracing-beam";
 import svgToDataUri from "mini-svg-data-uri";
 import { BackgroundGradientAnimation } from "@site/src/components/background-gradient-animation";
+import { Button } from "../../components/ui/button"
+import { ExternalLink } from 'lucide-react'
 
 
 export default function MDXContentWrapper(props) {
@@ -28,7 +30,7 @@ export default function MDXContentWrapper(props) {
             imagePositionY={
               props?.children?.type?.frontMatter?.image_position_y
             }
-            bgImageSize={ props?.children?.type?.frontMatter?.image_size}
+            bgImageSize={props?.children?.type?.frontMatter?.image_size}
             imagePositionX={
               props?.children?.type?.frontMatter?.image_position_x
             }
@@ -43,8 +45,8 @@ export default function MDXContentWrapper(props) {
             }}
             onClick={handleClick}
           >
-            <h1 style={{ color: props?.children?.type?.frontMatter?.text_color}}>
-              <a style={{ color: props?.children?.type?.frontMatter?.text_color}} href={props.children.type.metadata.permalink}>
+            <h1 style={{ color: props?.children?.type?.frontMatter?.text_color }}>
+              <a style={{ color: props?.children?.type?.frontMatter?.text_color }} href={props.children.type.metadata.permalink}>
                 {props.children.type.metadata.title || "yo"}
               </a>
             </h1>
@@ -53,11 +55,11 @@ export default function MDXContentWrapper(props) {
             >
               {props?.children?.type?.metadata?.authors?.length > 0 &&
                 props.children.type.metadata.authors.map((item, index) => (
-                  <span style={{color: props?.children?.type?.frontMatter?.text_color}} key={index}>{" " + item.name + ","}</span>
+                  <span style={{ color: props?.children?.type?.frontMatter?.text_color }} key={index}>{" " + item.name + ","}</span>
                 ))}
-              
-              &nbsp; <span style={{color: props?.children?.type?.frontMatter?.text_color}}>On {props.children.type.metadata.formattedDate},</span>{" "}
-              <span style={{color: props?.children?.type?.frontMatter?.text_color}}>{Math.ceil(props.children.type.metadata.readingTime * 10) / 1} min</span>
+
+              &nbsp; <span style={{ color: props?.children?.type?.frontMatter?.text_color }}>On {props.children.type.metadata.formattedDate},</span>{" "}
+              <span style={{ color: props?.children?.type?.frontMatter?.text_color }}>{Math.ceil(props.children.type.metadata.readingTime * 10) / 1} min</span>
             </h3>
             <div className="flex flex-row items-center mb-10 w-full">
               {props?.children?.type?.metadata.authors?.map((item, index) => (
@@ -72,8 +74,8 @@ export default function MDXContentWrapper(props) {
               <div className="pl-6">
                 {props?.children?.type?.metadata?.authors?.length > 0 &&
                   props.children.type.metadata.authors.map((item, index) => (
-                    <span style={{color: props?.children?.type?.frontMatter?.text_color}} key={index}>
-                    {" " + item.name + (index < props.children.type.metadata.authors.length - 1 ? "," : "")}
+                    <span style={{ color: props?.children?.type?.frontMatter?.text_color }} key={index}>
+                      {" " + item.name + (index < props.children.type.metadata.authors.length - 1 ? "," : "")}
                     </span>
                   ))}
               </div>
@@ -86,6 +88,7 @@ export default function MDXContentWrapper(props) {
       ) : (
         <TracingBeam>
           <div id="tracing-beam">
+            
             <MDXContent style={{ backgroundImage: image }} {...props} />
           </div>
         </TracingBeam>

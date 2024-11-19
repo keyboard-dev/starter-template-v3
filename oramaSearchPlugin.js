@@ -3,6 +3,9 @@ const { create, insert, search } = require('@orama/orama');
 const { dir } = require('console');
 const path = require('path');
 const fs = require('fs').promises;
+import { unified } from 'unified';
+import remarkParse from 'remark-parse';
+import remarkStringify from 'remark-stringify';
 
 function parseFrontmatter(content) {
   // Match content between --- markers
@@ -26,6 +29,25 @@ function parseFrontmatter(content) {
   
   return frontmatter;
 }
+
+
+
+function sanitizeInput(text) {
+  // Remove characters that could break the script tag
+  return text.replace(/[\u0000-\u001F\u007F<>]/g, ''); // Removes control characters and angle brackets
+}
+
+async function markdownToPlainText(markdown) {
+  const sanitizedMarkdown = sanitizeInput(markdown); // Sanitize input
+  const file = await unified()
+      .use(remarkParse)      // Parse the Markdown
+      .use(remarkStringify)  // Convert it back to string (plain text)
+      .process(sanitizedMarkdown); // Process the sanitized input
+
+  return String(file);     // Return the plain text output
+}
+
+
 
 function getSlugFromPath(filePath) {
   // Remove file extension
@@ -100,12 +122,12 @@ module.exports = function oramaSearchPlugin(context, options) {
       const markdownFiles = await getAllMarkdownFiles(docsDir);
       //const markdownFiles = files.filter(file => file.endsWith('.md'));
       console.log("this is the files", files);
-      console.log("this is the markdown files", markdownFiles);
+      //console.log("this is the markdown files", markdownFiles);
       // Process each markdown file
       for (const file of markdownFiles) {
-        console.log("what is the file path", file);
+        //console.log("what is the file path", file);
         const content = await fs.readFile(file, 'utf-8');
-        console.log(content);
+       // console.log(content);
    
         
  
@@ -134,16 +156,16 @@ module.exports = function oramaSearchPlugin(context, options) {
         
         let url = file.split(context.siteDir)[1];
         let slug = parseSlug(content, url);
-        
+        let cleanedContent = await markdownToPlainText(markdown)
         // Insert document into Orama database
         await insert(db, {
           title,
-          content: markdown,
+          content: cleanedContent,
           url: `${url.replace('.md', '')}`,
           slug: slug,
         });
 
-        console.log(`Indexed document: ${file}`);
+        //console.log(`Indexed document: ${file}`);
       }
 
       return db;
@@ -160,7 +182,10 @@ module.exports = function oramaSearchPlugin(context, options) {
     },
 
     injectHtmlTags() {
+    let oramaDb = Object.values(db.data.docs.docs)
+    console.log("this is the orama db", oramaDb)
       // Inject any necessary HTML tags (e.g., for search UI)
+   
       return {
         headTags: [
           {
@@ -169,7 +194,7 @@ module.exports = function oramaSearchPlugin(context, options) {
               type: 'text/javascript',
             },
             innerHTML: `
-            window.oramaDb = ${JSON.stringify(Object.values(db.data.docs.docs))};
+            window.oramaDb = ${JSON.stringify(oramaDb)};
             console.log('Orama search initialized');
         
             `,
