@@ -267,8 +267,8 @@ $light-gradient-color-2: if(variable-exists(graident-light-color-2), $graident-l
   background-color: transparent;
 
   @media (min-width: 1400px) {
-    padding-left: 5em;
-    padding-right: 5em;
+    // padding-left: 5em;
+    // padding-right: 5em;
     padding-top: 2em;
   }
 
