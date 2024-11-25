@@ -87,12 +87,12 @@ export default function MDXContentWrapper(props) {
           </div>
         </>
       ) : (
-        <TracingBeam>
-          <div id="tracing-beam">
-            <AiBanner />
-            <MDXContent style={{ backgroundImage: image }} {...props} />
-          </div>
-        </TracingBeam>
+          <TracingBeam>
+            <div id="tracing-beam">
+              <AiBanner />
+              <MDXContent style={{ backgroundImage: image }} {...props} />
+            </div>
+          </TracingBeam>
       )}
     </>
   );
