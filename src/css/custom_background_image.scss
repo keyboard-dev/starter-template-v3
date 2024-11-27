@@ -61,12 +61,12 @@
       background-size: 600px;
 
       /* Apply the mask using your SVG */
-      -webkit-mask-image: url('/static/svgs/lightmode.svg'); /* Path to the exported SVG */
+      -webkit-mask-image: url('/static/svgs/planet.svg'); /* Path to the exported SVG */
       -webkit-mask-repeat: no-repeat;
       -webkit-mask-position: top;
       -webkit-mask-size: cover;
 
-      mask-image: url('/static/svgs/lightmode.svg'); /* Standard property for other browsers */
+      mask-image: url('/static/svgs/planet.svg'); /* Standard property for other browsers */
       mask-repeat: no-repeat;
       mask-position: top;
       mask-size: cover;
@@ -91,12 +91,13 @@
 
 
 
+
 [data-theme="dark"] [class^="docRoot"] {
   @include conditional-styles($custom-dark-background-image);
 }
 
 [data-theme="light"] [class^="docRoot"] {
- @include light-conditional-styles($custom-light-background-image);
+  @include light-conditional-styles($custom-light-background-image);
 }
 
 [class^="docRoot"] {
