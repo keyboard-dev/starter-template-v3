@@ -53,6 +53,15 @@ const config = {
         indexPages: true,
       },
     ],
+    [
+      './llmsfullPlugin.js',
+      {
+        // Optional plugin config
+        indexDocs: true,
+        indexBlog: true,
+        indexPages: true,
+      },
+    ],
     async function myPlugin(context, options) {
       return {
         name: "docusaurus-tailwindcss",
