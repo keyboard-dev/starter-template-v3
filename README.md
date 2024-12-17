@@ -1,6 +1,10 @@
 # Getting Started with the Dev-Docs Starter Template
 
-The Dev-Docs Docusaurus starter template is designed to help you create your own documentation quickly and easily. Whether you're building public-facing documentation for your APIs, SDKs, or applications, or internal documentation for your software engineering organization, this template provides a solid foundation to get started.  This is a Docusaurus template that should retain most if not all the same functionality found outlined in the 
+The Dev-Docs Docusaurus starter template is designed to help you create your own documentation quickly and easily. Whether you're building public-facing documentation for your APIs, SDKs, or applications, or internal documentation for your software engineering organization, this template provides a solid foundation to get started.  This is a Docusaurus template that should retain most if not all the same functionality.
+
+## Finish Connecting this template to Dev-Docs AI [Important]
+
+Congrats on generating the template, excited for you next step in your documentation journey, but don't forget to install the GitHub App [here](https://github.com/apps/dev-docs-github-app)!
 
 ## Setting Up the Template
 
