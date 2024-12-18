@@ -1,0 +1,31 @@
+.narrow-references-container::before {
+  content: "";
+  position: absolute;
+  top: -15vh;
+  right: 0;
+  left: auto;
+  width: 600px; /* Adjust width and height */
+  height: 600px;
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: 600px;
+  background-image: $custom-dark-background-image;
+  background-repeat: no-repeat;
+  background-position: top right;
+  background-repeat: no-repeat;
+  background-size: 600px;
+  background-blend-mode: soft-light;
+  -webkit-mask-image: url('/static/svgs/planet.svg'); /* Path to the exported SVG */
+  -webkit-mask-repeat: no-repeat;
+  -webkit-mask-position: top;
+  -webkit-mask-size: cover;
+
+  mask-image: url('/static/svgs/planet.svg'); /* Standard property for other browsers */
+  mask-repeat: no-repeat;
+  mask-position: top;
+  mask-size: cover;
+
+  background-blend-mode: soft-light;
+ // z-index: -2;
+  
+}

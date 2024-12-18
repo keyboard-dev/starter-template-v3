@@ -54,6 +54,19 @@ const config = {
       },
     ],
     [
+      '@scalar/docusaurus',
+      {
+        label: 'API Reference',
+        route: '/api_reference',
+        showNavLink: true, // optional, default is true
+        configuration: {
+          spec: {
+            url: "/api/example.yaml",
+          },
+        },
+      }
+    ],
+    [
       './llmsfullPlugin.js',
       {
         // Optional plugin config
