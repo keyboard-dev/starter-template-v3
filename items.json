@@ -11,6 +11,12 @@
             "position": "left",
             "prependBaseUrlToHref": true,
             "href": "/blog"
+        },
+        {
+            "label": "APIs",
+            "position": "left",
+            "prependBaseUrlToHref": true,
+            "href": "/apis"
         }
     ]
 }

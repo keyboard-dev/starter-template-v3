@@ -55,19 +55,6 @@ const config = {
       },
     ],
     [
-      '@scalar/docusaurus',
-      {
-        label: 'API Reference',
-        route: '/api_reference',
-        showNavLink: false, // optional, default is true
-        configuration: {
-          spec: {
-            content: fs.readFileSync('./examples/pestore.yaml', 'utf-8'),
-          },
-        },
-      }
-    ],
-    [
       './llmsfullPlugin.js',
       {
         // Optional plugin config
