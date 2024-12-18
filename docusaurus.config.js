@@ -11,6 +11,7 @@ const openApiCongfig = apiConfig.config
 const itemsJson = require("./items.json")
 const footerItems = require("./footerItems.json")
 const logoJson = require('./logo.json')
+const fs = require('fs')
 
 
 /** @type {import('@docusaurus/types').Config} */
@@ -58,10 +59,10 @@ const config = {
       {
         label: 'API Reference',
         route: '/api_reference',
-        showNavLink: true, // optional, default is true
+        showNavLink: false, // optional, default is true
         configuration: {
           spec: {
-            url: "/api/example.yaml",
+            content: fs.readFileSync('./examples/pestore.yaml', 'utf-8'),
           },
         },
       }
