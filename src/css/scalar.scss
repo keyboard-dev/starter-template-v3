@@ -16,13 +16,13 @@
   background-repeat: no-repeat;
   background-size: 600px;
   background-blend-mode: soft-light;
-  -webkit-mask-image: url('/static/svgs/cloudmask.svg');
+  -webkit-mask-image: url('/static/svgs/planet.svg');
   /* Path to the exported SVG */
   -webkit-mask-repeat: no-repeat;
   -webkit-mask-position: top;
   -webkit-mask-size: cover;
 
-  mask-image: url('/static/svgs/cloudmask.svg');
+  mask-image: url('/static/svgs/planet.svg');
 
   /* Standard property for other browsers */
   mask-repeat: no-repeat;
