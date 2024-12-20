@@ -1,7 +1,7 @@
 .narrow-references-container::before {
   content: "";
   position: absolute;
-  top: -15vh;
+  top: 0vh;
   right: 0;
   left: auto;
   width: 600px;
@@ -16,13 +16,14 @@
   background-repeat: no-repeat;
   background-size: 600px;
   background-blend-mode: soft-light;
-  -webkit-mask-image: url('/static/svgs/planet.svg');
+  -webkit-mask-image: url('/static/svgs/cloudmask.svg');
   /* Path to the exported SVG */
   -webkit-mask-repeat: no-repeat;
   -webkit-mask-position: top;
   -webkit-mask-size: cover;
 
-  mask-image: url('/static/svgs/planet.svg');
+  mask-image: url('/static/svgs/cloudmask.svg');
+
   /* Standard property for other browsers */
   mask-repeat: no-repeat;
   mask-position: top;
@@ -31,6 +32,16 @@
   background-blend-mode: soft-light;
   // z-index: -2;
 
+}
+
+.narrow-references-container::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: -1;
 }
 
 :root {
