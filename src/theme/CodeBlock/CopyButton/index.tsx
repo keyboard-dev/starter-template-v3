@@ -167,6 +167,38 @@ export default function CopyButton({code, className}: Props): JSX.Element {
             {rewrittenCode && (
               <div className="mt-2">
                 <h4 className="mb-2 font-medium">Rewritten Code:</h4>
+                <button
+        type="button"
+        aria-label={
+          isCopied
+            ? translate({
+                id: 'theme.CodeBlock.copied',
+                message: 'Copied',
+                description: 'The copied button label on code blocks',
+              })
+            : translate({
+                id: 'theme.CodeBlock.copyButtonAriaLabel',
+                message: 'Copy code to clipboard',
+                description: 'The ARIA label for copy code blocks button',
+              })
+        }
+        title={translate({
+          id: 'theme.CodeBlock.copy',
+          message: 'Copy',
+          description: 'The copy button label on code blocks',
+        })}
+        className={clsx(
+          'clean-btn',
+          className,
+          styles.copyButton,
+          isCopied && styles.copyButtonCopied,
+        )}
+        onClick={handleCopyCode}>
+        <span className={styles.copyButtonIcons} aria-hidden="true">
+          <IconCopy className={styles.copyButtonIcon} />
+          <IconSuccess className={styles.copyButtonSuccessIcon} />
+        </span>
+      </button>
                 <pre className="bg-muted p-4 rounded-md overflow-x-auto max-w-full whitespace-pre-wrap break-words">
                   <code className="text-sm">{rewrittenCode}</code>
                 </pre>
