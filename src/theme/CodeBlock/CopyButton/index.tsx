@@ -70,7 +70,8 @@ export default function CopyButton({code, className}: Props): JSX.Element {
     backgroundColor: colorMode === 'dark' ? '#0A0A0A' : 'white',
     border: colorMode === 'dark' ? '1px solid rgba(255, 255, 255, 0.1)' : '1px solid rgba(0, 0, 0, 0.1)',
     boxShadow: '0px 4px 8px 0px rgba(0, 0, 0, 0.30), 0px 12px 24px 0px rgba(0, 0, 0, 0.20)',
-    maxHeight: '425px', 
+    maxHeight: '425px',
+    width: '100vw',
     overflowY: 'scroll' as const
   };
 
