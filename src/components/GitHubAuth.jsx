@@ -15,21 +15,17 @@ export default function GitHubAuth() {
 
   useEffect(() => {
     const token = localStorage.getItem('github_token');
+    const userInfo = localStorage.getItem('github_userinfo');
+    const userInfoJson = JSON.parse(userInfo);
     if (token) {
       setIsAuthenticated(true);
-      fetchUserInfo(token);
+      fetchUserInfo(userInfoJson);
     }
   }, []);
 
-  const fetchUserInfo = async (token) => {
+  const fetchUserInfo = async (userInfoJson) => {
     try {
-      const response = await fetch('https://api.github.com/user', {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
-      const data = await response.json();
-      setUserInfo(data);
+      setUserInfo(userInfoJson);
     } catch (error) {
       console.error('Error fetching user info:', error);
     }

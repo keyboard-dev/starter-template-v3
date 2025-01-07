@@ -36,6 +36,7 @@ export default function AuthCallback(): JSX.Element {
 
           if (data.access_token) {
             localStorage.setItem('github_token', data.access_token);
+            localStorage.setItem('github_userinfo', JSON.stringify(data.userinfo));
             localStorage.removeItem('oauth_state');
             history.push('/');
           } else {
