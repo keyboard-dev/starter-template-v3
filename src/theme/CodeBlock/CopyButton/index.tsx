@@ -71,7 +71,7 @@ export default function CopyButton({code, className}: Props): JSX.Element {
     border: colorMode === 'dark' ? '1px solid rgba(255, 255, 255, 0.1)' : '1px solid rgba(0, 0, 0, 0.1)',
     boxShadow: '0px 4px 8px 0px rgba(0, 0, 0, 0.30), 0px 12px 24px 0px rgba(0, 0, 0, 0.20)',
     maxHeight: '425px',
-    width: '100vw',
+    maxWidth: '60vw',
     overflowY: 'scroll' as const
   };
 
@@ -242,7 +242,7 @@ export default function CopyButton({code, className}: Props): JSX.Element {
               )}
             />
 
-            {rewrittenCode && (
+            {rewrittenCode ? (
               <div className="mt-2">
                 <div className="flex items-center justify-between mb-2">
                   <h4 className={cn(
@@ -293,7 +293,26 @@ export default function CopyButton({code, className}: Props): JSX.Element {
                   </code>
                 </div>
               </div>
-            )}
+            ) : (
+              <div className="mt-2">
+                <div className="flex items-center justify-between mb-2">
+                  <h4 className={cn(
+                    "font-medium",
+                    colorMode === 'dark' ? "text-gray-200" : "text-gray-800"
+                  )}>
+                    Original Code:
+                  </h4>
+                </div>
+                <div style={codeBlockStyle}>
+                  <code className={cn(
+                    "text-sm block",
+                    colorMode === 'dark' ? "text-gray-200" : "text-gray-800"
+                  )}>
+                    {code}
+                  </code>
+                </div>
+              </div>
+            )} 
           </div>
 
           <DialogFooter className="gap-2">
