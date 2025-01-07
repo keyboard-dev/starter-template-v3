@@ -1,6 +1,5 @@
 import React, {useCallback, useState, useRef, useEffect} from 'react';
 import clsx from 'clsx';
-import copy from 'copy-text-to-clipboard';
 import {translate} from '@docusaurus/Translate';
 import type {Props} from '@theme/CodeBlock/CopyButton';
 import IconCopy from '@theme/Icon/Copy';
@@ -28,7 +27,36 @@ const StyledInput = React.forwardRef<HTMLInputElement, React.InputHTMLAttributes
 
 StyledInput.displayName = 'StyledInput';
 
-
+const copyToClipboard = async (text: string): Promise<boolean> => {
+  try {
+    if (navigator.clipboard && window.isSecureContext) {
+      // For modern browsers
+      await navigator.clipboard.writeText(text);
+      return true;
+    } else {
+      // Fallback for older browsers
+      const textArea = document.createElement('textarea');
+      textArea.value = text;
+      textArea.style.position = 'fixed';
+      textArea.style.left = '-999999px';
+      textArea.style.top = '-999999px';
+      document.body.appendChild(textArea);
+      textArea.focus();
+      textArea.select();
+      
+      try {
+        document.execCommand('copy');
+        textArea.remove();
+        return true;
+      } catch (error) {
+        textArea.remove();
+        return false;
+      }
+    }
+  } catch (error) {
+    return false;
+  }
+};
 
 export default function CopyButton({code, className}: Props): JSX.Element {
   const [isCopied, setIsCopied] = useState(false);
@@ -38,20 +66,44 @@ export default function CopyButton({code, className}: Props): JSX.Element {
   const copyTimeout = useRef<number | undefined>(undefined);
 
   const { colorMode } = useColorMode();
-  const contentStyle = {
+  const contentStyle: React.CSSProperties = {
     backgroundColor: colorMode === 'dark' ? '#0A0A0A' : 'white',
     border: colorMode === 'dark' ? '1px solid rgba(255, 255, 255, 0.1)' : '1px solid rgba(0, 0, 0, 0.1)',
     boxShadow: '0px 4px 8px 0px rgba(0, 0, 0, 0.30), 0px 12px 24px 0px rgba(0, 0, 0, 0.20)',
     maxHeight: '425px', 
-    overflowY: 'scroll'
+    overflowY: 'scroll' as const
   };
 
-  const handleCopyCode = useCallback(() => {
-    copy(code);
-    setIsCopied(true);
-    copyTimeout.current = window.setTimeout(() => {
-      setIsCopied(false);
-    }, 1000);
+  const inputStyle: React.CSSProperties = {
+    backgroundColor: colorMode === 'dark' ? '#1A1A1A' : '#F5F5F5',
+    border: colorMode === 'dark' ? '1px solid rgba(255, 255, 255, 0.1)' : '1px solid rgba(0, 0, 0, 0.1)',
+    borderRadius: '6px',
+    padding: '10px 12px',
+    fontSize: '14px',
+    width: '100%',
+    color: colorMode === 'dark' ? '#E4E4E7' : '#18181B',
+  };
+
+  const codeBlockStyle: React.CSSProperties = {
+    backgroundColor: colorMode === 'dark' ? '#1A1A1A' : '#F5F5F5',
+    border: colorMode === 'dark' ? '1px solid rgba(255, 255, 255, 0.1)' : '1px solid rgba(0, 0, 0, 0.1)',
+    borderRadius: '6px',
+    padding: '16px',
+    margin: '8px 0',
+    fontSize: '14px',
+    lineHeight: '1.5',
+    color: colorMode === 'dark' ? '#E4E4E7' : '#18181B',
+    fontFamily: 'ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace',
+  };
+
+  const handleCopyCode = useCallback(async () => {
+    const success = await copyToClipboard(code);
+    if (success) {
+      setIsCopied(true);
+      copyTimeout.current = window.setTimeout(() => {
+        setIsCopied(false);
+      }, 1000);
+    }
   }, [code]);
 
   const handleRewriteCode = async () => {
@@ -93,7 +145,25 @@ export default function CopyButton({code, className}: Props): JSX.Element {
     }
   };
 
-  useEffect(() => () => window.clearTimeout(copyTimeout.current), []);
+  const [isRewrittenCodeCopied, setIsRewrittenCodeCopied] = useState(false);
+  const rewrittenCopyTimeout = useRef<number | undefined>(undefined);
+
+  const handleCopyRewrittenCode = useCallback(async () => {
+    const success = await copyToClipboard(rewrittenCode);
+    if (success) {
+      setIsRewrittenCodeCopied(true);
+      rewrittenCopyTimeout.current = window.setTimeout(() => {
+        setIsRewrittenCodeCopied(false);
+      }, 1000);
+    }
+  }, [rewrittenCode]);
+
+  useEffect(() => {
+    return () => {
+      window.clearTimeout(copyTimeout.current);
+      window.clearTimeout(rewrittenCopyTimeout.current);
+    };
+  }, []);
 
   return (
     <div className="flex gap-2">
@@ -162,46 +232,65 @@ export default function CopyButton({code, className}: Props): JSX.Element {
               placeholder="e.g. Make this code more efficient"
               value={prompt}
               onChange={(e: React.ChangeEvent<HTMLInputElement>) => setPrompt(e.target.value)}
+              style={inputStyle}
+              className={cn(
+                "focus:outline-none focus:ring-2 focus:ring-offset-2",
+                colorMode === 'dark' 
+                  ? "focus:ring-blue-500 focus:ring-offset-black" 
+                  : "focus:ring-blue-500 focus:ring-offset-white"
+              )}
             />
 
             {rewrittenCode && (
               <div className="mt-2">
-                <h4 className="mb-2 font-medium">Rewritten Code:</h4>
-                <button
-        type="button"
-        aria-label={
-          isCopied
-            ? translate({
-                id: 'theme.CodeBlock.copied',
-                message: 'Copied',
-                description: 'The copied button label on code blocks',
-              })
-            : translate({
-                id: 'theme.CodeBlock.copyButtonAriaLabel',
-                message: 'Copy code to clipboard',
-                description: 'The ARIA label for copy code blocks button',
-              })
-        }
-        title={translate({
-          id: 'theme.CodeBlock.copy',
-          message: 'Copy',
-          description: 'The copy button label on code blocks',
-        })}
-        className={clsx(
-          'clean-btn',
-          className,
-          styles.copyButton,
-          isCopied && styles.copyButtonCopied,
-        )}
-        onClick={handleCopyCode}>
-        <span className={styles.copyButtonIcons} aria-hidden="true">
-          <IconCopy className={styles.copyButtonIcon} />
-          <IconSuccess className={styles.copyButtonSuccessIcon} />
-        </span>
-      </button>
-                <pre className="bg-muted p-4 rounded-md overflow-x-auto max-w-full whitespace-pre-wrap break-words">
-                  <code className="text-sm">{rewrittenCode}</code>
-                </pre>
+                <div className="flex items-center justify-between mb-2">
+                  <h4 className={cn(
+                    "font-medium",
+                    colorMode === 'dark' ? "text-gray-200" : "text-gray-800"
+                  )}>
+                    Rewritten Code:
+                  </h4>
+                  <button
+                    type="button"
+                    aria-label={
+                      isRewrittenCodeCopied
+                        ? translate({
+                            id: 'theme.CodeBlock.copied',
+                            message: 'Copied',
+                            description: 'The copied button label on code blocks',
+                          })
+                        : translate({
+                            id: 'theme.CodeBlock.copyButtonAriaLabel',
+                            message: 'Copy code to clipboard',
+                            description: 'The ARIA label for copy code blocks button',
+                          })
+                    }
+                    title={translate({
+                      id: 'theme.CodeBlock.copy',
+                      message: 'Copy',
+                      description: 'The copy button label on code blocks',
+                    })}
+                    className={clsx(
+                      'clean-btn',
+                      className,
+                      styles.copyButton,
+                      isRewrittenCodeCopied && styles.copyButtonCopied,
+                    )}
+                    onClick={handleCopyRewrittenCode}>
+                    <span className={styles.copyButtonIcons} aria-hidden="true">
+                      <IconCopy className={styles.copyButtonIcon} />
+                      <IconSuccess className={styles.copyButtonSuccessIcon} />
+                    </span>
+                  </button>
+                </div>
+                <div style={codeBlockStyle}>
+                  <code className={cn(
+                    "text-sm block",
+                    colorMode === 'dark' ? "text-gray-200" : "text-gray-800"
+                  )}>
+                    {rewrittenCode}
+                  </code>
+                </div>
               </div>
             )}
           </div>
