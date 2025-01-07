@@ -18,6 +18,7 @@ import {
   DialogTitle,
   DialogTrigger,
 } from '@site/src/components/ui/dialog';
+import Markdown from "react-markdown";
 
 import styles from './styles.module.css';
 
@@ -95,6 +96,10 @@ export default function CopyButton({code, className}: Props): JSX.Element {
     lineHeight: '1.5',
     color: colorMode === 'dark' ? '#E4E4E7' : '#18181B',
     fontFamily: 'ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace',
+    whiteSpace: 'pre-wrap',
+    wordBreak: 'break-word',
+    overflowWrap: 'break-word',
+    maxWidth: '100%',
   };
 
   const handleCopyCode = useCallback(async () => {
@@ -123,8 +128,12 @@ export default function CopyButton({code, className}: Props): JSX.Element {
       const raw = JSON.stringify({
         messages: [
           {
+            role: "system",
+            content: "You are a helpful assistant that can analyze and rewrite code. Always format your responses in markdown, using proper code blocks with language specification. Only provide the rewritten code, no additional text.",
+          },
+          {
             role: "user",
-            content: `${prompt} Here is the code to rewrite: ${code}`,
+            content: `${prompt}\n\nHere is the code to rewrite:\n\`\`\`\n${code}\n\`\`\``,
           },
         ],
       });
@@ -227,10 +236,10 @@ export default function CopyButton({code, className}: Props): JSX.Element {
             </DialogDescription>
           </DialogHeader>
 
-          <div className="flex flex-col gap-4 py-4">
+          <div style={{maxWidth: '100%'}} className="flex flex-col gap-4 py-4">
             <StyledInput
               type="text"
-              placeholder="e.g. Make this code more efficient"
+              placeholder="Ask a question about this code or request a rewrite (e.g., 'Make this code more efficient' or 'Explain what this code does')"
               value={prompt}
               onChange={(e: React.ChangeEvent<HTMLInputElement>) => setPrompt(e.target.value)}
               style={inputStyle}
@@ -243,34 +252,18 @@ export default function CopyButton({code, className}: Props): JSX.Element {
             />
 
             {rewrittenCode ? (
-              <div className="mt-2">
+              <div className="mt-2 w-full">
                 <div className="flex items-center justify-between mb-2">
                   <h4 className={cn(
                     "font-medium",
                     colorMode === 'dark' ? "text-gray-200" : "text-gray-800"
                   )}>
-                    Rewritten Code:
+                    Response:
                   </h4>
                   <button
                     type="button"
-                    aria-label={
-                      isRewrittenCodeCopied
-                        ? translate({
-                            id: 'theme.CodeBlock.copied',
-                            message: 'Copied',
-                            description: 'The copied button label on code blocks',
-                          })
-                        : translate({
-                            id: 'theme.CodeBlock.copyButtonAriaLabel',
-                            message: 'Copy code to clipboard',
-                            description: 'The ARIA label for copy code blocks button',
-                          })
-                    }
-                    title={translate({
-                      id: 'theme.CodeBlock.copy',
-                      message: 'Copy',
-                      description: 'The copy button label on code blocks',
-                    })}
+                    aria-label={isRewrittenCodeCopied ? 'Copied' : 'Copy code to clipboard'}
+                    title="Copy"
                     className={clsx(
                       'clean-btn',
                       className,
@@ -285,12 +278,7 @@ export default function CopyButton({code, className}: Props): JSX.Element {
                   </button>
                 </div>
                 <div style={codeBlockStyle}>
-                  <code className={cn(
-                    "text-sm block",
-                    colorMode === 'dark' ? "text-gray-200" : "text-gray-800"
-                  )}>
-                    {rewrittenCode}
-                  </code>
+                  <Markdown>{rewrittenCode}</Markdown>
                 </div>
               </div>
             ) : (
@@ -304,12 +292,12 @@ export default function CopyButton({code, className}: Props): JSX.Element {
                   </h4>
                 </div>
                 <div style={codeBlockStyle}>
-                  <code className={cn(
-                    "text-sm block",
+                  <pre className={cn(
+                    "text-sm block m-0",
                     colorMode === 'dark' ? "text-gray-200" : "text-gray-800"
                   )}>
-                    {code}
-                  </code>
+                    <code>{code}</code>
+                  </pre>
                 </div>
               </div>
             )} 
