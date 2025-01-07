@@ -9,6 +9,7 @@ import { Button } from '@site/src/components/ui/button';
 import { Input } from '@site/src/components/ui/input';
 import { IconWand } from '@tabler/icons-react';
 import { cn } from '@site/src/utils';
+import { useColorMode } from '@docusaurus/theme-common';
 import {
   Dialog,
   DialogContent,
@@ -27,12 +28,23 @@ const StyledInput = React.forwardRef<HTMLInputElement, React.InputHTMLAttributes
 
 StyledInput.displayName = 'StyledInput';
 
+
+
 export default function CopyButton({code, className}: Props): JSX.Element {
   const [isCopied, setIsCopied] = useState(false);
   const [prompt, setPrompt] = useState('');
   const [rewrittenCode, setRewrittenCode] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const copyTimeout = useRef<number | undefined>(undefined);
+
+  const { colorMode } = useColorMode();
+  const contentStyle = {
+    backgroundColor: colorMode === 'dark' ? '#0A0A0A' : 'white',
+    border: colorMode === 'dark' ? '1px solid rgba(255, 255, 255, 0.1)' : '1px solid rgba(0, 0, 0, 0.1)',
+    boxShadow: '0px 4px 8px 0px rgba(0, 0, 0, 0.30), 0px 12px 24px 0px rgba(0, 0, 0, 0.20)',
+    maxHeight: '425px', 
+    overflowY: 'scroll'
+  };
 
   const handleCopyCode = useCallback(() => {
     copy(code);
@@ -134,7 +146,7 @@ export default function CopyButton({code, className}: Props): JSX.Element {
             </span>
           </button>
         </DialogTrigger>
-        <DialogContent className="sm:max-w-[425px]">
+        <DialogContent style={contentStyle} className="sm:max-w-[425px]">
           <DialogHeader className="text-left">
             <DialogTitle className="text-lg">
               Rewrite Code with AI
@@ -155,8 +167,8 @@ export default function CopyButton({code, className}: Props): JSX.Element {
             {rewrittenCode && (
               <div className="mt-2">
                 <h4 className="mb-2 font-medium">Rewritten Code:</h4>
-                <pre className="bg-muted p-4 rounded-md overflow-auto">
-                  <code>{rewrittenCode}</code>
+                <pre className="bg-muted p-4 rounded-md overflow-x-auto max-w-full whitespace-pre-wrap break-words">
+                  <code className="text-sm">{rewrittenCode}</code>
                 </pre>
               </div>
             )}

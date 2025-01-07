@@ -5,6 +5,9 @@ import * as DialogPrimitive from "@radix-ui/react-dialog"
 import { X } from "lucide-react"
 
 import { cn } from "@site/src/utils"
+import { useColorMode } from "@docusaurus/theme-common"
+
+
 
 const Dialog = DialogPrimitive.Root
 
