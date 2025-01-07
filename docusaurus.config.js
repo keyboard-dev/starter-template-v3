@@ -28,7 +28,8 @@ const config = {
   ],
   stylesheets: [
     {
-      href: 'https://cdn.tailwindcss.com/2.2.19/tailwind.min.css'
+      href: 'https://unpkg.com/tailwindcss@2.2.19/dist/tailwind.min.css',
+      crossorigin: 'anonymous',
     }
   ],
   title: 'Your Dev-Docs',
