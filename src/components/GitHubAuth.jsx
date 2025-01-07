@@ -2,8 +2,13 @@ import React, { useEffect, useState } from 'react';
 import { Button } from './ui/button';
 import { IconGitHub } from './ui/Icon';
 import { AUTH_CONFIG } from '../config/auth';
+import aiConfig from '@site/ai.json';
 
 export default function GitHubAuth() {
+  if (!aiConfig.github_features) {
+    return null;
+  }
+
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [error, setError] = useState(null);
   const [userInfo, setUserInfo] = useState(null);

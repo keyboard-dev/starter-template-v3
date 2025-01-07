@@ -3,8 +3,13 @@ import { Button } from "./ui/button";
 import { Card, CardContent } from "./ui/card";
 import { IconFileDescription } from "@tabler/icons-react";
 import { AUTH_CONFIG } from "../config/auth";
+import aiConfig from '@site/ai.json';
 
 export default function DocSummary({ content }) {
+  if (!aiConfig.github_features) {
+    return null;
+  }
+
   const [summary, setSummary] = useState("");
   const [loading, setLoading] = useState(false);
 
