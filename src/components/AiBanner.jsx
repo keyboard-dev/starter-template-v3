@@ -1,8 +1,13 @@
 import { ExternalLink } from 'lucide-react'
 import { useColorMode } from '@docusaurus/theme-common'
+import aiConfig from '@site/ai.json'
 
 const AiBanner = () => {
     const { colorMode } = useColorMode()
+
+    if (!aiConfig.banner) {
+        return null
+    }
 
     const bannerStyle = {
         borderRadius: '1rem',

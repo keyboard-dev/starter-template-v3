@@ -11,6 +11,7 @@ const openApiCongfig = apiConfig.config
 const itemsJson = require("./items.json")
 const footerItems = require("./footerItems.json")
 const logoJson = require('./logo.json')
+const aiConfig = require('./ai.json')
 const fs = require('fs')
 
 
@@ -109,14 +110,16 @@ const config = {
         disableSwitch: false,
         respectPrefersColorScheme: false,
       },
-      announcementBar: {
-        id: 'support_us',
-        content:
-          'This entire docs site is auto-generated and built using Dev-Docs. This is part of an experiment—read more  <a target="_blank" rel="noopener noreferrer" href="https://docs.dev">here</a>',
-        backgroundColor: '#fafbfc',
-        textColor: '#091E42',
-        isCloseable: false,
-      },
+      ...(aiConfig.banner ? {
+        announcementBar: {
+          id: 'support_us',
+          content:
+            'This entire docs site is auto-generated and built using Dev-Docs. This is part of an experiment—read more  <a target="_blank" rel="noopener noreferrer" href="https://docs.dev">here</a>',
+          backgroundColor: '#fafbfc',
+          textColor: '#091E42',
+          isCloseable: false,
+        },
+      } : {}),
       head: [
         {
           tagName: 'link',
