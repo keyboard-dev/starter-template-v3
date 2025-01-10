@@ -57,7 +57,7 @@
     "openapi-to-postmanv2": "^4.24.0",
     "postcss": "^8.4.47",
     "postcss-import": "^16.1.0",
-    "prism-react-renderer": "^2.4.0",
+    "prism-react-renderer": "^2.4.1",
     "react": "^18.0.0",
     "react-dom": "^18.0.0",
     "react-markdown": "^9.0.3",

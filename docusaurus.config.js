@@ -21,10 +21,6 @@ const config = {
     {
       src: 'https://kit.fontawesome.com/c11e540390.js',
       crossorigin: 'anonymous',
-    },
-    {
-      src: 'https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/highlight.min.js',
-      crossorigin: 'anonymous',
     }
   ],
   stylesheets: [
@@ -152,6 +148,8 @@ const config = {
       prism: {
         theme: lightCodeTheme,
         darkTheme: darkCodeTheme,
+        defaultLanguage: 'javascript',
+        additionalLanguages: ['python', 'java', 'php', 'ruby', 'bash', 'json', 'yaml', 'markdown', 'scss', 'jsx', 'tsx', 'typescript', 'css'],
       },
     }),
 };
