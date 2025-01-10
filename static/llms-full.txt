@@ -9,7 +9,7 @@ Below is all the contents of our docs:
 
  This is the content for the doc /docs/components/accordion.md 
 
- # Accordion## Usage`jsxAccordion  AccordionItem title="Accordion Item 1"    pAccordion Item 1/p  /AccordionItem/Accordion`## Dev-Docs Accordion ExampleThe DevDocs Accordion component provides a simpler API for basic accordion functionality:Accordion title="Click me to expand"  This is the content that will be shown when the accordion is expanded.    You can include any markdown content here.  - List items  - More items    Or even code blocks!/Accordion
+ `jsxAccordion  AccordionItem title="Accordion Item 1"    pAccordion Item 1/p  /AccordionItem/Accordion`Accordion title="Click me to expand"  This is the content that will be shown when the accordion is expanded.    You can include any markdown content here.  - List items  - More items    Or even code blocks!/Accordion
 
 
  This is the content for the doc /docs/components/codesnippets.md 
@@ -17,13 +17,9 @@ Below is all the contents of our docs:
  ## Code SnippetsCodeSnippets`javascript::index.jsconst tabs = document.querySelector('.tabs');tabs.addEventListener('click', (e) = {  // Handle tab click  console.log('Tab clicked:', e.target.textContent);});zi``````python::otherserver.pyfrom fastapi import FastAPIapp = FastAPI()@app.get("/tabs/{tab_id}")async def get_tab_content(tab_id: str):    return {"content": f"Content for tab {tab_id}"}``````python::server.pyfrom fastapi import FastAPIapp = FastAPI()@app.get("/tabs/{tab_id}")async def get_tab_content(tab_id: str):    return {"content": f"Content for tab {tab_id}"}`/CodeSnippets
 
 
- This is the content for the doc /docs/components/tables.md 
-
- 
-
  This is the content for the doc /docs/components/tabs.md 
 
- # TabsThe Tabs component provides a way to organize content into multiple sections that can be displayed one at a time.## Basic ExampleTabs defaultValue="preview"  TabsList    TabsTrigger value="preview"Preview/TabsTrigger    TabsTrigger value="code"Code/TabsTrigger  /TabsList  TabsContent value="preview"    div className="p-4 border rounded"      A simple tabs example showing how the component works.    /div  /TabsContent  TabsContent value="code"    `jsx    Tabs defaultValue="tab1"      TabsList        TabsTrigger value="tab1"Tab 1/TabsTrigger        TabsTrigger value="tab2"Tab 2/TabsTrigger      /TabsList      TabsContent value="tab1"        Content for tab 1      /TabsContent      TabsContent value="tab2"        Content for tab 2      /TabsContent    /Tabs    `  /TabsContent/Tabs## Props### Tabs- `defaultValue` - The value of the tab that should be active when the component is first rendered.### TabsTrigger- `value` - A unique identifier that matches the corresponding TabsContent.### TabsContent- `value` - A unique identifier that matches the corresponding TabsTrigger.
+ `Tabs defaultValue="preview"  TabsList    TabsTrigger value="preview"Preview/TabsTrigger    TabsTrigger value="code"Code/TabsTrigger  /TabsList  TabsContent value="preview"    div className="p-4 border rounded"      A simple tabs example showing how the component works.    /div  /TabsContent  TabsContent value="code"    ```jsx    Tabs defaultValue="tab1"      TabsList        TabsTrigger value="tab1"Tab 1/TabsTrigger        TabsTrigger value="tab2"Tab 2/TabsTrigger      /TabsList      TabsContent value="tab1"        Content for tab 1      /TabsContent      TabsContent value="tab2"        Content for tab 2      /TabsContent    /Tabs    ```  /TabsContent/Tabs`Tabs defaultValue="preview"  TabsList    TabsTrigger value="preview"Preview/TabsTrigger    TabsTrigger value="code"Code/TabsTrigger  /TabsList  TabsContent value="preview"    div className="p-4 border rounded"      A simple tabs example showing how the component works.    /div  /TabsContent  TabsContent value="code"    `jsx    Tabs defaultValue="tab1"      TabsList        TabsTrigger value="tab1"Tab 1/TabsTrigger        TabsTrigger value="tab2"Tab 2/TabsTrigger      /TabsList      TabsContent value="tab1"        Content for tab 1      /TabsContent      TabsContent value="tab2"        Content for tab 2      /TabsContent    /Tabs    `  /TabsContent/Tabs
 
 
  This is the content for the doc /docs/styling/context-src-css-blog.scss.md 
