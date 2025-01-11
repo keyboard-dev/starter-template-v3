@@ -22,12 +22,21 @@ export default function MDXContentWrapper(props) {
     // Navigate to a different path when the button is clicked
     history.push("/docs/another-page");
   };
+  const formatDateTime = (dateTime) => {
+    if (!dateTime) return '';
+    const date = new Date(dateTime);
+    return date.toLocaleDateString('en-US', {
+      year: 'numeric',
+      month: 'long', 
+      day: 'numeric'
+    });
+  };
 
   console.log("bloggging", props?.children?.type?.metadata)
 
   return (
     <>
-      {props?.children?.type?.metadata?.source.includes("@site/blog") ? (
+      {(props?.children?.type?.metadata?.source.includes("@site/blog") || props?.children?.type?.metadata?.source.includes("@site/changelog")) ? (
         <>
           <BackgroundGradientAnimation
             lightImage={props?.children?.type?.frontMatter?.light_image}
@@ -62,7 +71,7 @@ export default function MDXContentWrapper(props) {
                   <span style={{ color: props?.children?.type?.frontMatter?.text_color }} key={index}>{" " + item.name + ","}</span>
                 ))}
 
-              &nbsp; <span style={{ color: props?.children?.type?.frontMatter?.text_color }}>On {props.children.type.metadata.formattedDate},</span>{" "}
+              &nbsp; <span style={{ color: props?.children?.type?.frontMatter?.text_color }}>On {formatDateTime(props.children.type.metadata.date)},</span>{" "}
               <span style={{ color: props?.children?.type?.frontMatter?.text_color }}>{Math.ceil(props.children.type.metadata.readingTime * 10) / 1} min</span>
             </h3>
             <div className="flex flex-row items-center mb-10 w-full">

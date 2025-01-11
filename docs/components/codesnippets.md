@@ -22,6 +22,27 @@ The syntax for each code block within the `CodeSnippet` component is:
 
 You can include multiple code blocks within a single `CodeSnippet` component:
 
+````jsx
+<CodeSnippets>
+```javascript::frontend.js
+fetch('/api/data')
+  .then(response => response.json())
+  .then(data => console.log(data));
+```
+
+```python::backend.py
+from flask import Flask, jsonify
+
+app = Flask(__name__)
+
+@app.route('/api/data')
+def get_data():
+    return jsonify({"message": "Hello from the API"})
+```
+
+</CodeSnippets>
+````
+
 <CodeSnippets>
 ```javascript::frontend.js
 fetch('/api/data')
