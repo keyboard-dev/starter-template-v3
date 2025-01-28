@@ -31,6 +31,10 @@ export default function GitHubAuth() {
     }
   };
 
+  const setCodespacesUrl = () => {
+
+  }
+
   const handleLogin = () => {
     try {
       const state = Math.random().toString(36).substring(7);
@@ -52,7 +56,7 @@ export default function GitHubAuth() {
       githubAuthUrl.searchParams.append('client_id', AUTH_CONFIG.GITHUB_CLIENT_ID);
       githubAuthUrl.searchParams.append('redirect_uri', AUTH_CONFIG.GITHUB_CALLBACK_URL);
       githubAuthUrl.searchParams.append('state', values);
-      githubAuthUrl.searchParams.append('scope', 'read:user');
+      githubAuthUrl.searchParams.append('scope', 'read:user codespace');
       
       window.location.href = githubAuthUrl.toString();
     } catch (err) {

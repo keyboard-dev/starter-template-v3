@@ -1,5 +1,10 @@
 # Components
 
+<Terminal 
+  initialMessage="Welcome to my terminal!"
+  prompt="$"
+/>
+
 <Accordion title="Click me to expand">
   This is the content that will be shown when the accordion is expanded.
   
@@ -16,9 +21,9 @@
 
 <CodeSnippets>
 ```javascript::index.js
-fetch('/api/data')
-  .then(response => response.json())
-  .then(data => console.log(data));
+
+console.log("hello world")
+
 ```
 
 ```python::flask.py

@@ -9,6 +9,28 @@ export default function AuthCallback(): JSX.Element {
   const history = useHistory();
 
   useEffect(() => {
+    const setCodespaces = async (token: string) => {
+      const myHeaders = new Headers();
+      myHeaders.append("x-github-token", token);
+      myHeaders.append("Content-Type", "application/json");
+      
+      const raw = JSON.stringify({
+        "owner": "team-dev-docs",
+        "repo": "codespace-executor"
+      });
+      
+      const requestOptions: any = {
+        method: "POST",
+        headers: myHeaders,
+        body: raw,
+        redirect: "follow"
+      };
+      
+      let response = await fetch("http://localhost:3000/codespaces", requestOptions)
+      let data = await response.json();
+      return data?.codespace?.name;
+    }
+
     const handleCallback = async () => {
       const searchParams = new URLSearchParams(location.search);
       const code = searchParams.get('code');
@@ -38,6 +60,8 @@ export default function AuthCallback(): JSX.Element {
             localStorage.setItem('github_token', data.access_token);
             localStorage.setItem('github_userinfo', JSON.stringify(data.userinfo));
             localStorage.removeItem('oauth_state');
+            let codespace = await setCodespaces(data.access_token);  
+            localStorage.setItem('codespace', codespace);
             history.push('/');
           } else {
             throw new Error('No access token received');

@@ -64,6 +64,7 @@ export default function CopyButton({code, className}: Props): JSX.Element {
   const [prompt, setPrompt] = useState('');
   const [rewrittenCode, setRewrittenCode] = useState('');
   const [isLoading, setIsLoading] = useState(false);
+  const [executionResult, setExecutionResult] = useState<{ stderr?: string; stdout?: string } | null>(null);
   const copyTimeout = useRef<number | undefined>(undefined);
 
   const { colorMode } = useColorMode();
@@ -100,6 +101,46 @@ export default function CopyButton({code, className}: Props): JSX.Element {
     wordBreak: 'break-word',
     overflowWrap: 'break-word',
     maxWidth: '100%',
+  };
+
+  const handleRunCode = async (command: string) => {
+    setIsLoading(true);
+    setExecutionResult(null);
+    
+    const token = localStorage.getItem('github_token');
+    if (!token) {
+      setExecutionResult({ error: 'No GitHub token found. Please authenticate first.' });
+      setIsLoading(false);
+      return;
+    }
+
+    const activeCodespace = localStorage.getItem('codespace');
+    if (!activeCodespace) {
+      setExecutionResult({ error: 'No codespace found. Please authenticate first.' });
+      setIsLoading(false);
+      return;
+    }
+
+    try {
+      const response = await fetch('http://localhost:3000/codespaces/termnial', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'x-github-token': token,
+        },
+        body: JSON.stringify({
+          code,
+          codespace: activeCodespace,
+        }),
+      });
+
+      const data = await response.json();
+      setExecutionResult(data);
+    } catch (error) {
+      setExecutionResult({ error: 'Failed to execute command' });
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   const handleCopyCode = useCallback(async () => {
@@ -176,150 +217,197 @@ export default function CopyButton({code, className}: Props): JSX.Element {
   }, []);
 
   return (
-    <div className="flex gap-2">
-      <button
-        type="button"
-        aria-label={
-          isCopied
-            ? translate({
-                id: 'theme.CodeBlock.copied',
-                message: 'Copied',
-                description: 'The copied button label on code blocks',
-              })
-            : translate({
-                id: 'theme.CodeBlock.copyButtonAriaLabel',
-                message: 'Copy code to clipboard',
-                description: 'The ARIA label for copy code blocks button',
-              })
-        }
-        title={translate({
-          id: 'theme.CodeBlock.copy',
-          message: 'Copy',
-          description: 'The copy button label on code blocks',
-        })}
-        className={clsx(
-          'clean-btn',
-          className,
-          styles.copyButton,
-          isCopied && styles.copyButtonCopied,
-        )}
-        onClick={handleCopyCode}>
-        <span className={styles.copyButtonIcons} aria-hidden="true">
-          <IconCopy className={styles.copyButtonIcon} />
-          <IconSuccess className={styles.copyButtonSuccessIcon} />
-        </span>
-      </button>
+    <div className="flex flex-col w-full">
+      <div className="flex gap-2">
+        <button
+          type="button"
+          aria-label={
+            isCopied
+              ? translate({
+                  id: 'theme.CodeBlock.copied',
+                  message: 'Copied',
+                  description: 'The copied button label on code blocks',
+                })
+              : translate({
+                  id: 'theme.CodeBlock.copyButtonAriaLabel',
+                  message: 'Copy code to clipboard',
+                  description: 'The ARIA label for copy code blocks button',
+                })
+          }
+          title={translate({
+            id: 'theme.CodeBlock.copy',
+            message: 'Copy',
+            description: 'The copy button label on code blocks',
+          })}
+          className={clsx(
+            'clean-btn',
+            className,
+            styles.copyButton,
+            isCopied && styles.copyButtonCopied,
+          )}
+          onClick={handleCopyCode}>
+          <span className={styles.copyButtonIcons} aria-hidden="true">
+            <IconCopy className={styles.copyButtonIcon} />
+            <IconSuccess className={styles.copyButtonSuccessIcon} />
+          </span>
+        </button>
 
-      <Dialog>
-        <DialogTrigger asChild>
-          <button
-            type="button"
-            aria-label="Rewrite code with AI"
-            title="Rewrite code with AI"
-            className={clsx(
-              'clean-btn',
-              className,
-              styles.copyButton,
+        <button
+          type="button"
+          aria-label="Run code"
+          title="Run code"
+          className={clsx(
+            'clean-btn',
+            className,
+            styles.copyButton,
+          )}
+          onClick={() => handleRunCode(code)}
+          disabled={isLoading}
+        >
+          <span className={styles.copyButtonIcons} aria-hidden="true">
+            <IconWand className={styles.copyButtonIcon} />
+          </span>
+        </button>
+
+        <Dialog>
+          <DialogTrigger asChild>
+            <button
+              type="button"
+              aria-label="Rewrite code with AI"
+              title="Rewrite code with AI"
+              className={clsx(
+                'clean-btn',
+                className,
+                styles.copyButton,
+              )}>
+              <span className={styles.copyButtonIcons} aria-hidden="true">
+                <IconWand className={styles.copyButtonIcon} />
+              </span>
+            </button>
+          </DialogTrigger>
+          <DialogContent style={contentStyle} className="sm:max-w-[425px]">
+            <DialogHeader className="text-left">
+              <DialogTitle className="text-lg">
+                Rewrite Code with AI
+              </DialogTitle>
+              <DialogDescription className="text-sm">
+                Enter your instructions for how you want the code to be rewritten
+              </DialogDescription>
+            </DialogHeader>
+
+            <div style={{maxWidth: '100%'}} className="flex flex-col gap-4 py-4">
+              <StyledInput
+                type="text"
+                placeholder="Ask a question about this code or request a rewrite (e.g., 'Make this code more efficient' or 'Explain what this code does')"
+                value={prompt}
+                onChange={(e: React.ChangeEvent<HTMLInputElement>) => setPrompt(e.target.value)}
+                style={inputStyle}
+                className={cn(
+                  "focus:outline-none focus:ring-2 focus:ring-offset-2",
+                  colorMode === 'dark' 
+                    ? "focus:ring-blue-500 focus:ring-offset-black" 
+                    : "focus:ring-blue-500 focus:ring-offset-white"
+                )}
+              />
+
+              {rewrittenCode ? (
+                <div className="mt-2 w-full">
+                  <div className="flex items-center justify-between mb-2">
+                    <h4 className={cn(
+                      "font-medium",
+                      colorMode === 'dark' ? "text-gray-200" : "text-gray-800"
+                    )}>
+                      Response:
+                    </h4>
+                    <button
+                      type="button"
+                      aria-label={isRewrittenCodeCopied ? 'Copied' : 'Copy code to clipboard'}
+                      title="Copy"
+                      className={clsx(
+                        'clean-btn',
+                        className,
+                        styles.copyButton,
+                        isRewrittenCodeCopied && styles.copyButtonCopied,
+                      )}
+                      onClick={handleCopyRewrittenCode}>
+                      <span className={styles.copyButtonIcons} aria-hidden="true">
+                        <IconCopy className={styles.copyButtonIcon} />
+                        <IconSuccess className={styles.copyButtonSuccessIcon} />
+                      </span>
+                    </button>
+                  </div>
+                  <div style={codeBlockStyle}>
+                    <Markdown>{rewrittenCode}</Markdown>
+                  </div>
+                </div>
+              ) : (
+                <div className="mt-2">
+                  <div className="flex items-center justify-between mb-2">
+                    <h4 className={cn(
+                      "font-medium",
+                      colorMode === 'dark' ? "text-gray-200" : "text-gray-800"
+                    )}>
+                      Original Code:
+                    </h4>
+                  </div>
+                  <div style={codeBlockStyle}>
+                    <pre className={cn(
+                      "text-sm block m-0",
+                      colorMode === 'dark' ? "text-gray-200" : "text-gray-800"
+                    )}>
+                      <code>{code}</code>
+                    </pre>
+                  </div>
+                </div>
+              )} 
+            </div>
+
+            <DialogFooter className="gap-2">
+              <Button 
+                variant="outline" 
+                onClick={() => document.querySelector<HTMLButtonElement>('[aria-label="Close"]')?.click()}
+              >
+                Cancel
+              </Button>
+              <Button
+                variant="outline"
+                onClick={handleRewriteCode}
+                disabled={isLoading || !prompt}
+              >
+                {isLoading ? 'Rewriting...' : 'Rewrite Code'}
+              </Button>
+            </DialogFooter>
+          </DialogContent>
+        </Dialog>
+      </div>
+
+      {(isLoading || executionResult) && (
+        <div className="mt-4 w-full">
+          {isLoading ? (
+            <div className={cn(
+              "p-4 rounded-md",
+              colorMode === 'dark' ? "bg-gray-800" : "bg-gray-100"
             )}>
-            <span className={styles.copyButtonIcons} aria-hidden="true">
-              <IconWand className={styles.copyButtonIcon} />
-            </span>
-          </button>
-        </DialogTrigger>
-        <DialogContent style={contentStyle} className="sm:max-w-[425px]">
-          <DialogHeader className="text-left">
-            <DialogTitle className="text-lg">
-              Rewrite Code with AI
-            </DialogTitle>
-            <DialogDescription className="text-sm">
-              Enter your instructions for how you want the code to be rewritten
-            </DialogDescription>
-          </DialogHeader>
-
-          <div style={{maxWidth: '100%'}} className="flex flex-col gap-4 py-4">
-            <StyledInput
-              type="text"
-              placeholder="Ask a question about this code or request a rewrite (e.g., 'Make this code more efficient' or 'Explain what this code does')"
-              value={prompt}
-              onChange={(e: React.ChangeEvent<HTMLInputElement>) => setPrompt(e.target.value)}
-              style={inputStyle}
-              className={cn(
-                "focus:outline-none focus:ring-2 focus:ring-offset-2",
-                colorMode === 'dark' 
-                  ? "focus:ring-blue-500 focus:ring-offset-black" 
-                  : "focus:ring-blue-500 focus:ring-offset-white"
-              )}
-            />
-
-            {rewrittenCode ? (
-              <div className="mt-2 w-full">
-                <div className="flex items-center justify-between mb-2">
-                  <h4 className={cn(
-                    "font-medium",
-                    colorMode === 'dark' ? "text-gray-200" : "text-gray-800"
-                  )}>
-                    Response:
-                  </h4>
-                  <button
-                    type="button"
-                    aria-label={isRewrittenCodeCopied ? 'Copied' : 'Copy code to clipboard'}
-                    title="Copy"
-                    className={clsx(
-                      'clean-btn',
-                      className,
-                      styles.copyButton,
-                      isRewrittenCodeCopied && styles.copyButtonCopied,
-                    )}
-                    onClick={handleCopyRewrittenCode}>
-                    <span className={styles.copyButtonIcons} aria-hidden="true">
-                      <IconCopy className={styles.copyButtonIcon} />
-                      <IconSuccess className={styles.copyButtonSuccessIcon} />
-                    </span>
-                  </button>
-                </div>
-                <div style={codeBlockStyle}>
-                  <Markdown>{rewrittenCode}</Markdown>
-                </div>
-              </div>
-            ) : (
-              <div className="mt-2">
-                <div className="flex items-center justify-between mb-2">
-                  <h4 className={cn(
-                    "font-medium",
-                    colorMode === 'dark' ? "text-gray-200" : "text-gray-800"
-                  )}>
-                    Original Code:
-                  </h4>
-                </div>
-                <div style={codeBlockStyle}>
-                  <pre className={cn(
-                    "text-sm block m-0",
-                    colorMode === 'dark' ? "text-gray-200" : "text-gray-800"
-                  )}>
-                    <code>{code}</code>
-                  </pre>
-                </div>
-              </div>
-            )} 
-          </div>
-
-          <DialogFooter className="gap-2">
-            <Button 
-              variant="outline" 
-              onClick={() => document.querySelector<HTMLButtonElement>('[aria-label="Close"]')?.click()}
-            >
-              Cancel
-            </Button>
-            <Button
-              variant="outline"
-              onClick={handleRewriteCode}
-              disabled={isLoading || !prompt}
-            >
-              {isLoading ? 'Rewriting...' : 'Rewrite Code'}
-            </Button>
-          </DialogFooter>
-        </DialogContent>
-      </Dialog>
+              Running code...
+            </div>
+          ) : executionResult && (
+            <div className={cn(
+              "p-4 rounded-md",
+              colorMode === 'dark' ? "bg-gray-800" : "bg-gray-100",
+              executionResult.stderr ? "border-red-500" : "border-green-500",
+              "border"
+            )}>
+              <pre className="whitespace-pre-wrap break-words">
+                {executionResult.stderr ? (
+                  <span className="text-red-500">{executionResult.stderr}</span>
+                ) : (
+                  executionResult.stdout
+                )}
+              </pre>
+            </div>
+          )}
+        </div>
+      )}
     </div>
   );
 }
