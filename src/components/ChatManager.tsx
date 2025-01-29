@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import { TerminalChatBot } from './TerminalChatBot';
-import ChatBox from './ChatBox';
 import DocChat from './DocChat';
 
 type ChatMode = 'terminal' | 'normal';
@@ -19,12 +18,9 @@ export function ChatManager() {
         <TerminalChatBot onModeChange={handleModeChange} />
       )}
 
-      {/* Only show other chat components in normal mode */}
+      {/* Only show DocChat in normal mode */}
       {currentMode === 'normal' && (
-        <>
-          <ChatBox messages={[]} onSendMessage={() => {}} />
-          <DocChat />
-        </>
+        <DocChat messages={[]} onSendMessage={() => {}} onModeChange={handleModeChange} />
       )}
     </>
   );

@@ -15,9 +15,17 @@ const debounce = (fn: Function, ms = 300) => {
 };
 
 interface Message {
-  content: string;
+  content: string | {
+    content: string;
+    asciiArt: Array<{
+      content: string;
+      color: string;
+    }>;
+    footer: string;
+  };
   type: 'user' | 'bot';
   loading?: boolean;
+  isBootMessage?: boolean;
 }
 
 interface TerminalChatBotProps {
@@ -33,8 +41,69 @@ export function TerminalChatBot({
   maxHeight = window.innerHeight * 0.8,
   onModeChange,
 }: TerminalChatBotProps) {
+  const bootMessage = {
+    content: `
+Booting up chat...
+
+`,
+    asciiArt: [
+      { content: '     ', color: 'text-[#D4D404]' },
+      { content: '##############################', color: 'text-[#1E3E3B]' },
+      { content: '    \n', color: 'text-[#D4D404]' },
+      { content: '    ###%%%&@@@@@@@@@@@@@@@@@@@@@####    \n', color: 'text-[#1E3E3B]' },
+      { content: '    ###%%%@@@@@@@@@@@@@@@@@@@@@@@###    \n', color: 'text-[#1E3E3B]' },
+      { content: '    ###%%%@@@@@@@@@@@@@@@@@@@@@@@###    \n', color: 'text-[#1E3E3B]' },
+      { content: '////', color: 'text-[#7984EB]' },
+      { content: '(##%%%', color: 'text-[#1E3E3B]' },
+      { content: '&&&&', color: 'text-[red]' },
+      { content: '@@@@@@@@@@@', color: 'text-[#1E3E3B]' },
+      { content: '&&&&', color: 'text-[red]' },
+      { content: '@@@@###', color: 'text-[#1E3E3B]' },
+      { content: '////\n', color: 'text-[#7984EB]' },
+      { content: '////', color: 'text-[#7984EB]' },
+
+      { content: '(##%%', color: 'text-[#1E3E3B]' },
+      { content: '#', color: 'text-[red]' },
+      { content: '@@@@', color: 'text-[#1E3E3B]' },
+      { content: '%#', color: 'text-[red]' },
+
+      { content: '@@@@@@@@', color: 'text-[#1E3E3B]' },
+
+      { content: '#', color: 'text-[red]' },
+      { content: '@@@@', color: 'text-[#1E3E3B]' },
+      { content: '##', color: 'text-[red]' },
+      { content: '@@###', color: 'text-[#1E3E3B]' },
+
+      { content: '////\n', color: 'text-[#7984EB]' },
+      { content: '////', color: 'text-[#7984EB]' },
+
+      { content: '(####', color: 'text-[#1E3E3B]' },
+      { content: '#', color: 'text-[red]' },
+      { content: '@@@@', color: 'text-[#1E3E3B]' },
+      { content: '%#', color: 'text-[red]' },
+      { content: '@@@@@@@@', color: 'text-[#1E3E3B]' },
+      { content: '#', color: 'text-[red]' },
+      { content: '@@@@', color: 'text-[#1E3E3B]' },
+       { content: '%#', color: 'text-[red]' },
+       { content: '@@###', color: 'text-[#1E3E3B]' },
+
+      { content: '////\n', color: 'text-[#7984EB]' },
+      { content: '****', color: 'text-[#543938]' },
+      { content: '(##%%%#%##@@@@@@@@@@@#%##@@@@###', color: 'text-[#1E3E3B]' },
+      { content: '****\n', color: 'text-[#543938]' },
+      { content: '    ###%%%@@@@@@@@@@@@@@@@@@@@@@@###    \n', color: 'text-[#1E3E3B]' },
+      { content: '    ####%%%@@@@@@@@@@@@@@@@@@@@@####    \n', color: 'text-[#1E3E3B]' },
+      { content: '    /(#############################/    \n', color: 'text-[#1E3E3B]' },
+      { content: '      ////////////////////////////     \n', color: 'text-[#7984EB]' },
+      { content: '                *//####                 \n', color: 'text-[#3D5C7C]' },
+      { content: '           ///##############            \n', color: 'text-[#7984EB]' },
+      { content: '          /#@&&#@############ \n', color: 'text-[#7984EB]' },
+    ],
+    footer: '\nInitialization complete. How can I help you today?'
+  };
+
   const [messages, setMessages] = useState<Message[]>([
-    { content: 'Hello! I\'m your documentation assistant. I can help you understand the codebase and answer questions about the documentation. How can I help you today?', type: 'bot' }
+    { content: bootMessage, type: 'bot', isBootMessage: true }
   ]);
   const [input, setInput] = useState('');
   const [height, setHeight] = useState(initialHeight);
@@ -320,10 +389,20 @@ export function TerminalChatBot({
                     key={index}
                     className={`${
                       message.type === 'user' ? 'text-blue-400' : 'text-green-400'
-                    }`}
+                    } ${message.type === 'bot' && index === 0 ? 'whitespace-pre font-mono' : ''}`}
                   >
                     {message.type === 'user' ? '> ' : ''}
-                    {message.loading ? 'Thinking...' : message.content}
+                    {message.loading ? 'Thinking...' : 
+                      message.isBootMessage && typeof message.content !== 'string' ? (
+                        <>
+                          <div className="text-green-400">{message.content.content}</div>
+                          {message.content.asciiArt.map((part, i) => (
+                            <span key={i} className={part.color}>{part.content}</span>
+                          ))}
+                          <div className="text-green-400">{message.content.footer}</div>
+                        </>
+                      ) : message.content
+                    }
                   </div>
                 ))}
                 <div ref={messagesEndRef} />
