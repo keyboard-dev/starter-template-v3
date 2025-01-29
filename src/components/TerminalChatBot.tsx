@@ -48,52 +48,98 @@ Booting up chat...
 `,
     asciiArt: [
       { content: '     ', color: 'text-[#D4D404]' },
-      { content: '##############################', color: 'text-[#1E3E3B]' },
+      { content: '##############################', color: 'text-[#7984EB]' },
       { content: '    \n', color: 'text-[#D4D404]' },
-      { content: '    ###%%%&@@@@@@@@@@@@@@@@@@@@@####    \n', color: 'text-[#1E3E3B]' },
-      { content: '    ###%%%@@@@@@@@@@@@@@@@@@@@@@@###    \n', color: 'text-[#1E3E3B]' },
-      { content: '    ###%%%@@@@@@@@@@@@@@@@@@@@@@@###    \n', color: 'text-[#1E3E3B]' },
+
+
+      { content: '    #', color: 'text-[#1E3E3B]' },
+      { content: '##', color: 'text-[#7984EB]' },
+      { content: '%%%&@@@@@@@@@@@@@@@@@@@@@', color: 'text-[#D4D4D4]' },
+      { content: '###', color: 'text-[#7984EB]' },
+      { content: '#    \n', color: 'text-[#D4D4D4]' },
+
+
+      { content: '    ###', color: 'text-[#7984EB]' },
+      { content: '%%%@@@@@@@@@@@@@@@@@@@@@@@', color: 'text-[#D4D4D4]' },
+      { content: '###    \n', color: 'text-[#7984EB]' },
+
+
+
       { content: '////', color: 'text-[#7984EB]' },
-      { content: '(##%%%', color: 'text-[#1E3E3B]' },
-      { content: '&&&&', color: 'text-[red]' },
-      { content: '@@@@@@@@@@@', color: 'text-[#1E3E3B]' },
-      { content: '&&&&', color: 'text-[red]' },
-      { content: '@@@@###', color: 'text-[#1E3E3B]' },
+      { content: '(##', color: 'text-[#7984EB]' },
+      { content: '%%%', color: 'text-[#D4D4D4]' },
+      { content: '&&&&', color: 'text-[purple]' },
+      { content: '@@@@@@@@@@@', color: 'text-[#D4D4D4]' },
+      { content: '&&&&', color: 'text-[purple]' },
+      { content: '@@@@', color: 'text-[#D4D4D4]' },
+      { content: '###', color: 'text-[#7984EB]' },
+
+      
+      { content: '////\n', color: 'text-[#7984EB]' },
+      { content: '////', color: 'text-[#7984EB]' },
+      { content: '(##', color: 'text-[#7984EB]' },
+
+      { content: '%%', color: 'text-[#D4D4D4]' },
+      { content: '#', color: 'text-[purple]' },
+      { content: '@@@@', color: 'text-[#D4D4D4]' },
+      { content: '%#', color: 'text-[purple]' },
+
+      { content: '@@@@@@@@', color: 'text-[#D4D4D4]' },
+
+      { content: '#', color: 'text-[purple]' },
+      { content: '@@@@', color: 'text-[#D4D4D4]' },
+      { content: '##', color: 'text-[purple]' },
+      { content: '@@', color: 'text-[#D4D4D4]' },
+      { content: '###', color: 'text-[#7984EB]' },
+
       { content: '////\n', color: 'text-[#7984EB]' },
       { content: '////', color: 'text-[#7984EB]' },
 
-      { content: '(##%%', color: 'text-[#1E3E3B]' },
-      { content: '#', color: 'text-[red]' },
-      { content: '@@@@', color: 'text-[#1E3E3B]' },
-      { content: '%#', color: 'text-[red]' },
-
-      { content: '@@@@@@@@', color: 'text-[#1E3E3B]' },
-
-      { content: '#', color: 'text-[red]' },
-      { content: '@@@@', color: 'text-[#1E3E3B]' },
-      { content: '##', color: 'text-[red]' },
-      { content: '@@###', color: 'text-[#1E3E3B]' },
-
-      { content: '////\n', color: 'text-[#7984EB]' },
-      { content: '////', color: 'text-[#7984EB]' },
-
-      { content: '(####', color: 'text-[#1E3E3B]' },
-      { content: '#', color: 'text-[red]' },
-      { content: '@@@@', color: 'text-[#1E3E3B]' },
-      { content: '%#', color: 'text-[red]' },
-      { content: '@@@@@@@@', color: 'text-[#1E3E3B]' },
-      { content: '#', color: 'text-[red]' },
-      { content: '@@@@', color: 'text-[#1E3E3B]' },
-       { content: '%#', color: 'text-[red]' },
-       { content: '@@###', color: 'text-[#1E3E3B]' },
+      
+      { content: '(##', color: 'text-[#7984EB]' },
+      { content: '##', color: 'text-[#D4D4D4]' },
+      { content: '#', color: 'text-[purple]' },
+      { content: '@@@@', color: 'text-[#D4D4D4]' },
+      { content: '%#', color: 'text-[purple]' },
+      { content: '@@@@@@@@', color: 'text-[#D4D4D4]' },
+      { content: '#', color: 'text-[purple]' },
+      { content: '@@@@', color: 'text-[#D4D4D4]' },
+       { content: '%#', color: 'text-[purple]' },
+       { content: '@@', color: 'text-[#D4D4D4]' },
+       { content: '###', color: 'text-[#7984EB]' },
 
       { content: '////\n', color: 'text-[#7984EB]' },
       { content: '****', color: 'text-[#543938]' },
-      { content: '(##%%%#%##@@@@@@@@@@@#%##@@@@###', color: 'text-[#1E3E3B]' },
+    
+      { content: '(##', color: 'text-[#7984EB]' },
+      { content: '%%%', color: 'text-[#D4D4D4]' },
+      { content: '#', color: 'text-[purple]' },
+      { content: '%#', color: 'text-[purple]' },
+      { content: '(#', color: 'text-[purple]' },
+      { content: '@@@@@@@@@@', color: 'text-[#D4D4D4]' },
+      { content: '#', color: 'text-[purple]' },
+      { content: '%#', color: 'text-[purple]' },
+      { content: '#', color: 'text-[purple]' },
+      { content: '#@@@@', color: 'text-[#D4D4D4]' },
+      { content: '##', color: 'text-[#7984EB]' },
+
+
+
+
+
       { content: '****\n', color: 'text-[#543938]' },
-      { content: '    ###%%%@@@@@@@@@@@@@@@@@@@@@@@###    \n', color: 'text-[#1E3E3B]' },
-      { content: '    ####%%%@@@@@@@@@@@@@@@@@@@@@####    \n', color: 'text-[#1E3E3B]' },
-      { content: '    /(#############################/    \n', color: 'text-[#1E3E3B]' },
+
+      { content: '    ###', color: 'text-[#7984EB]' },
+      { content: '%%%@@@@@@@@@@@@@@@@@@@@@@@', color: 'text-[#D4D4D4]' },
+      { content: '###    \n', color: 'text-[#7984EB]' },
+      { content: '    ###', color: 'text-[#7984EB]' },
+      { content: '%%%@@@@@@@@@@@@@@@@@@@@@@@', color: 'text-[#D4D4D4]' },
+      { content: '###    \n', color: 'text-[#7984EB]' },
+
+      
+
+
+      { content: '    /(#############################/    \n', color: 'text-[#7984EB]' },
       { content: '      ////////////////////////////     \n', color: 'text-[#7984EB]' },
       { content: '                *//####                 \n', color: 'text-[#3D5C7C]' },
       { content: '           ///##############            \n', color: 'text-[#7984EB]' },
