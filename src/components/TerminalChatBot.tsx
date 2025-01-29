@@ -68,9 +68,9 @@ Booting up chat...
       { content: '////', color: 'text-[#7984EB]' },
       { content: '(##', color: 'text-[#7984EB]' },
       { content: '%%%', color: 'text-[#D4D4D4]' },
-      { content: '&&&&', color: 'text-[purple]' },
+      { content: '&&&&', color: 'text-[#7984EB]' }, // eye
       { content: '@@@@@@@@@@@', color: 'text-[#D4D4D4]' },
-      { content: '&&&&', color: 'text-[purple]' },
+      { content: '&&&&', color: 'text-[#7984EB]' },
       { content: '@@@@', color: 'text-[#D4D4D4]' },
       { content: '###', color: 'text-[#7984EB]' },
 
@@ -80,15 +80,15 @@ Booting up chat...
       { content: '(##', color: 'text-[#7984EB]' },
 
       { content: '%%', color: 'text-[#D4D4D4]' },
-      { content: '#', color: 'text-[purple]' },
+      { content: '#', color: 'text-[#7984EB]' }, // eye
       { content: '@@@@', color: 'text-[#D4D4D4]' },
-      { content: '%#', color: 'text-[purple]' },
+      { content: '%#', color: 'text-[#7984EB]' },
 
       { content: '@@@@@@@@', color: 'text-[#D4D4D4]' },
 
-      { content: '#', color: 'text-[purple]' },
+      { content: '#', color: 'text-[#7984EB]' },
       { content: '@@@@', color: 'text-[#D4D4D4]' },
-      { content: '##', color: 'text-[purple]' },
+      { content: '##', color: 'text-[#7984EB]' }, // eye
       { content: '@@', color: 'text-[#D4D4D4]' },
       { content: '###', color: 'text-[#7984EB]' },
 
@@ -98,13 +98,13 @@ Booting up chat...
       
       { content: '(##', color: 'text-[#7984EB]' },
       { content: '##', color: 'text-[#D4D4D4]' },
-      { content: '#', color: 'text-[purple]' },
+      { content: '#', color: 'text-[#7984EB]' },
       { content: '@@@@', color: 'text-[#D4D4D4]' },
-      { content: '%#', color: 'text-[purple]' },
+      { content: '%#', color: 'text-[#7984EB]' },
       { content: '@@@@@@@@', color: 'text-[#D4D4D4]' },
-      { content: '#', color: 'text-[purple]' },
+      { content: '#', color: 'text-[#7984EB]' }, // eye
       { content: '@@@@', color: 'text-[#D4D4D4]' },
-       { content: '%#', color: 'text-[purple]' },
+       { content: '%#', color: 'text-[#7984EB]' },
        { content: '@@', color: 'text-[#D4D4D4]' },
        { content: '###', color: 'text-[#7984EB]' },
 
@@ -113,13 +113,13 @@ Booting up chat...
     
       { content: '(##', color: 'text-[#7984EB]' },
       { content: '%%%', color: 'text-[#D4D4D4]' },
-      { content: '#', color: 'text-[purple]' },
-      { content: '%#', color: 'text-[purple]' },
-      { content: '(#', color: 'text-[purple]' },
+      { content: '#', color: 'text-[#7984EB]' },
+      { content: '%#', color: 'text-[#7984EB]' },
+      { content: '(#', color: 'text-[#7984EB]' },
       { content: '@@@@@@@@@@', color: 'text-[#D4D4D4]' },
-      { content: '#', color: 'text-[purple]' },
-      { content: '%#', color: 'text-[purple]' },
-      { content: '#', color: 'text-[purple]' },
+      { content: '#', color: 'text-[#7984EB]' }, // eye
+      { content: '%#', color: 'text-[#7984EB]' }, // eye
+      { content: '#', color: 'text-[#7984EB]' }, // eye
       { content: '#@@@@', color: 'text-[#D4D4D4]' },
       { content: '##', color: 'text-[#7984EB]' },
 
