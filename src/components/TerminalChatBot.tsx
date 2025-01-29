@@ -3,6 +3,7 @@ import { Rnd } from 'react-rnd';
 import TerminalLogo from '../../static/svgs/terminallogo.svg';
 import TerminalExpand from '../../static/svgs/terminalexpand.svg';
 import TerminalClose from '../../static/svgs/terminalclose.svg';
+import aiConfig from '@site/ai.json';
 
 // Debounce helper
 const debounce = (fn: Function, ms = 300) => {
@@ -16,27 +17,35 @@ const debounce = (fn: Function, ms = 300) => {
 interface Message {
   content: string;
   type: 'user' | 'bot';
+  loading?: boolean;
 }
 
 interface TerminalChatBotProps {
   initialHeight?: number;
   minHeight?: number;
   maxHeight?: number;
+  onModeChange?: (mode: 'terminal' | 'normal') => void;
 }
 
 export function TerminalChatBot({
   initialHeight = 300,
   minHeight = 200,
   maxHeight = window.innerHeight * 0.8,
+  onModeChange,
 }: TerminalChatBotProps) {
   const [messages, setMessages] = useState<Message[]>([
-    { content: 'Booting up chat...', type: 'bot' }
+    { content: 'Hello! I\'m your documentation assistant. I can help you understand the codebase and answer questions about the documentation. How can I help you today?', type: 'bot' }
   ]);
   const [input, setInput] = useState('');
   const [height, setHeight] = useState(initialHeight);
   const [isVisible, setIsVisible] = useState(true);
+  const [isLoading, setIsLoading] = useState(false);
+  const [docsContent, setDocsContent] = useState<string | null>(null);
+  const [showModeDropdown, setShowModeDropdown] = useState(false);
+  const [currentMode, setCurrentMode] = useState<'terminal' | 'normal'>('terminal');
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
+  const dropdownRef = useRef<HTMLDivElement>(null);
 
   const updateHeight = useCallback(
     debounce((newHeight: number) => {
@@ -47,21 +56,100 @@ export function TerminalChatBot({
 
   useEffect(() => {
     scrollToBottom();
-  }, [messages]);
+    // Fetch the docs content when component mounts
+    fetch('/llms-full.txt')
+      .then(response => response.text())
+      .then(content => {
+        setDocsContent(content);
+      })
+      .catch(error => {
+        console.error('Error loading docs content:', error);
+      });
+  }, []);
+
+  useEffect(() => {
+    function handleClickOutside(event: MouseEvent) {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
+        setShowModeDropdown(false);
+      }
+    }
+
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, []);
 
   const scrollToBottom = () => {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!input.trim()) return;
 
+    const token = localStorage.getItem('github_token');
+    if (!token) {
+      setMessages(prev => [...prev, 
+        { content: input, type: 'user' },
+        { content: 'Please sign in to use the chat feature', type: 'bot' }
+      ]);
+      setInput('');
+      return;
+    }
+
+    if (!aiConfig.github_features) {
+      return;
+    }
+
     setMessages(prev => [...prev, { content: input, type: 'user' }]);
-    setTimeout(() => {
-      setMessages(prev => [...prev, { content: 'Bot response...', type: 'bot' }]);
-    }, 1000);
+    setMessages(prev => [...prev, { content: '...', type: 'bot', loading: true }]);
     setInput('');
+    setIsLoading(true);
+
+    try {
+      const myHeaders = new Headers();
+      myHeaders.append('X-GitHub-Token', token);
+      myHeaders.append('Content-Type', 'application/json');
+
+      const raw = JSON.stringify({
+        messages: [
+          {
+            role: 'system',
+            content: `You are a helpful documentation assistant that helps users understand the codebase and documentation. 
+            You have access to the following documentation content:
+            
+            ${docsContent}
+            
+            Please use this information to provide accurate and relevant answers to user questions. When referencing specific parts of the documentation, 
+            try to be precise and quote relevant sections when appropriate.`,
+          },
+          {
+            role: 'user',
+            content: input,
+          },
+        ],
+      });
+
+      const requestOptions = {
+        method: 'POST',
+        headers: myHeaders,
+        body: raw,
+        redirect: 'follow' as RequestRedirect,
+      };
+
+      const response = await fetch('http://localhost:3000/copilot/chat/completions', requestOptions);
+      const data = await response.json();
+      
+      setMessages(prev => prev.slice(0, -1)); // Remove loading message
+      setMessages(prev => [...prev, { content: data.choices[0].message.content, type: 'bot' }]);
+    } catch (error) {
+      console.error('Chat error:', error);
+      setMessages(prev => prev.slice(0, -1)); // Remove loading message
+      setMessages(prev => [...prev, { content: 'Sorry, there was an error processing your request.', type: 'bot' }]);
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   const toggleVisibility = (e: React.MouseEvent) => {
@@ -79,6 +167,14 @@ export function TerminalChatBot({
     setIsVisible(false);
   };
 
+  const handleModeChange = (mode: 'terminal' | 'normal') => {
+    setCurrentMode(mode);
+    setShowModeDropdown(false);
+    if (onModeChange) {
+      onModeChange(mode);
+    }
+  };
+
   return (
     <>
       {!isVisible ? (
@@ -91,7 +187,45 @@ export function TerminalChatBot({
               <div className="text-sm text-gray-400">DOCS DEV CHAT BOT</div>
             </div>
             <div className="flex space-x-2">
-            <TerminalLogo className="w-4 h-4 mr-2" />
+              <div className="relative" ref={dropdownRef}>
+                <div 
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    setShowModeDropdown(!showModeDropdown);
+                  }}
+                  className="cursor-pointer"
+                >
+                  <TerminalLogo className="w-4 h-4 mr-2" />
+                </div>
+                {showModeDropdown && (
+                  <div className="absolute right-0 mt-2 w-48 rounded-md shadow-lg bg-[#323233] ring-1 ring-black ring-opacity-5">
+                    <div className="py-1" role="menu" aria-orientation="vertical">
+                      <button
+                        className={`block w-full text-left px-4 py-2 text-sm ${
+                          currentMode === 'terminal' ? 'bg-[#424242] text-white' : 'text-gray-300 hover:bg-[#424242]'
+                        }`}
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          handleModeChange('terminal');
+                        }}
+                      >
+                        Terminal mode
+                      </button>
+                      <button
+                        className={`block w-full text-left px-4 py-2 text-sm ${
+                          currentMode === 'normal' ? 'bg-[#424242] text-white' : 'text-gray-300 hover:bg-[#424242]'
+                        }`}
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          handleModeChange('normal');
+                        }}
+                      >
+                        Normal mode
+                      </button>
+                    </div>
+                  </div>
+                )}
+              </div>
               <TerminalExpand onClick={toggleVisibility} className="w-4 h-4 cursor-pointer hover:opacity-80" />
             </div>
           </div>
@@ -136,7 +270,45 @@ export function TerminalChatBot({
                   <div className="text-sm text-gray-400">DOCS DEV CHAT BOT</div>
                 </div>
                 <div className="flex space-x-2">
-                    <TerminalLogo className="w-4 h-4 mr-2" />
+                  <div className="relative" ref={dropdownRef}>
+                    <div 
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        setShowModeDropdown(!showModeDropdown);
+                      }}
+                      className="cursor-pointer"
+                    >
+                      <TerminalLogo className="w-4 h-4 mr-2" />
+                    </div>
+                    {showModeDropdown && (
+                      <div className="absolute right-0 mt-2 w-48 rounded-md shadow-lg bg-[#323233] ring-1 ring-black ring-opacity-5">
+                        <div className="py-1" role="menu" aria-orientation="vertical">
+                          <button
+                            className={`block w-full text-left px-4 py-2 text-sm ${
+                              currentMode === 'terminal' ? 'bg-[#424242] text-white' : 'text-gray-300 hover:bg-[#424242]'
+                            }`}
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              handleModeChange('terminal');
+                            }}
+                          >
+                            Terminal mode
+                          </button>
+                          <button
+                            className={`block w-full text-left px-4 py-2 text-sm ${
+                              currentMode === 'normal' ? 'bg-[#424242] text-white' : 'text-gray-300 hover:bg-[#424242]'
+                            }`}
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              handleModeChange('normal');
+                            }}
+                          >
+                            Normal mode
+                          </button>
+                        </div>
+                      </div>
+                    )}
+                  </div>
                   <TerminalClose onClick={hideTerminal} className="w-4 h-4 cursor-pointer hover:opacity-80" />
                 </div>
               </div>
@@ -151,7 +323,7 @@ export function TerminalChatBot({
                     }`}
                   >
                     {message.type === 'user' ? '> ' : ''}
-                    {message.content}
+                    {message.loading ? 'Thinking...' : message.content}
                   </div>
                 ))}
                 <div ref={messagesEndRef} />
@@ -167,8 +339,9 @@ export function TerminalChatBot({
                     value={input}
                     onChange={(e) => setInput(e.target.value)}
                     className="flex-1 bg-transparent outline-none border-none text-white"
-                    placeholder="Enter your message..."
+                    placeholder="Ask a question..."
                     autoFocus
+                    disabled={isLoading}
                   />
                 </div>
               </form>
