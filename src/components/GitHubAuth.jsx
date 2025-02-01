@@ -45,19 +45,8 @@ export default function GitHubAuth() {
       });
       values = btoa(values);
       localStorage.setItem('oauth_state', values);
-      
-      if (!AUTH_CONFIG.GITHUB_CLIENT_ID) {
-        setError('GitHub Client ID is not configured');
-        console.error('GitHub Client ID is missing in AUTH_CONFIG');
-        return;
-      }
-
-      const githubAuthUrl = new URL('https://github.com/login/oauth/authorize');
-      githubAuthUrl.searchParams.append('client_id', AUTH_CONFIG.GITHUB_CLIENT_ID);
-      githubAuthUrl.searchParams.append('redirect_uri', AUTH_CONFIG.GITHUB_CALLBACK_URL);
+      const githubAuthUrl = new URL('http://localhost:3000/auth/github');
       githubAuthUrl.searchParams.append('state', values);
-      githubAuthUrl.searchParams.append('scope', 'read:user codespace');
-      
       window.location.href = githubAuthUrl.toString();
     } catch (err) {
       console.error('Login error:', err);

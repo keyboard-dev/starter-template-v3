@@ -218,7 +218,6 @@ Booting up chat...
     }
 
     setMessages(prev => [...prev, { content: input, type: 'user' }]);
-    setMessages(prev => [...prev, { content: '...', type: 'bot', loading: true }]);
     setInput('');
     setIsLoading(true);
 
@@ -244,24 +243,148 @@ Booting up chat...
             content: input,
           },
         ],
+        stream: true,
       });
 
-      const requestOptions = {
+      const response = await fetch('http://localhost:3000/copilot/chat/completions', {
         method: 'POST',
         headers: myHeaders,
         body: raw,
-        redirect: 'follow' as RequestRedirect,
-      };
+      });
 
-      const response = await fetch('http://localhost:3000/copilot/chat/completions', requestOptions);
-      const data = await response.json();
-      
-      setMessages(prev => prev.slice(0, -1)); // Remove loading message
-      setMessages(prev => [...prev, { content: data.choices[0].message.content, type: 'bot' }]);
+      if (!response.ok) {
+        let errorData;
+        try {
+          errorData = await response.json();
+        } catch (e) {
+          errorData = { message: 'An unknown error occurred' };
+        }
+
+        let errorMessage = 'An error occurred while processing your request.';
+        
+        if (response.status === 401) {
+          errorMessage = 'Please sign in again to continue.';
+        } else if (response.status === 403) {
+          if (errorData?.error === 'Copilot License Required') {
+            errorMessage = 'You need an active GitHub Copilot license to use this feature.';
+          } else {
+            errorMessage = 'You do not have permission to use this feature.';
+          }
+        }
+
+        setMessages(prev => [...prev, { content: errorMessage, type: 'bot' }]);
+        setIsLoading(false);
+        return;
+      }
+
+      if (!response.body) {
+        throw new Error('Response body is null');
+      }
+
+      // Initialize streaming message
+      setMessages(prev => [...prev, { content: '', type: 'bot' }]);
+
+      const reader = response.body.getReader();
+      const decoder = new TextDecoder();
+      let buffer = '';
+
+      while (true) {
+        const { done, value } = await reader.read();
+        if (done) break;
+
+        // Decode the chunk and add it to our buffer
+        const chunk = decoder.decode(value, { stream: true });
+        buffer += chunk;
+
+        // Split on double newlines which typically separate SSE messages
+        const parts = buffer.split('\n\n');
+        
+        // Keep the last part in the buffer if it's not complete
+        buffer = parts.pop() || '';
+
+        // Process all complete messages
+        for (const part of parts) {
+          const lines = part.split('\n');
+          for (const line of lines) {
+            if (line.trim() === '') continue;
+            if (line.startsWith('data: ')) {
+              const jsonData = line.slice(6); // Remove 'data: ' prefix
+              
+              // Skip [DONE] message
+              if (jsonData.trim() === '[DONE]') continue;
+
+              try {
+                const data = JSON.parse(jsonData);
+                
+                // Add debug logging
+                console.log('Received data:', data);
+                
+                // Handle error messages from the stream
+                if (data.error) {
+                  setMessages(prev => {
+                    const newMessages = [...prev];
+                    const lastMessage = newMessages[newMessages.length - 1];
+                    if (lastMessage && lastMessage.type === 'bot') {
+                      lastMessage.content = `Error: ${data.error}`;
+                    }
+                    return newMessages;
+                  });
+                  continue;
+                }
+
+                // Skip filter results and empty responses
+                if (data.prompt_filter_results || (data.choices && data.choices.length === 0)) {
+                  continue;
+                }
+
+                // Handle both streaming formats (OpenAI-style delta and raw content)
+                const content = data.choices?.[0]?.delta?.content || 
+                              data.choices?.[0]?.content ||
+                              data.content || // Add direct content field check
+                              data.message?.content || // Add message content field check
+                              '';
+                
+                if (content) {
+                  // Update the last message with the new content
+                  setMessages(prev => {
+                    const newMessages = [...prev];
+                    const lastMessage = newMessages[newMessages.length - 1];
+                    if (lastMessage && lastMessage.type === 'bot') {
+                      if (typeof lastMessage.content === 'string') {
+                        lastMessage.content += content;
+                      } else if (lastMessage.isBootMessage) {
+                        // Don't modify boot message
+                        lastMessage.content = lastMessage.content;
+                      } else {
+                        // Convert to string if it's not a boot message
+                        lastMessage.content = String(lastMessage.content) + content;
+                      }
+                    }
+                    return newMessages;
+                  });
+                }
+              } catch (e) {
+                console.error('Error parsing streaming data:', e, 'Raw data:', jsonData);
+                // Only set error message if we haven't received any content yet
+                setMessages(prev => {
+                  const newMessages = [...prev];
+                  const lastMessage = newMessages[newMessages.length - 1];
+                  if (lastMessage && lastMessage.type === 'bot' && (!lastMessage.content || lastMessage.content === '')) {
+                    lastMessage.content = 'Waiting for response...';
+                  }
+                  return newMessages;
+                });
+              }
+            }
+          }
+        }
+      }
     } catch (error) {
       console.error('Chat error:', error);
-      setMessages(prev => prev.slice(0, -1)); // Remove loading message
-      setMessages(prev => [...prev, { content: 'Sorry, there was an error processing your request.', type: 'bot' }]);
+      setMessages(prev => [...prev, { 
+        content: 'Sorry, there was an error processing your request. Please try again later.', 
+        type: 'bot' 
+      }]);
     } finally {
       setIsLoading(false);
     }
