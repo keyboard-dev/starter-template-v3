@@ -171,6 +171,10 @@ Booting up chat...
 
   useEffect(() => {
     scrollToBottom();
+  }, [messages]);
+
+  useEffect(() => {
+    scrollToBottom();
     // Fetch the docs content when component mounts
     fetch('/llms-full.txt')
       .then(response => response.text())
@@ -197,6 +201,8 @@ Booting up chat...
 
   const scrollToBottom = () => {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
+    // Refocus the input field after scrolling
+    inputRef.current?.focus();
   };
 
   const handleSubmit = async (e: React.FormEvent) => {

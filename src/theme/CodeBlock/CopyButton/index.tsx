@@ -64,7 +64,7 @@ export default function CopyButton({code, className}: Props): JSX.Element {
   const [prompt, setPrompt] = useState('');
   const [rewrittenCode, setRewrittenCode] = useState('');
   const [isLoading, setIsLoading] = useState(false);
-  const [executionResult, setExecutionResult] = useState<{ stderr?: string; stdout?: string } | null>(null);
+  const [executionResult, setExecutionResult] = useState<{ stderr?: string; stdout?: string; code?: number } | null>(null);
   const copyTimeout = useRef<number | undefined>(undefined);
 
   const { colorMode } = useColorMode();
@@ -109,20 +109,20 @@ export default function CopyButton({code, className}: Props): JSX.Element {
     
     const token = localStorage.getItem('github_token');
     if (!token) {
-      setExecutionResult({ error: 'No GitHub token found. Please authenticate first.' });
+      setExecutionResult({ stdout: '', stderr: 'No GitHub token found. Please authenticate first.' });
       setIsLoading(false);
       return;
     }
 
     const activeCodespace = localStorage.getItem('codespace');
     if (!activeCodespace) {
-      setExecutionResult({ error: 'No codespace found. Please authenticate first.' });
+      setExecutionResult({ stdout: '', stderr: 'No codespace found. Please authenticate first.' });
       setIsLoading(false);
       return;
     }
 
     try {
-      const response = await fetch('http://localhost:3000/codespaces/termnial', {
+      const response = await fetch('http://localhost:3002/codespaces/terminal', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -131,13 +131,14 @@ export default function CopyButton({code, className}: Props): JSX.Element {
         body: JSON.stringify({
           code,
           codespace: activeCodespace,
+          command: command,
         }),
       });
 
       const data = await response.json();
       setExecutionResult(data);
     } catch (error) {
-      setExecutionResult({ error: 'Failed to execute command' });
+      setExecutionResult({ stdout: '', stderr: 'Failed to execute command' });
     } finally {
       setIsLoading(false);
     }
@@ -394,12 +395,14 @@ export default function CopyButton({code, className}: Props): JSX.Element {
             <div className={cn(
               "p-4 rounded-md",
               colorMode === 'dark' ? "bg-gray-800" : "bg-gray-100",
-              executionResult.stderr ? "border-red-500" : "border-green-500",
+              executionResult.stderr || executionResult.code !== 0 ? "border-red-500" : "border-green-500",
               "border"
             )}>
               <pre className="whitespace-pre-wrap break-words">
                 {executionResult.stderr ? (
                   <span className="text-red-500">{executionResult.stderr}</span>
+                ) : executionResult.code !== 0 ? (
+                  <span className="text-red-500">Command failed with exit code {executionResult.code}</span>
                 ) : (
                   executionResult.stdout
                 )}
