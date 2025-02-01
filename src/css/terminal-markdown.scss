@@ -1,0 +1,48 @@
+.terminal-markdown {
+    font-family: monospace;
+    color: #00ff00; /* Terminal green color */
+  }
+  
+  .terminal-markdown pre {
+    background-color: #2d2d2d;
+    border: 1px solid #424242;
+    margin: 0.5rem 0;
+  }
+  
+  .terminal-markdown code {
+    color: #d4d4d4;
+    background-color: #2d2d2d;
+    padding: 0.2em 0.4em;
+    border-radius: 3px;
+    font-size: 0.9em;
+  }
+  
+  .terminal-markdown p {
+    margin: 0.5rem 0;
+    line-height: 1.5;
+  }
+  
+  .terminal-markdown a {
+    color: #7984EB;
+    text-decoration: none;
+  }
+  
+  .terminal-markdown a:hover {
+    text-decoration: underline;
+  }
+  
+  .terminal-markdown ul, .terminal-markdown ol {
+    margin: 0.5rem 0;
+    padding-left: 1.5rem;
+  }
+  
+  .terminal-markdown li {
+    margin: 0.25rem 0;
+  }
+  
+  .terminal-markdown blockquote {
+    border-left: 3px solid #424242;
+    margin: 0.5rem 0;
+    padding-left: 1rem;
+    color: #a0a0a0;
+  }

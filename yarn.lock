@@ -3912,7 +3912,7 @@
   dependencies:
     "@types/unist" "^2"
 
-"@types/hast@^3.0.0":
+"@types/hast@^3.0.0", "@types/hast@^3.0.4":
   version "3.0.4"
   resolved "https://registry.npmjs.org/@types/hast/-/hast-3.0.4.tgz"
   integrity sha512-WPs+bbQw5aCj+x6laNGWLH3wviHtoCv/P3+otBhbOhJgG8qtpdAMlTCxLtsTWA7LH1Oh/bFCHsBn0TPS5m30EQ==
@@ -4006,7 +4006,7 @@
   dependencies:
     "@types/unist" "^2"
 
-"@types/mdast@^4.0.0", "@types/mdast@^4.0.2":
+"@types/mdast@^4.0.0", "@types/mdast@^4.0.2", "@types/mdast@^4.0.4":
   version "4.0.4"
   resolved "https://registry.npmjs.org/@types/mdast/-/mdast-4.0.4.tgz"
   integrity sha512-kGaNbPh1k7AFzgpud/gMdvIm5xuECykRR+JnWKQno9TAXVa6WIVCGTPvYGekIDL4uwCZQSYbUxNBSb1aUo79oA==

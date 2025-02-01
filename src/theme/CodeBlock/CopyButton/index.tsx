@@ -64,6 +64,8 @@ export default function CopyButton({code, className}: Props): JSX.Element {
   const [prompt, setPrompt] = useState('');
   const [rewrittenCode, setRewrittenCode] = useState('');
   const [isLoading, setIsLoading] = useState(false);
+  const [isStreaming, setIsStreaming] = useState(false);
+  const [streamedResponse, setStreamedResponse] = useState('');
   const [executionResult, setExecutionResult] = useState<{ stderr?: string; stdout?: string; code?: number } | null>(null);
   const copyTimeout = useRef<number | undefined>(undefined);
 
@@ -162,6 +164,9 @@ export default function CopyButton({code, className}: Props): JSX.Element {
     }
 
     setIsLoading(true);
+    setIsStreaming(true);
+    setStreamedResponse('');
+    setRewrittenCode('');
     try {
       const myHeaders = new Headers();
       myHeaders.append("X-GitHub-Token", token);
@@ -178,22 +183,62 @@ export default function CopyButton({code, className}: Props): JSX.Element {
             content: `${prompt}\n\nHere is the code to rewrite:\n\`\`\`\n${code}\n\`\`\``,
           },
         ],
+        stream: true
       });
 
       const requestOptions: RequestInit = {
         method: "POST",
         headers: myHeaders,
         body: raw,
-        redirect: 'follow' as RequestRedirect,
       };
 
-      let data = await fetch("http://localhost:3000/copilot/chat/completions", requestOptions);
-      let aiData = await data.json();
-      setRewrittenCode(aiData.choices[0].message.content);
-      setIsLoading(false);
+      const response = await fetch("http://localhost:3000/copilot/chat/completions", requestOptions);
+      
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+      
+      const reader = response.body?.getReader();
+      
+      if (!reader) {
+        throw new Error('No reader available');
+      }
+
+      let accumulatedResponse = '';
+      const decoder = new TextDecoder();
+      
+      while (true) {
+        const { done, value } = await reader.read();
+        if (done) break;
+        
+        const chunk = decoder.decode(value);
+        try {
+          // Split the chunk by lines and process each line
+          const lines = chunk.split('\n').filter(line => line.trim());
+          for (const line of lines) {
+            if (line.startsWith('data: ')) {
+              const jsonStr = line.slice(6);
+              if (jsonStr === '[DONE]') continue;
+              
+              const jsonData = JSON.parse(jsonStr);
+              const content = jsonData.choices[0]?.delta?.content || '';
+              accumulatedResponse += content;
+              setStreamedResponse(accumulatedResponse);
+            }
+          }
+        } catch (e) {
+          console.error('Error processing chunk:', e);
+        }
+      }
+      
+      // Set the final rewritten code
+      setRewrittenCode(accumulatedResponse);
     } catch (error) {
       console.error("Code rewrite error:", error);
+      setStreamedResponse('Error: Failed to rewrite code');
+    } finally {
       setIsLoading(false);
+      setIsStreaming(false);
     }
   };
 
@@ -311,14 +356,14 @@ export default function CopyButton({code, className}: Props): JSX.Element {
                 )}
               />
 
-              {rewrittenCode ? (
+              {rewrittenCode || streamedResponse ? (
                 <div className="mt-2 w-full">
                   <div className="flex items-center justify-between mb-2">
                     <h4 className={cn(
                       "font-medium",
                       colorMode === 'dark' ? "text-gray-200" : "text-gray-800"
                     )}>
-                      Response:
+                      Response{isStreaming ? ' (Streaming...)' : ':'}
                     </h4>
                     <button
                       type="button"
@@ -330,7 +375,8 @@ export default function CopyButton({code, className}: Props): JSX.Element {
                         styles.copyButton,
                         isRewrittenCodeCopied && styles.copyButtonCopied,
                       )}
-                      onClick={handleCopyRewrittenCode}>
+                      onClick={handleCopyRewrittenCode}
+                      disabled={isStreaming}>
                       <span className={styles.copyButtonIcons} aria-hidden="true">
                         <IconCopy className={styles.copyButtonIcon} />
                         <IconSuccess className={styles.copyButtonSuccessIcon} />
@@ -338,7 +384,7 @@ export default function CopyButton({code, className}: Props): JSX.Element {
                     </button>
                   </div>
                   <div style={codeBlockStyle}>
-                    <Markdown>{rewrittenCode}</Markdown>
+                    <Markdown>{streamedResponse || rewrittenCode}</Markdown>
                   </div>
                 </div>
               ) : (

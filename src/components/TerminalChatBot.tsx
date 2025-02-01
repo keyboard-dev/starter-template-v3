@@ -4,6 +4,7 @@ import TerminalLogo from '../../static/svgs/terminallogo.svg';
 import TerminalExpand from '../../static/svgs/terminalexpand.svg';
 import TerminalClose from '../../static/svgs/terminalclose.svg';
 import aiConfig from '@site/ai.json';
+import { TerminalMarkdown } from './markdown/TerminalMarkdown';
 
 // Debounce helper
 const debounce = (fn: Function, ms = 300) => {
@@ -36,7 +37,7 @@ interface TerminalChatBotProps {
 }
 
 export function TerminalChatBot({
-  initialHeight = 300,
+  initialHeight = 600,
   minHeight = 200,
   maxHeight = window.innerHeight * 0.8,
   onModeChange,
@@ -153,7 +154,7 @@ Booting up chat...
   ]);
   const [input, setInput] = useState('');
   const [height, setHeight] = useState(initialHeight);
-  const [isVisible, setIsVisible] = useState(true);
+  const [isVisible, setIsVisible] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [docsContent, setDocsContent] = useState<string | null>(null);
   const [showModeDropdown, setShowModeDropdown] = useState(false);
@@ -576,7 +577,11 @@ Booting up chat...
                           ))}
                           <div className="text-green-400">{message.content.footer}</div>
                         </>
-                      ) : message.content
+                      ) : (
+                        <TerminalMarkdown 
+                          content={typeof message.content === 'string' ? message.content : ''} 
+                        />
+                      )
                     }
                   </div>
                 ))}
