@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useRef, useCallback, useEffect } from 'react';
 import { unified } from "unified";
 import markdown from "remark-parse";
 import remark2rehype from "remark-rehype";
@@ -6,6 +6,13 @@ import rehype2react from "rehype-react";
 import * as jsxRuntime from 'react/jsx-runtime';
 import type { Options } from 'rehype-react';
 import type { Root } from 'hast';
+import { useColorMode } from '@docusaurus/theme-common';
+import { translate } from '@docusaurus/Translate';
+import IconCopy from '@theme/Icon/Copy';
+import IconSuccess from '@theme/Icon/Success';
+import clsx from 'clsx';
+import { Highlight, themes } from 'prism-react-renderer';
+import { usePrismTheme } from '@docusaurus/theme-common';
 
 interface CodeBlockProps {
   className?: string;
@@ -37,16 +44,101 @@ interface ImageProps {
 
 // Custom Components
 const CustomCodeBlock: React.FC<CodeBlockProps> = ({ className, children, language }) => {
+  const [isCopied, setIsCopied] = useState(false);
+  const copyTimeout = useRef<number | undefined>(undefined);
+  const prismTheme = usePrismTheme();
+
+  // Extract code content from children
+  const getCodeContent = (children: React.ReactNode): string => {
+    if (typeof children === 'string') {
+      return children;
+    }
+    if (Array.isArray(children)) {
+      return children.map(child => getCodeContent(child)).join('');
+    }
+    if (React.isValidElement(children)) {
+      if (children.props.children) {
+        return getCodeContent(children.props.children);
+      }
+      if (typeof children.props.value === 'string') {
+        return children.props.value;
+      }
+    }
+    return '';
+  };
+
+  const code = getCodeContent(children);
+
+  const handleCopyCode = useCallback(async () => {
+    try {
+      await navigator.clipboard.writeText(code);
+      setIsCopied(true);
+      copyTimeout.current = window.setTimeout(() => {
+        setIsCopied(false);
+      }, 1000);
+    } catch (err) {
+      console.error('Failed to copy code to clipboard:', err);
+    }
+  }, [code]);
+
+  useEffect(() => {
+    return () => {
+      if (copyTimeout.current) {
+        clearTimeout(copyTimeout.current);
+      }
+    };
+  }, []);
+
+  // If no code content, return empty pre
+  if (!code.trim()) {
+    return <pre className="my-4 rounded-md overflow-hidden" />;
+  }
+
+  // Get language from className if provided (e.g. language-javascript)
+  const languageFromClass = className?.match(/language-(\w+)/)?.[1];
+  const codeLanguage = language || languageFromClass || 'text';
+
   return (
-    <div className="my-4 rounded-md overflow-hidden">
-      <div className="bg-[#2d2d2d] px-4 py-2 text-xs text-green-400 border-b border-[#424242]">
-        {language || 'plaintext'}
+    <div className="my-4 rounded-md overflow-hidden relative group">
+      <div className="bg-[#2d2d2d] dark:bg-[#1e1e1e] px-4 py-2 text-xs text-green-400 border-b border-[#424242] flex justify-between items-center">
+        <span>{codeLanguage}</span>
+        <button
+          type="button"
+          aria-label={translate({
+            id: 'theme.CodeBlock.copyButtonAriaLabel',
+            message: 'Copy code to clipboard',
+            description: 'The ARIA label for copy code blocks button',
+          })}
+          className={clsx(
+            'w-8 h-8 p-1 rounded-md opacity-0 group-hover:opacity-100 transition-opacity',
+            'bg-[#2d2d2d] dark:bg-[#1e1e1e] hover:bg-[#3d3d3d] dark:hover:bg-[#2e2e2e]',
+            'border border-[#424242] text-gray-400 hover:text-white'
+          )}
+          onClick={handleCopyCode}>
+          {isCopied ? (
+            <IconSuccess className="h-4 w-4" />
+          ) : (
+            <IconCopy className="h-4 w-4" />
+          )}
+        </button>
       </div>
-      <pre className="bg-[#1e1e1e] p-4 overflow-x-auto">
-        <code className={`language-${language} font-mono text-sm`}>
-          {children}
-        </code>
-      </pre>
+      <Highlight
+        theme={prismTheme}
+        code={code.trim()}
+        language={codeLanguage}
+      >
+        {({ className, style, tokens, getLineProps, getTokenProps }) => (
+          <pre className={clsx('m-0 p-4 overflow-x-auto', className)} style={style}>
+            {tokens.map((line, i) => (
+              <div key={i} {...getLineProps({ line })}>
+                {line.map((token, key) => (
+                  <span key={key} {...getTokenProps({ token })} />
+                ))}
+              </div>
+            ))}
+          </pre>
+        )}
+      </Highlight>
     </div>
   );
 };
