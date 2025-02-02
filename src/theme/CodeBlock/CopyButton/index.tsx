@@ -6,9 +6,10 @@ import IconCopy from '@theme/Icon/Copy';
 import IconSuccess from '@theme/Icon/Success';
 import { Button } from '@site/src/components/ui/button';
 import { Input } from '@site/src/components/ui/input';
-import { IconWand } from '@tabler/icons-react';
+import { IconWand, IconPlayerPlay, IconExternalLink } from '@tabler/icons-react';
 import { cn } from '@site/src/utils';
 import { useColorMode } from '@docusaurus/theme-common';
+import { CodespaceOpener } from '@site/src/components/CodespaceOpener';
 import {
   Dialog,
   DialogContent,
@@ -68,6 +69,7 @@ export default function CopyButton({code, className}: Props): JSX.Element {
   const [streamedResponse, setStreamedResponse] = useState('');
   const [executionResult, setExecutionResult] = useState<{ stderr?: string; stdout?: string; code?: number } | null>(null);
   const copyTimeout = useRef<number | undefined>(undefined);
+  const activeCodespace = localStorage.getItem('codespace');
 
   const { colorMode } = useColorMode();
   const contentStyle: React.CSSProperties = {
@@ -116,7 +118,6 @@ export default function CopyButton({code, className}: Props): JSX.Element {
       return;
     }
 
-    const activeCodespace = localStorage.getItem('codespace');
     if (!activeCodespace) {
       setExecutionResult({ stdout: '', stderr: 'No codespace found. Please authenticate first.' });
       setIsLoading(false);
@@ -124,6 +125,31 @@ export default function CopyButton({code, className}: Props): JSX.Element {
     }
 
     try {
+      // First, get the codespace status and URL
+      const getResponse = await fetch(`http://localhost:3002/codespaces/get?codespace_name=${activeCodespace}`, {
+        headers: {
+          'x-github-token': token,
+        },
+      });
+      
+      const getResult = await getResponse.json();
+      
+      if (getResult.success && getResult.url) {
+        const shouldOpen = window.confirm('The codespace needs to be opened before running the code. Would you like to open it in a new tab?');
+        if (shouldOpen) {
+          window.open(getResult.url, '_blank');
+          // Give the user some time to let the codespace load
+          setExecutionResult({ stdout: 'Please wait for the codespace to load before running the code again.', stderr: '' });
+          setIsLoading(false);
+          return;
+        } else {
+          setExecutionResult({ stdout: '', stderr: 'Cannot run code without opening the codespace first.' });
+          setIsLoading(false);
+          return;
+        }
+      }
+
+      // If we get here, the codespace is already running, so execute the command
       const response = await fetch('http://localhost:3002/codespaces/terminal', {
         method: 'POST',
         headers: {
@@ -311,9 +337,13 @@ export default function CopyButton({code, className}: Props): JSX.Element {
           disabled={isLoading}
         >
           <span className={styles.copyButtonIcons} aria-hidden="true">
-            <IconWand className={styles.copyButtonIcon} />
+            <IconPlayerPlay className={styles.copyButtonIcon} />
           </span>
         </button>
+
+        {activeCodespace && (
+          <CodespaceOpener codespace_name={activeCodespace} />
+        )}
 
         <Dialog>
           <DialogTrigger asChild>
