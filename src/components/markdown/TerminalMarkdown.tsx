@@ -13,6 +13,7 @@ import IconSuccess from '@theme/Icon/Success';
 import clsx from 'clsx';
 import { Highlight, themes } from 'prism-react-renderer';
 import { usePrismTheme } from '@docusaurus/theme-common';
+import CodeBlock from '@theme/CodeBlock';
 
 interface CodeBlockProps {
   className?: string;
@@ -44,101 +45,60 @@ interface ImageProps {
 
 // Custom Components
 const CustomCodeBlock: React.FC<CodeBlockProps> = ({ className, children, language }) => {
-  const [isCopied, setIsCopied] = useState(false);
-  const copyTimeout = useRef<number | undefined>(undefined);
-  const prismTheme = usePrismTheme();
-
-  // Extract code content from children
-  const getCodeContent = (children: React.ReactNode): string => {
+  // Extract code content and metadata from children
+  const getCodeContent = (children: React.ReactNode): { code: string; language?: string } => {
     if (typeof children === 'string') {
-      return children;
+      return { code: children };
     }
     if (Array.isArray(children)) {
-      return children.map(child => getCodeContent(child)).join('');
+      const contents = children.map(child => getCodeContent(child));
+      return {
+        code: contents.map(c => c.code).join(''),
+        language: contents.find(c => c.language)?.language
+      };
     }
     if (React.isValidElement(children)) {
-      if (children.props.children) {
-        return getCodeContent(children.props.children);
+      const props = children.props;
+      
+      // Check for language in props
+      let lang = props.className?.match(/language-(\w+)/)?.[1];
+      
+      if (props.children) {
+        const childContent = getCodeContent(props.children);
+        return {
+          code: childContent.code,
+          language: lang || childContent.language
+        };
       }
-      if (typeof children.props.value === 'string') {
-        return children.props.value;
+      if (typeof props.value === 'string') {
+        return {
+          code: props.value,
+          language: lang
+        };
       }
     }
-    return '';
+    return { code: '' };
   };
 
-  const code = getCodeContent(children);
-
-  const handleCopyCode = useCallback(async () => {
-    try {
-      await navigator.clipboard.writeText(code);
-      setIsCopied(true);
-      copyTimeout.current = window.setTimeout(() => {
-        setIsCopied(false);
-      }, 1000);
-    } catch (err) {
-      console.error('Failed to copy code to clipboard:', err);
-    }
-  }, [code]);
-
-  useEffect(() => {
-    return () => {
-      if (copyTimeout.current) {
-        clearTimeout(copyTimeout.current);
-      }
-    };
-  }, []);
-
+  const { code, language: extractedLanguage } = getCodeContent(children);
+  
   // If no code content, return empty pre
   if (!code.trim()) {
     return <pre className="my-4 rounded-md overflow-hidden" />;
   }
 
-  // Get language from className if provided (e.g. language-javascript)
+  // Get language from props or extracted from content
   const languageFromClass = className?.match(/language-(\w+)/)?.[1];
-  const codeLanguage = language || languageFromClass || 'text';
+  const codeLanguage = language || extractedLanguage || languageFromClass || 'text';
 
   return (
-    <div className="my-4 rounded-md overflow-hidden relative group">
-      <div className="bg-[#2d2d2d] dark:bg-[#1e1e1e] px-4 py-2 text-xs text-green-400 border-b border-[#424242] flex justify-between items-center">
-        <span>{codeLanguage}</span>
-        <button
-          type="button"
-          aria-label={translate({
-            id: 'theme.CodeBlock.copyButtonAriaLabel',
-            message: 'Copy code to clipboard',
-            description: 'The ARIA label for copy code blocks button',
-          })}
-          className={clsx(
-            'w-8 h-8 p-1 rounded-md opacity-0 group-hover:opacity-100 transition-opacity',
-            'bg-[#2d2d2d] dark:bg-[#1e1e1e] hover:bg-[#3d3d3d] dark:hover:bg-[#2e2e2e]',
-            'border border-[#424242] text-gray-400 hover:text-white'
-          )}
-          onClick={handleCopyCode}>
-          {isCopied ? (
-            <IconSuccess className="h-4 w-4" />
-          ) : (
-            <IconCopy className="h-4 w-4" />
-          )}
-        </button>
-      </div>
-      <Highlight
-        theme={prismTheme}
-        code={code.trim()}
+    <div className="my-4">
+      <CodeBlock
         language={codeLanguage}
+        showLineNumbers
       >
-        {({ className, style, tokens, getLineProps, getTokenProps }) => (
-          <pre className={clsx('m-0 p-4 overflow-x-auto', className)} style={style}>
-            {tokens.map((line, i) => (
-              <div key={i} {...getLineProps({ line })}>
-                {line.map((token, key) => (
-                  <span key={key} {...getTokenProps({ token })} />
-                ))}
-              </div>
-            ))}
-          </pre>
-        )}
-      </Highlight>
+        {code.trim()}
+      </CodeBlock>
     </div>
   );
 };
