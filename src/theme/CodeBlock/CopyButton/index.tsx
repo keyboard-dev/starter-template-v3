@@ -126,28 +126,28 @@ export default function CopyButton({code, className}: Props): JSX.Element {
 
     try {
       // First, get the codespace status and URL
-      const getResponse = await fetch(`http://localhost:3002/codespaces/get?codespace_name=${activeCodespace}`, {
-        headers: {
-          'x-github-token': token,
-        },
-      });
+      // const getResponse = await fetch(`http://localhost:3002/codespaces/get?codespace_name=${activeCodespace}`, {
+      //   headers: {
+      //     'x-github-token': token,
+      //   },
+      // });
       
-      const getResult = await getResponse.json();
+      // const getResult = await getResponse.json();
       
-      if (getResult.success && getResult.url) {
-        const shouldOpen = window.confirm('The codespace needs to be opened before running the code. Would you like to open it in a new tab?');
-        if (shouldOpen) {
-          window.open(getResult.url, '_blank');
-          // Give the user some time to let the codespace load
-          setExecutionResult({ stdout: 'Please wait for the codespace to load before running the code again.', stderr: '' });
-          setIsLoading(false);
-          return;
-        } else {
-          setExecutionResult({ stdout: '', stderr: 'Cannot run code without opening the codespace first.' });
-          setIsLoading(false);
-          return;
-        }
-      }
+      // if (getResult.success && getResult.url) {
+      //   const shouldOpen = window.confirm('The codespace needs to be opened before running the code. Would you like to open it in a new tab?');
+      //   if (shouldOpen) {
+      //     window.open(getResult.url, '_blank');
+      //     // Give the user some time to let the codespace load
+      //     setExecutionResult({ stdout: 'Please wait for the codespace to load before running the code again.', stderr: '' });
+      //     setIsLoading(false);
+      //     return;
+      //   } else {
+      //     setExecutionResult({ stdout: '', stderr: 'Cannot run code without opening the codespace first.' });
+      //     setIsLoading(false);
+      //     return;
+      //   }
+      // }
 
       // If we get here, the codespace is already running, so execute the command
       const response = await fetch('http://localhost:3002/codespaces/terminal', {

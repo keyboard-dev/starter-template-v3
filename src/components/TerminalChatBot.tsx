@@ -5,6 +5,7 @@ import TerminalExpand from '../../static/svgs/terminalexpand.svg';
 import TerminalClose from '../../static/svgs/terminalclose.svg';
 import aiConfig from '@site/ai.json';
 import { TerminalMarkdown } from './markdown/TerminalMarkdown';
+import { Terminal } from '@site/src/components/ui/terminal';
 
 // Debounce helper
 const debounce = (fn: Function, ms = 300) => {
@@ -27,6 +28,7 @@ interface Message {
   type: 'user' | 'bot';
   loading?: boolean;
   isBootMessage?: boolean;
+  isProjectGeneration?: boolean;
 }
 
 interface TerminalChatBotProps {
@@ -34,6 +36,13 @@ interface TerminalChatBotProps {
   minHeight?: number;
   maxHeight?: number;
   onModeChange?: (mode: 'terminal' | 'normal') => void;
+}
+
+// Add new interface for project state
+interface ProjectState {
+  isGenerated: boolean;
+  path: string;
+  codespace: string;
 }
 
 export function TerminalChatBot({
@@ -75,7 +84,7 @@ Booting up chat...
       { content: '@@@@', color: 'text-[#D4D4D4]' },
       { content: '###', color: 'text-[#7984EB]' },
 
-      
+
       { content: '////\n', color: 'text-[#7984EB]' },
       { content: '////', color: 'text-[#7984EB]' },
       { content: '(##', color: 'text-[#7984EB]' },
@@ -96,7 +105,7 @@ Booting up chat...
       { content: '////\n', color: 'text-[#7984EB]' },
       { content: '////', color: 'text-[#7984EB]' },
 
-      
+
       { content: '(##', color: 'text-[#7984EB]' },
       { content: '##', color: 'text-[#D4D4D4]' },
       { content: '#', color: 'text-[#7984EB]' },
@@ -105,13 +114,13 @@ Booting up chat...
       { content: '@@@@@@@@', color: 'text-[#D4D4D4]' },
       { content: '#', color: 'text-[#7984EB]' }, // eye
       { content: '@@@@', color: 'text-[#D4D4D4]' },
-       { content: '%#', color: 'text-[#7984EB]' },
-       { content: '@@', color: 'text-[#D4D4D4]' },
-       { content: '###', color: 'text-[#7984EB]' },
+      { content: '%#', color: 'text-[#7984EB]' },
+      { content: '@@', color: 'text-[#D4D4D4]' },
+      { content: '###', color: 'text-[#7984EB]' },
 
       { content: '////\n', color: 'text-[#7984EB]' },
       { content: '****', color: 'text-[#543938]' },
-    
+
       { content: '(##', color: 'text-[#7984EB]' },
       { content: '%%%', color: 'text-[#D4D4D4]' },
       { content: '#', color: 'text-[#7984EB]' },
@@ -137,7 +146,7 @@ Booting up chat...
       { content: '%%%@@@@@@@@@@@@@@@@@@@@@@@', color: 'text-[#D4D4D4]' },
       { content: '###    \n', color: 'text-[#7984EB]' },
 
-      
+
 
 
       { content: '    /(#############################/    \n', color: 'text-[#7984EB]' },
@@ -162,6 +171,11 @@ Booting up chat...
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
   const dropdownRef = useRef<HTMLDivElement>(null);
+  const [projectState, setProjectState] = useState<ProjectState>({
+    isGenerated: false,
+    path: '',
+    codespace: ''
+  });
 
   const updateHeight = useCallback(
     debounce((newHeight: number) => {
@@ -212,9 +226,9 @@ Booting up chat...
 
     const token = localStorage.getItem('github_token');
     if (!token) {
-      setMessages(prev => [...prev, 
-        { content: input, type: 'user' },
-        { content: 'Please sign in to use the chat feature', type: 'bot' }
+      setMessages(prev => [...prev,
+      { content: input, type: 'user' },
+      { content: 'Please sign in to use the chat feature', type: 'bot' }
       ]);
       setInput('');
       return;
@@ -233,6 +247,124 @@ Booting up chat...
       myHeaders.append('X-GitHub-Token', token);
       myHeaders.append('Content-Type', 'application/json');
 
+      // Check if this is a project generation request
+      if (input.toLowerCase().startsWith('generate:')) {
+        const prompt = input.slice('generate:'.length).trim();
+        
+        // Determine the language based on the prompt
+        let language = 'typescript';
+        const lowerPrompt = prompt.toLowerCase();
+        if (lowerPrompt.includes('react')) {
+          language = 'react typescript';
+        } else if (lowerPrompt.includes('vue')) {
+          language = 'vue typescript';
+        }
+
+        setMessages(prev => [...prev, {
+          content: `Generating ${language} project structure, please wait...`,
+          type: 'bot',
+          isProjectGeneration: true
+        }]);
+
+        // First, generate the project structure
+        const response = await fetch('http://localhost:3000/generate-project', {
+          method: 'POST',
+          headers: myHeaders,
+          body: JSON.stringify({
+            prompt,
+            language
+          })
+        });
+
+        if (!response.ok) {
+          let errorData;
+          try {
+            errorData = await response.json();
+          } catch (e) {
+            errorData = { message: 'An unknown error occurred' };
+          }
+
+          let errorMessage = 'An error occurred while generating the project.';
+          if (response.status === 401) {
+            errorMessage = 'Please sign in again to continue.';
+          } else if (response.status === 403) {
+            errorMessage = 'You do not have permission to use this feature.';
+          }
+
+          setMessages(prev => [...prev, { content: errorMessage, type: 'bot' }]);
+          setIsLoading(false);
+          return;
+        }
+
+        const projectData = await response.json();
+        // Now send the project data to the codespace
+          const activeCodespace = localStorage.getItem('codespace');
+        try {
+          const createProjectResponse = await fetch('http://localhost:3002/codespaces/create-project', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+              'X-GitHub-Token': token
+            },
+            body: JSON.stringify({
+              codespace: activeCodespace,
+              projectConfig: {
+                title: projectData.title,
+                description: projectData.description,
+                dependencies: projectData.dependencies,
+                files: projectData.files
+              }
+            })
+          });
+
+          if (!createProjectResponse.ok) {
+            throw new Error('Failed to create project in codespace');
+          }
+
+          const createProjectResult = await createProjectResponse.json();
+
+          // Update project state
+          setProjectState({
+            isGenerated: true,
+            path: createProjectResult.projectPath,
+            codespace: activeCodespace
+          });
+
+          // Format the project data into a nice message with the result
+          const formattedMessage = `
+Project Generated Successfully!
+
+Title: ${projectData.title}
+Description: ${projectData.description}
+Project Path: ${createProjectResult.projectPath}
+
+Dependencies:
+${projectData.dependencies.map(dep => `- ${dep}`).join('\n')}
+
+Files Created:
+${projectData.files.map(file => `📄 ${file.filename}`).join('\n')}
+
+The project has been created in your codespace. You can now use the terminal below to interact with your project:
+`;
+
+          setMessages(prev => [...prev, {
+            content: formattedMessage,
+            type: 'bot',
+            isProjectGeneration: true
+          }]);
+        } catch (error) {
+          console.error('Error creating project in codespace:', error);
+          setMessages(prev => [...prev, {
+            content: 'The project structure was generated but there was an error creating it in the codespace. Please try again.',
+            type: 'bot'
+          }]);
+        }
+        
+        setIsLoading(false);
+        return;
+      }
+
+      // Original chat logic continues here
       const raw = JSON.stringify({
         messages: [
           {
@@ -268,7 +400,7 @@ Booting up chat...
         }
 
         let errorMessage = 'An error occurred while processing your request.';
-        
+
         if (response.status === 401) {
           errorMessage = 'Please sign in again to continue.';
         } else if (response.status === 403) {
@@ -305,7 +437,7 @@ Booting up chat...
 
         // Split on double newlines which typically separate SSE messages
         const parts = buffer.split('\n\n');
-        
+
         // Keep the last part in the buffer if it's not complete
         buffer = parts.pop() || '';
 
@@ -316,16 +448,16 @@ Booting up chat...
             if (line.trim() === '') continue;
             if (line.startsWith('data: ')) {
               const jsonData = line.slice(6); // Remove 'data: ' prefix
-              
+
               // Skip [DONE] message
               if (jsonData.trim() === '[DONE]') continue;
 
               try {
                 const data = JSON.parse(jsonData);
-                
+
                 // Add debug logging
                 console.log('Received data:', data);
-                
+
                 // Handle error messages from the stream
                 if (data.error) {
                   setMessages(prev => {
@@ -345,12 +477,12 @@ Booting up chat...
                 }
 
                 // Handle both streaming formats (OpenAI-style delta and raw content)
-                const content = data.choices?.[0]?.delta?.content || 
-                              data.choices?.[0]?.content ||
-                              data.content || // Add direct content field check
-                              data.message?.content || // Add message content field check
-                              '';
-                
+                const content = data.choices?.[0]?.delta?.content ||
+                  data.choices?.[0]?.content ||
+                  data.content || // Add direct content field check
+                  data.message?.content || // Add message content field check
+                  '';
+
                 if (content) {
                   // Update the last message with the new content
                   setMessages(prev => {
@@ -388,9 +520,9 @@ Booting up chat...
       }
     } catch (error) {
       console.error('Chat error:', error);
-      setMessages(prev => [...prev, { 
-        content: 'Sorry, there was an error processing your request. Please try again later.', 
-        type: 'bot' 
+      setMessages(prev => [...prev, {
+        content: 'Sorry, there was an error processing your request. Please try again later.',
+        type: 'bot'
       }]);
     } finally {
       setIsLoading(false);
@@ -423,7 +555,7 @@ Booting up chat...
   return (
     <>
       {!isVisible ? (
-        <div 
+        <div
           className="fixed bottom-0 left-0 right-0 bg-[#323233] border-t border-[#424242] cursor-pointer z-[1000]"
           onClick={showTerminal}
         >
@@ -433,7 +565,7 @@ Booting up chat...
             </div>
             <div className="flex space-x-2">
               <div className="relative" ref={dropdownRef}>
-                <div 
+                <div
                   onClick={(e) => {
                     e.stopPropagation();
                     setShowModeDropdown(!showModeDropdown);
@@ -446,9 +578,8 @@ Booting up chat...
                   <div className="absolute right-0 mt-2 w-48 rounded-md shadow-lg bg-[#323233] ring-1 ring-black ring-opacity-5">
                     <div className="py-1" role="menu" aria-orientation="vertical">
                       <button
-                        className={`block w-full text-left px-4 py-2 text-sm ${
-                          currentMode === 'terminal' ? 'bg-[#424242] text-white' : 'text-gray-300 hover:bg-[#424242]'
-                        }`}
+                        className={`block w-full text-left px-4 py-2 text-sm ${currentMode === 'terminal' ? 'bg-[#424242] text-white' : 'text-gray-300 hover:bg-[#424242]'
+                          }`}
                         onClick={(e) => {
                           e.stopPropagation();
                           handleModeChange('terminal');
@@ -457,9 +588,8 @@ Booting up chat...
                         Terminal mode
                       </button>
                       <button
-                        className={`block w-full text-left px-4 py-2 text-sm ${
-                          currentMode === 'normal' ? 'bg-[#424242] text-white' : 'text-gray-300 hover:bg-[#424242]'
-                        }`}
+                        className={`block w-full text-left px-4 py-2 text-sm ${currentMode === 'normal' ? 'bg-[#424242] text-white' : 'text-gray-300 hover:bg-[#424242]'
+                          }`}
                         onClick={(e) => {
                           e.stopPropagation();
                           handleModeChange('normal');
@@ -507,7 +637,7 @@ Booting up chat...
           >
             <div className="flex flex-col h-full bg-[#1e1e1e] text-white font-mono">
               {/* Terminal Header */}
-              <div 
+              <div
                 className="flex items-center justify-between px-4 py-1 bg-[#323233] border-b border-[#424242]"
                 onClick={(e) => e.stopPropagation()}
               >
@@ -516,7 +646,7 @@ Booting up chat...
                 </div>
                 <div className="flex space-x-2">
                   <div className="relative" ref={dropdownRef}>
-                    <div 
+                    <div
                       onClick={(e) => {
                         e.stopPropagation();
                         setShowModeDropdown(!showModeDropdown);
@@ -529,9 +659,8 @@ Booting up chat...
                       <div className="absolute right-0 mt-2 w-48 rounded-md shadow-lg bg-[#323233] ring-1 ring-black ring-opacity-5">
                         <div className="py-1" role="menu" aria-orientation="vertical">
                           <button
-                            className={`block w-full text-left px-4 py-2 text-sm ${
-                              currentMode === 'terminal' ? 'bg-[#424242] text-white' : 'text-gray-300 hover:bg-[#424242]'
-                            }`}
+                            className={`block w-full text-left px-4 py-2 text-sm ${currentMode === 'terminal' ? 'bg-[#424242] text-white' : 'text-gray-300 hover:bg-[#424242]'
+                              }`}
                             onClick={(e) => {
                               e.stopPropagation();
                               handleModeChange('terminal');
@@ -540,9 +669,8 @@ Booting up chat...
                             Terminal mode
                           </button>
                           <button
-                            className={`block w-full text-left px-4 py-2 text-sm ${
-                              currentMode === 'normal' ? 'bg-[#424242] text-white' : 'text-gray-300 hover:bg-[#424242]'
-                            }`}
+                            className={`block w-full text-left px-4 py-2 text-sm ${currentMode === 'normal' ? 'bg-[#424242] text-white' : 'text-gray-300 hover:bg-[#424242]'
+                              }`}
                             onClick={(e) => {
                               e.stopPropagation();
                               handleModeChange('normal');
@@ -563,12 +691,11 @@ Booting up chat...
                 {messages.map((message, index) => (
                   <div
                     key={index}
-                    className={`${
-                      message.type === 'user' ? 'text-blue-400' : 'text-green-400'
-                    } ${message.type === 'bot' && index === 0 ? 'whitespace-pre font-mono' : ''}`}
+                    className={`${message.type === 'user' ? 'text-blue-400' : 'text-green-400'
+                      } ${message.type === 'bot' && index === 0 ? 'whitespace-pre font-mono' : ''}`}
                   >
                     {message.type === 'user' ? '> ' : ''}
-                    {message.loading ? 'Thinking...' : 
+                    {message.loading ? 'Thinking...' :
                       message.isBootMessage && typeof message.content !== 'string' ? (
                         <>
                           <div className="text-green-400">{message.content.content}</div>
@@ -578,14 +705,25 @@ Booting up chat...
                           <div className="text-green-400">{message.content.footer}</div>
                         </>
                       ) : (
-                        <TerminalMarkdown 
-                          content={typeof message.content === 'string' ? message.content : ''} 
+                        <TerminalMarkdown
+                          content={typeof message.content === 'string' ? message.content : ''}
                         />
                       )
                     }
                   </div>
                 ))}
                 <div ref={messagesEndRef} />
+                
+                {/* Show Terminal after project generation */}
+                {projectState.isGenerated && (
+                  <div className="mt-4">
+                    <Terminal
+                      initialMessage={`Terminal ready. Current directory: ${projectState.path}`}
+                      prompt="$"
+                      codespace={projectState.codespace}
+                    />
+                  </div>
+                )}
               </div>
 
               {/* Input Area */}

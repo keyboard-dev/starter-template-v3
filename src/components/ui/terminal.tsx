@@ -46,7 +46,7 @@ export function Terminal({ initialMessage = 'Welcome to the terminal simulator',
     }
 
     try {
-      const response = await fetch('http://localhost:3000/codespaces/termnial', {
+      const response = await fetch('http://localhost:3002/codespaces/terminal', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
