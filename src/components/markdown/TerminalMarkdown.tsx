@@ -168,7 +168,7 @@ const components: Partial<Options['components']> = {
     <blockquote className="border-l-4 border-[#424242] pl-4 my-4 text-gray-400 italic">
       {children}
     </blockquote>
-  ),
+  )
 };
 
 // Create a properly typed options object for rehype-react
@@ -194,7 +194,7 @@ interface TerminalMarkdownProps {
 
 export const TerminalMarkdown: React.FC<TerminalMarkdownProps> = ({ content, className = '' }) => {
   return (
-    <div className={`terminal-markdown ${className}`}>
+    <div className={`terminal-markdown ${className}`} style={{ fontFamily: "'Pixelify Sans', monospace" }}>
       {terminalProcessor.processSync(content).result}
     </div>
   );

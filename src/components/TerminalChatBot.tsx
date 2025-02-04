@@ -349,8 +349,8 @@ Booting up chat...
           if (projectPath) {
             // Send commands to initialize and start the project
             const commands = [
-              `npm install --prefix ${createProjectResult.projectPath}`,
-              `npm run dev --prefix ${createProjectResult.projectPath}`
+              `npm install --prefix ${projectPath}`,
+              `npm run dev --prefix ${projectPath}`
             ];
 
             // Execute commands sequentially
@@ -623,10 +623,11 @@ Use the terminal below to interact with your project:
         <div
           className="fixed bottom-0 left-0 right-0 bg-[#323233] border-t border-[#424242] cursor-pointer z-[1000]"
           onClick={showTerminal}
+          style={{ fontFamily: "'Pixelify Sans', monospace" }}
         >
           <div className="flex items-center justify-between px-4 py-1">
             <div className="flex items-center">
-              <div className="text-sm text-gray-400">DOCS DEV CHAT BOT</div>
+              <div className="text-sm text-gray-400" style={{ fontFamily: "'Pixelify Sans', monospace" }}>DOCS DEV CHAT BOT</div>
             </div>
             <div className="flex space-x-2">
               <div className="relative" ref={dropdownRef}>
@@ -643,22 +644,22 @@ Use the terminal below to interact with your project:
                   <div className="absolute right-0 mt-2 w-48 rounded-md shadow-lg bg-[#323233] ring-1 ring-black ring-opacity-5">
                     <div className="py-1" role="menu" aria-orientation="vertical">
                       <button
-                        className={`block w-full text-left px-4 py-2 text-sm ${currentMode === 'terminal' ? 'bg-[#424242] text-white' : 'text-gray-300 hover:bg-[#424242]'
-                          }`}
+                        className={`block w-full text-left px-4 py-2 text-sm ${currentMode === 'terminal' ? 'bg-[#424242] text-white' : 'text-gray-300 hover:bg-[#424242]'}`}
                         onClick={(e) => {
                           e.stopPropagation();
                           handleModeChange('terminal');
                         }}
+                        style={{ fontFamily: "'Pixelify Sans', monospace" }}
                       >
                         Terminal mode
                       </button>
                       <button
-                        className={`block w-full text-left px-4 py-2 text-sm ${currentMode === 'normal' ? 'bg-[#424242] text-white' : 'text-gray-300 hover:bg-[#424242]'
-                          }`}
+                        className={`block w-full text-left px-4 py-2 text-sm ${currentMode === 'normal' ? 'bg-[#424242] text-white' : 'text-gray-300 hover:bg-[#424242]'}`}
                         onClick={(e) => {
                           e.stopPropagation();
                           handleModeChange('normal');
                         }}
+                        style={{ fontFamily: "'Pixelify Sans', monospace" }}
                       >
                         Normal mode
                       </button>
@@ -700,14 +701,15 @@ Use the terminal below to interact with your project:
               setHeight(newHeight);
             }}
           >
-            <div className="flex flex-col h-full bg-[#1e1e1e] text-white font-mono">
+            <div className="flex flex-col h-full bg-[#1e1e1e] text-white font-mono" style={{ fontFamily: "'Pixelify Sans', monospace" }}>
               {/* Terminal Header */}
               <div
                 className="flex items-center justify-between px-4 py-1 bg-[#323233] border-b border-[#424242]"
                 onClick={(e) => e.stopPropagation()}
+                style={{ fontFamily: "'Pixelify Sans', monospace" }}
               >
                 <div className="flex items-center">
-                  <div className="text-sm text-gray-400">DOCS DEV CHAT BOT</div>
+                  <div className="text-sm text-gray-400" style={{ fontFamily: "'Pixelify Sans', monospace" }}>DOCS DEV CHAT BOT</div>
                 </div>
                 <div className="flex space-x-2">
                   <div className="relative" ref={dropdownRef}>
@@ -724,22 +726,22 @@ Use the terminal below to interact with your project:
                       <div className="absolute right-0 mt-2 w-48 rounded-md shadow-lg bg-[#323233] ring-1 ring-black ring-opacity-5">
                         <div className="py-1" role="menu" aria-orientation="vertical">
                           <button
-                            className={`block w-full text-left px-4 py-2 text-sm ${currentMode === 'terminal' ? 'bg-[#424242] text-white' : 'text-gray-300 hover:bg-[#424242]'
-                              }`}
+                            className={`block w-full text-left px-4 py-2 text-sm ${currentMode === 'terminal' ? 'bg-[#424242] text-white' : 'text-gray-300 hover:bg-[#424242]'}`}
                             onClick={(e) => {
                               e.stopPropagation();
                               handleModeChange('terminal');
                             }}
+                            style={{ fontFamily: "'Pixelify Sans', monospace" }}
                           >
                             Terminal mode
                           </button>
                           <button
-                            className={`block w-full text-left px-4 py-2 text-sm ${currentMode === 'normal' ? 'bg-[#424242] text-white' : 'text-gray-300 hover:bg-[#424242]'
-                              }`}
+                            className={`block w-full text-left px-4 py-2 text-sm ${currentMode === 'normal' ? 'bg-[#424242] text-white' : 'text-gray-300 hover:bg-[#424242]'}`}
                             onClick={(e) => {
                               e.stopPropagation();
                               handleModeChange('normal');
                             }}
+                            style={{ fontFamily: "'Pixelify Sans', monospace" }}
                           >
                             Normal mode
                           </button>
@@ -758,6 +760,7 @@ Use the terminal below to interact with your project:
                     key={index}
                     className={`${message.type === 'user' ? 'text-blue-400' : 'text-green-400'
                       } ${message.type === 'bot' && index === 0 ? 'whitespace-pre font-mono' : ''}`}
+                    style={{ fontFamily: "'Pixelify Sans', monospace" }}
                   >
                     {message.type === 'user' ? '> ' : ''}
                     {message.loading ? 'Thinking...' :
@@ -765,7 +768,7 @@ Use the terminal below to interact with your project:
                         <>
                           <div className="text-green-400">{message.content.content}</div>
                           {message.content.asciiArt.map((part, i) => (
-                            <span key={i} className={part.color}>{part.content}</span>
+                            <span key={i} className={part.color} style={{ fontFamily: "ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, 'Liberation Mono', 'Courier New', monospace" }}>{part.content}</span>
                           ))}
                           <div className="text-green-400">{message.content.footer}</div>
                         </>
@@ -794,13 +797,14 @@ Use the terminal below to interact with your project:
               {/* Input Area */}
               <form onSubmit={handleSubmit} className="p-4 border-t border-[#424242]" onClick={(e) => e.stopPropagation()}>
                 <div className="flex items-center">
-                  <span className="text-green-400 mr-2">{'>'}</span>
+                  <span className="text-green-400 mr-2" style={{ fontFamily: "'Pixelify Sans', monospace" }}>{'>'}</span>
                   <input
                     ref={inputRef}
                     type="text"
                     value={input}
                     onChange={(e) => setInput(e.target.value)}
                     className="flex-1 bg-transparent outline-none border-none text-white"
+                    style={{ fontFamily: "'Pixelify Sans', monospace" }}
                     placeholder="Ask a question..."
                     autoFocus
                     disabled={isLoading}
