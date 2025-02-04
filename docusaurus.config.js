@@ -148,6 +148,11 @@ const config = {
             type: "search",
             position: "left",
           },
+          {
+            type: 'custom-github-auth',
+            position: 'right',
+            className: 'navbar-github-auth',
+          },
         ],
       },
       footer: {

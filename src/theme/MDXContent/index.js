@@ -8,7 +8,6 @@ import { Button } from "../../components/ui/button"
 import { ExternalLink } from 'lucide-react'
 import AiBanner from "../../components/AiBanner";
 import DocSummary from "../../components/DocSummary";
-import GitHubAuth from "../../components/GitHubAuth";
 
 
 export default function MDXContentWrapper(props) {
@@ -103,7 +102,6 @@ export default function MDXContentWrapper(props) {
             <div id="tracing-beam">
               <AiBanner />
               <DocSummary content={props.children?.props?.children || props.children} />
-              <GitHubAuth />
               <MDXContent style={{ backgroundImage: image }} {...props} />
             </div>
           </TracingBeam>

@@ -330,6 +330,49 @@ Booting up chat...
             codespace: activeCodespace
           });
 
+          // Add this new code after setting project state:
+          if (createProjectResult.projectPath) {
+            // Send commands to initialize and start the project
+            const commands = [
+              `cd ${createProjectResult.projectPath}`,
+              'npm install',
+              'npm run dev'
+            ];
+
+            // Execute commands sequentially
+            for (const command of commands) {
+              try {
+                const terminalResponse = await fetch('http://localhost:3002/codespaces/terminal', {
+                  method: 'POST',
+                  headers: {
+                    'Content-Type': 'application/json',
+                    'X-GitHub-Token': token
+                  },
+                  body: JSON.stringify({
+                    codespace: activeCodespace,
+                    command: command
+                  })
+                });
+
+                if (!terminalResponse.ok) {
+                  throw new Error(`Failed to execute command: ${command}`);
+                }
+
+                // Add command execution to messages
+                setMessages(prev => [...prev, {
+                  content: `> ${command}\nExecuting...\n`,
+                  type: 'bot'
+                }]);
+              } catch (error) {
+                console.error(`Error executing command ${command}:`, error);
+                setMessages(prev => [...prev, {
+                  content: `Error executing command ${command}. Please try running it manually.`,
+                  type: 'bot'
+                }]);
+              }
+            }
+          }
+
           // Format the project data into a nice message with the result
           const formattedMessage = `
 Project Generated Successfully!
@@ -344,7 +387,12 @@ ${projectData.dependencies.map(dep => `- ${dep}`).join('\n')}
 Files Created:
 ${projectData.files.map(file => `📄 ${file.filename}`).join('\n')}
 
-The project has been created in your codespace. You can now use the terminal below to interact with your project:
+The project has been created in your codespace and initialized. You can now:
+1. Access the project at ${createProjectResult.projectPath}
+2. Dependencies have been installed
+3. Development server has been started
+
+Use the terminal below to interact with your project:
 `;
 
           setMessages(prev => [...prev, {
