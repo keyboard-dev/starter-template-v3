@@ -4,7 +4,7 @@ import { Button } from "../components/ui/button"
 import { Input } from "../components/ui/input"
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "../components/ui/dialog"
 import { Card, CardContent } from "../components/ui/card"
-import { Search, Loader2 } from 'lucide-react'
+import { Search, Loader2, MessageSquare } from 'lucide-react'
 // import useIsDarkTheme from '@docusaurus/theme-common/internal/hooks/useIsDarkTheme';
 import {useColorMode} from '@docusaurus/theme-common';
 
@@ -70,8 +70,15 @@ function OramaSearchModalComponent() {
         }
     }, [query, isOpen, isLoading])
 
+    const openAIChat = () => {
+        // Close the dialog
+        setIsOpen(false);
+        // Then trigger the terminal to open
+        const event = new CustomEvent('openAIChat');
+        window.dispatchEvent(event);
+    };
+
     return (
-   
         <Dialog open={isOpen} onOpenChange={setIsOpen}>
             <DialogTrigger asChild>
                 <Button variant="outline" className={colorMode === 'dark' ? 'bg-gray-800' : 'bg-white'}>
@@ -113,10 +120,20 @@ function OramaSearchModalComponent() {
                             </Card>
                         </div>
                     )}
+                    
+                    <div className="border-t border-gray-600 pt-4 mt-2">
+                        <Button 
+                            variant="outline" 
+                            className={`w-full ${colorMode === 'dark' ? 'bg-gray-700 hover:bg-gray-600' : 'bg-white hover:bg-gray-100'}`}
+                            onClick={openAIChat}
+                        >
+                            <MessageSquare className="w-4 h-4 mr-2" />
+                            Chat with AI Assistant
+                        </Button>
+                    </div>
                 </div>
             </DialogContent>
         </Dialog>
-
     );
 }
 

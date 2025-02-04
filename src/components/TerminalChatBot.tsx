@@ -214,6 +214,18 @@ Booting up chat...
     };
   }, []);
 
+  useEffect(() => {
+    const handleOpenAIChat = () => {
+      setIsVisible(true);
+    };
+
+    window.addEventListener('openAIChat', handleOpenAIChat);
+
+    return () => {
+      window.removeEventListener('openAIChat', handleOpenAIChat);
+    };
+  }, []);
+
   const scrollToBottom = () => {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
     // Refocus the input field after scrolling
