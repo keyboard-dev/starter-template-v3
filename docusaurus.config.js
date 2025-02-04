@@ -153,6 +153,11 @@ const config = {
             position: 'right',
             className: 'navbar-github-auth',
           },
+          {
+            type: 'custom-codespaces',
+            position: 'right',
+            className: 'navbar-codespaces',
+          },
         ],
       },
       footer: {

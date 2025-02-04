@@ -1,12 +1,20 @@
 import React from 'react';
-import { IconWand, IconPlayerPlay, IconExternalLink } from '@tabler/icons-react';
+import GitHubCodespaces from '@site/src/components/GitHubCodespaces';
+import clsx from 'clsx';
+import { CodespaceOpener } from '@site/src/components/CodespaceOpener';
+import aiConfig from '@site/ai.json';
 
-interface CodespaceOpenerProps {
-  codespace_name: string;
-}
-import styles from './styles.module.css';
+export default function CustomCodespacesNavbarItem({
+  className,
+  ...props
+}) {
+  // If GitHub features are disabled, don't render anything
+  if (!aiConfig.github_features) {
+    return null;
+  }
 
-export const CodespaceOpener: React.FC<CodespaceOpenerProps> = ({ codespace_name }) => {
+  const activeCodespace = localStorage.getItem('codespace')
+
   const handleGetCodespace = async () => {
     const token = localStorage.getItem('github_token');
     if (!token) {
@@ -35,13 +43,12 @@ export const CodespaceOpener: React.FC<CodespaceOpenerProps> = ({ codespace_name
       console.error('Error fetching codespace:', error);
     }
   };
-
+  
   return (
-    <button onClick={handleGetCodespace}
-    className="px-4 py-2 transition-colors">
-         <span aria-hidden="true">
-            <IconExternalLink />
-          </span>
-    </button>
+    <div className={clsx('navbar__item', className)}>
+      {activeCodespace && (
+        <CodespaceOpener codespace_name={activeCodespace} />
+      )}
+    </div>
   );
-}; 
+} 

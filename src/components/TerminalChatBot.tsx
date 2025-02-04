@@ -329,31 +329,35 @@ Booting up chat...
             })
           });
 
-          if (!createProjectResponse.ok) {
+          // if (!createProjectResponse.ok) {
+          //   throw new Error('Failed to create project in codespace');
+          // }
+          
+          const createProjectResult = await createProjectResponse.json();
+          if(createProjectResult.error != "Project created successfully") {
             throw new Error('Failed to create project in codespace');
           }
-
-          const createProjectResult = await createProjectResponse.json();
-
+          let projectPath = `codebase_projects/${projectData.title}`
           // Update project state
           setProjectState({
             isGenerated: true,
-            path: createProjectResult.projectPath,
+            path: projectPath,
             codespace: activeCodespace
           });
 
           // Add this new code after setting project state:
-          if (createProjectResult.projectPath) {
+          if (projectPath) {
             // Send commands to initialize and start the project
             const commands = [
-              `cd ${createProjectResult.projectPath}`,
-              'npm install',
-              'npm run dev'
+              `npm install --prefix ${createProjectResult.projectPath}`,
+              `npm run dev --prefix ${createProjectResult.projectPath}`
             ];
 
             // Execute commands sequentially
             for (const command of commands) {
               try {
+                console.log("getting to the command")
+                console.log(command)
                 const terminalResponse = await fetch('http://localhost:3002/codespaces/terminal', {
                   method: 'POST',
                   headers: {
@@ -369,6 +373,7 @@ Booting up chat...
                 if (!terminalResponse.ok) {
                   throw new Error(`Failed to execute command: ${command}`);
                 }
+                await new Promise(resolve => setTimeout(resolve, 2000));
 
                 // Add command execution to messages
                 setMessages(prev => [...prev, {
