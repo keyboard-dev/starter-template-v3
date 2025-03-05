@@ -1,3 +1,5 @@
+const regex = /```[\s\S]*?```/gm;
+
 // oramaSearchPlugin.js
 const { create, insert, search } = require('@orama/orama');
 const { dir } = require('console');
@@ -6,6 +8,7 @@ const fs = require('fs').promises;
 import { unified } from 'unified';
 import remarkParse from 'remark-parse';
 import remarkStringify from 'remark-stringify';
+import { writeFile } from 'fs';
 
 function parseFrontmatter(content) {
   // Match content between --- markers
@@ -85,23 +88,45 @@ function parseSlug(fileContent, filePath) {
   }
 }
 
+function extractMarkdownCodeBlocksWithoutMultilineFlag(text, filename, codeCollection) {
+    const blockStart = '``'; // Simplified to match only the opening code blocks without considering multilines or triples
+    
+    let currentBlock = '';
+    let extractedBlocks = [];
+    const lines = text.split('\n');
+  
+    for (let line of lines) {
+      if (line.startsWith(blockStart)) {
+        if(line.startsWith('````')) line = line.split('````')[1]
+        if(line.startsWith('```')) line = line.split('```')[1]
+        // Start a new block or add to the existing one
+        if (!currentBlock) currentBlock += line + '\n';
+        else currentBlock += `\n${line}`;
+      } else if (currentBlock && !line.endsWith('``')) {
+        // Add non-block lines until we find an end marker
+        currentBlock += `${line}`;
+      }
+        
+        // When encountering the ending triple backticks, add to extracted blocks and reset the block
+        if (line.endsWith(blockStart)) {
+        if(currentBlock?.length > 2) extractedBlocks.push(currentBlock);
+          currentBlock = '';
+        }
+    }
+    codeCollection[filename] = extractedBlocks
+    return codeCollection
+  }
+
 module.exports = function oramaSearchPlugin(context, options) {
   let db;
 
   return {
-    name: 'docusaurus-orama-search',
+    name: 'extract-and-test',
 
     async loadContent() {
       // Create the Orama database
-      db = await create({
-        schema: {
-          title: 'string',
-          content: 'string',
-          url: 'string',
-          slug: 'string',
-        },
-      });
 
+    let codeCollection = {}
       // Get the docs directory path
       const docsDir = path.join(context.siteDir, 'docs');
 
@@ -121,16 +146,11 @@ module.exports = function oramaSearchPlugin(context, options) {
 
       const markdownFiles = await getAllMarkdownFiles(docsDir);
       //const markdownFiles = files.filter(file => file.endsWith('.md'));
-  
+      console.log("this is the files", files);
       //console.log("this is the markdown files", markdownFiles);
       // Process each markdown file
       for (const file of markdownFiles) {
-        //console.log("what is the file path", file);
-        const content = await fs.readFile(file, 'utf-8');
-       // console.log(content);
-   
-        
- 
+        const content = await fs.readFile(file, 'utf-8'); 
         const divideContent = (content) => {
           const frontmatterRegex = /^---\s*\n([\s\S]*?)\n---/;
           const match = content.match(frontmatterRegex);
@@ -152,53 +172,24 @@ module.exports = function oramaSearchPlugin(context, options) {
         };
 
         const { frontmatter, markdown } = divideContent(content);
-        const title = markdown.split('\n')[0].replace('#', '').trim();
-        
-        let url = file.split(context.siteDir)[1];
-        let slug = parseSlug(content, url);
-        let cleanedContent = await markdownToPlainText(markdown)
-        // Insert document into Orama database
-        await insert(db, {
-          title,
-          content: cleanedContent,
-          url: `${url.replace('.md', '')}`,
-          slug: slug,
-        });
-
+        extractMarkdownCodeBlocksWithoutMultilineFlag(markdown, file, codeCollection)
+ 
+        //console.log(`Indexed document: ${file}`);
       }
-
-      return db;
+      console.log("all the codeblocks", codeCollection)
+      const outputFilePath = path.join(context.siteDir, 'allCodeExamples.json');
+      await fs.writeFile(outputFilePath, JSON.stringify(codeCollection), 'utf-8');
+      return
     },
 
     async contentLoaded({ content, actions }) {
       // You can perform additional actions here if needed
-  
+      console.log('Content loaded. Database size:', db?.size);
     },
 
     async postBuild({ siteConfig, routesPaths, outDir }) {
       // You can perform actions after the build is complete
-      console.log('Build completed. Indexed documents:', db.size);
-    },
-
-    injectHtmlTags() {
-    let oramaDb = Object.values(db.data.docs.docs)
-      // Inject any necessary HTML tags (e.g., for search UI)
-   
-      return {
-        headTags: [
-          {
-            tagName: 'script',
-            attributes: {
-              type: 'text/javascript',
-            },
-            innerHTML: `
-            window.oramaDb = ${JSON.stringify(oramaDb)};
-            console.log('Orama search initialized');
-        
-            `,
-          },
-        ],
-      };
+      console.log('Build completed. Indexed documents:', db?.size);
     },
   };
 };

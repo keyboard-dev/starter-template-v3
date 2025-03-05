@@ -42,6 +42,15 @@ const config = {
   plugins: [
     "docusaurus-plugin-sass",
     [
+      "./extractAndTestCodeBlocksPlugin",
+      {
+        // Optional plugin config
+        indexDocs: true,
+        indexBlog: true,
+        indexPages: true,
+      },
+    ],
+    [
       "./oramaSearchPlugin",
       {
         // Optional plugin config
@@ -56,15 +65,6 @@ const config = {
         id: "changelog",
         routeBasePath: "changelog",
         path: "./changelog",
-      },
-    ],
-    [
-      "./llmsfullPlugin.js",
-      {
-        // Optional plugin config
-        indexDocs: true,
-        indexBlog: true,
-        indexPages: true,
       },
     ],
     async function myPlugin(context, options) {

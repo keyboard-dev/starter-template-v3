@@ -3,8 +3,16 @@ import { Button } from './ui/button';
 import { IconGitHub } from './ui/Icon';
 import { AUTH_CONFIG } from '../config/auth';
 import aiConfig from '@site/ai.json';
+import { useColorMode } from '@docusaurus/theme-common'
 
 export default function GitHubAuth() {
+  const { colorMode } = useColorMode()
+  const buttonStyle = {
+    borderRadius: '1rem',
+    border: colorMode === 'dark' ? '1px solid #DD7BFF' : '1px solid #DD7BFF',
+    backgroundColor: colorMode === 'dark' ? '#0A0A0A' : '#0A0A0A',
+    boxShadow: '0px 4px 8px 0px rgba(0, 0, 0, 0.30), 0px 12px 24px 0px rgba(0, 0, 0, 0.20)'
+}
   if (!aiConfig.github_features) {
     return null;
   }
@@ -78,6 +86,7 @@ export default function GitHubAuth() {
       {!isAuthenticated ? (
         <Button 
           onClick={handleLogin} 
+          style={buttonStyle}
           className="flex items-center gap-2"
           type="button"
         >
@@ -95,6 +104,7 @@ export default function GitHubAuth() {
           )}
           <Button 
             onClick={handleLogout} 
+            style={buttonStyle}
             variant="outline"
             type="button"
           >
