@@ -1,8 +1,12 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import DocSidebar from '@theme-original/DocSidebar';
 import type DocSidebarType from '@theme/DocSidebar';
 import type {WrapperProps} from '@docusaurus/types';
 import sidebars from '../../../sidebars.json';
+import logoJson from '../../../logo.json';
+
+const logo = logoJson.logo;
+
 
 type Props = WrapperProps<typeof DocSidebarType>;
 
@@ -66,6 +70,21 @@ function organizeSidebarByCategory(items: SidebarItem[]): Record<string, Sidebar
 function CustomDropdown({ sidebarItems, onCategoryChange }): JSX.Element {
   const [isOpen, setIsOpen] = useState(false);
   const [selectedCategory, setSelectedCategory] = useState('All');
+  const dropdownRef = useRef<HTMLDivElement>(null);
+  
+  // Add click outside handler
+  useEffect(() => {
+    function handleClickOutside(event: MouseEvent) {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
+        setIsOpen(false);
+      }
+    }
+
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, []);
   
   // Organize sidebar items by category
   const categorizedSidebars = organizeSidebarByCategory(sidebarItems);
@@ -115,7 +134,7 @@ function CustomDropdown({ sidebarItems, onCategoryChange }): JSX.Element {
   const [hoveredItem, setHoveredItem] = useState<number | null>(null);
 
   return (
-    <div className="custom-dropdown-container" style={dropdownContainerStyle}>
+    <div className="custom-dropdown-container" style={dropdownContainerStyle} ref={dropdownRef}>
       <button 
         onClick={() => setIsOpen(!isOpen)} 
         style={dropdownButtonStyle}
@@ -259,6 +278,12 @@ export default function DocSidebarWrapper(props: Props): JSX.Element {
       .theme-doc-sidebar-menu {
         padding-top: 0 !important;
       }
+
+      ${sidebars.navbar_hide ? `
+        .navbar--fixed-top {
+          display: none !important;
+        }
+      ` : ''}
     `;
     document.head.appendChild(style);
     
@@ -270,6 +295,12 @@ export default function DocSidebarWrapper(props: Props): JSX.Element {
   return (
     <>
       <div className="doc-sidebar-wrapper" style={sidebarWrapperStyle}>
+        <div className="logo-container" style={logoContainerStyle}>
+          <img src={logo} alt="Logo" style={logoImageStyle} />
+          <button className="collapse-button">
+            <img src="/svgs/collapse.svg" alt="Collapse" />
+          </button>
+        </div>
         <div className="dropdown-container" style={dropdownContainerWrapperStyle}>
           <CustomDropdown 
             sidebarItems={originalSidebarItems} 
@@ -298,4 +329,18 @@ const dropdownContainerWrapperStyle: React.CSSProperties = {
 const docSidebarContainerStyle: React.CSSProperties = {
   paddingTop: 0,
   marginTop: 0,
+};
+
+// Add logo styles
+const logoContainerStyle: React.CSSProperties = {
+  display: 'flex',
+  justifyContent: 'space-between',
+  alignItems: 'center',
+  alignSelf: 'stretch',
+  padding: '16px',
+};
+
+const logoImageStyle: React.CSSProperties = {
+  width: '32px',
+  height: '32px',
 };
