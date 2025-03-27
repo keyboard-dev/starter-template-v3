@@ -4,6 +4,7 @@ import type DocSidebarType from '@theme/DocSidebar';
 import type {WrapperProps} from '@docusaurus/types';
 import sidebars from '../../../sidebars.json';
 import logoJson from '../../../logo.json';
+import SearchBar from '../SearchBar';
 
 const logo = logoJson.logo;
 
@@ -301,6 +302,9 @@ export default function DocSidebarWrapper(props: Props): JSX.Element {
             <img src="/svgs/collapse.svg" alt="Collapse" />
           </button>
         </div>
+        <div style={searchContainerStyle}>
+          <SearchBar />
+        </div>
         <div className="dropdown-container" style={dropdownContainerWrapperStyle}>
           <CustomDropdown 
             sidebarItems={originalSidebarItems} 
@@ -343,4 +347,9 @@ const logoContainerStyle: React.CSSProperties = {
 const logoImageStyle: React.CSSProperties = {
   width: '32px',
   height: '32px',
+};
+
+const searchContainerStyle: React.CSSProperties = {
+  padding: '0 16px',
+  marginBottom: '8px',
 };
