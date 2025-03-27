@@ -1,0 +1,12 @@
+{
+  "sidebars": [
+    {
+      "dir": "styling",
+      "name": "yo"
+    },
+    {
+      "dir": "components",
+      "name": "yo"
+    }
+  ]
+}
