@@ -293,6 +293,16 @@ export default function DocSidebarWrapper(props: Props): JSX.Element {
     };
   }, []);
 
+  const searchButtonStyle: React.CSSProperties = {
+    width: '100%',
+    color: 'white',
+    border: '1px solid #333',
+    borderRadius: '8px',
+    display: 'flex',
+    justifyContent: 'flex-start',
+    alignItems: 'flex-start',
+  };
+
   return (
     <>
       <div className="doc-sidebar-wrapper" style={sidebarWrapperStyle}>
@@ -303,7 +313,7 @@ export default function DocSidebarWrapper(props: Props): JSX.Element {
           </button>
         </div>
         <div style={searchContainerStyle}>
-          <SearchBar />
+          <SearchBar buttonStyle={searchButtonStyle} />
         </div>
         <div className="dropdown-container" style={dropdownContainerWrapperStyle}>
           <CustomDropdown 

@@ -9,7 +9,11 @@ import { Search, Loader2, MessageSquare } from 'lucide-react'
 import {useColorMode} from '@docusaurus/theme-common';
 
 
-function OramaSearchModalComponent() {
+function OramaSearchModalComponent({ 
+    searchIconClass = '', 
+    buttonClassName = '', 
+    buttonStyle = {} 
+}) {
     const [isOpen, setIsOpen] = useState(false)
     const [query, setQuery] = useState('')
     const [results, setResults] = useState([])
@@ -81,8 +85,12 @@ function OramaSearchModalComponent() {
     return (
         <Dialog open={isOpen} onOpenChange={setIsOpen}>
             <DialogTrigger asChild>
-                <Button variant="outline" className={colorMode === 'dark' ? 'bg-gray-800' : 'bg-white'}>
-                    <Search className="w-4 h-4 mr-2" />
+                <Button 
+                    variant="outline" 
+                    className={`${colorMode === 'dark' ? 'bg-gray-800' : 'bg-white'} ${buttonClassName}`}
+                    style={buttonStyle}
+                >
+                    <Search className={`w-4 h-4 mr-2 ${searchIconClass}`} />
                     Search
                 </Button>
             </DialogTrigger>
