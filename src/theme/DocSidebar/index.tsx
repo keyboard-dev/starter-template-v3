@@ -5,6 +5,8 @@ import type {WrapperProps} from '@docusaurus/types';
 import sidebars from '../../../sidebars.json';
 import logoJson from '../../../logo.json';
 import SearchBar from '../SearchBar';
+import ColorModeToggle from '@theme/ColorModeToggle';
+import { useColorMode } from '@docusaurus/theme-common';
 
 const logo = logoJson.logo;
 
@@ -254,6 +256,8 @@ const dropdownItemDescStyle: React.CSSProperties = {
 };
 
 export default function DocSidebarWrapper(props: Props): JSX.Element {
+  const { colorMode, setColorMode } = useColorMode();
+  
   // Extract the original sidebar items from props
   const originalSidebarItems = Array.isArray(props.sidebar) ? props.sidebar : [];
   
@@ -308,9 +312,14 @@ export default function DocSidebarWrapper(props: Props): JSX.Element {
       <div className="doc-sidebar-wrapper" style={sidebarWrapperStyle}>
         <div className="logo-container" style={logoContainerStyle}>
           <img src={logo} alt="Logo" style={logoImageStyle} />
-          <button className="collapse-button">
-            <img src="/svgs/collapse.svg" alt="Collapse" />
-          </button>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+            {sidebars.navbar_hide && (
+              <ColorModeToggle value={colorMode} onChange={setColorMode} />
+            )}
+            <button className="collapse-button">
+              <img src="/svgs/collapse.svg" alt="Collapse" />
+            </button>
+          </div>
         </div>
         <div style={searchContainerStyle}>
           <SearchBar buttonStyle={searchButtonStyle} />
