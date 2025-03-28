@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import DocSidebar from '@theme-original/DocSidebar';
 import type DocSidebarType from '@theme/DocSidebar';
 import type {WrapperProps} from '@docusaurus/types';
-import sidebars from '../../../sidebars.json';
+import sidebarsJson from '../../../sidebars.json';
 import logoJson from '../../../logo.json';
 import SearchBar from '../SearchBar';
 import ColorModeToggle from '@theme/ColorModeToggle';
@@ -10,6 +10,19 @@ import { useColorMode } from '@docusaurus/theme-common';
 
 const logo = logoJson.logo;
 
+// Define the sidebar item structure from sidebars.json
+interface SidebarConfig {
+  dir: string;
+  name: string;
+  href?: string;
+  exclude_from_all?: boolean;
+}
+
+// Cast the imported sidebars.json to use our interface
+const sidebars: {
+  navbar_hide: boolean;
+  sidebars: SidebarConfig[];
+} = sidebarsJson as any;
 
 type Props = WrapperProps<typeof DocSidebarType>;
 
@@ -35,11 +48,38 @@ interface DropdownItem {
 
 // Function to organize sidebar items by category
 function organizeSidebarByCategory(items: SidebarItem[]): Record<string, SidebarItem[]> {
+  // First, we need to identify which items should be excluded from the "All" category
+  const itemsToExclude = new Set<string>();
+  
+  // Check sidebars.json for items that should be excluded from All
+  sidebars.sidebars.forEach(sidebar => {
+    if (sidebar.exclude_from_all) {
+      itemsToExclude.add(sidebar.dir.toLowerCase());
+    }
+  });
+  
+  // Filter out excluded items from the "All" category
+  const filteredAllItems = items.filter(item => {
+    // If it's a category that matches an excluded dir, filter it out
+    console.log("#########################");
+    console.log(item.label);
+    console.log(itemsToExclude);
+    console.log("#########################");
+    if (item.type === 'category') {
+      return !itemsToExclude.has(item.label.toLowerCase());
+    }
+    
+    // For non-category items, include them in the All view
+    return true;
+  });
+  console.log("#########################");
+  console.log(filteredAllItems);
+  console.log("#########################");
   const result: Record<string, SidebarItem[]> = {
-    'All': items, // Default category with all items
+    'All': filteredAllItems, // Default category with filtered items
   };
   
-  // Find all category items and create entries for them
+  // Find all category items and create entries for them (including excluded ones)
   items.forEach(item => {
     if (item.type === 'category') {
       // Use the category label as the key
@@ -53,16 +93,24 @@ function organizeSidebarByCategory(items: SidebarItem[]): Record<string, Sidebar
       if (matchesSidebar) {
         // Create a filtered list containing only this category and its items
         result[categoryName] = [
-          {
-            type: "link",
-            label: "Welcome",
-            href: "/docs/",
-            docId: "Welcome to Dev-Docs",
-            unlisted: false
-          },
           item
         ];
       }
+    }
+  });
+  
+  // Add entries from sidebars.json that aren't already in the result
+  sidebars.sidebars.forEach(sidebar => {
+    const categoryName = sidebar.dir.charAt(0).toUpperCase() + sidebar.dir.slice(1);
+    if (!result[categoryName]) {
+      result[categoryName] = [
+        {
+          type: "link",
+          label: sidebar.name || categoryName,
+          href: sidebar.href || "/docs/",
+          unlisted: false
+        }
+      ];
     }
   });
   
@@ -131,6 +179,19 @@ const CustomDropdown = ({ sidebarItems, onCategoryChange }): JSX.Element => {
   const handleItemClick = (item: DropdownItem) => {
     setSelectedCategory(item.title);
     setIsOpen(false);
+    
+    // Check if this category has an href in sidebars.json
+    const matchingSidebar = sidebars.sidebars.find(sidebar => 
+      sidebar.dir.toLowerCase() === item.title.toLowerCase()
+    );
+    
+    if (matchingSidebar && matchingSidebar.href) {
+      // If href exists, navigate to that URL
+      window.location.href = matchingSidebar.href;
+      return;
+    }
+    
+    // Otherwise update the sidebar items as before
     onCategoryChange(item.sidebarData || []);
   };
 

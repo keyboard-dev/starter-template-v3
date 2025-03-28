@@ -3,11 +3,17 @@
   "sidebars": [
     {
       "dir": "styling",
-      "name": "yo"
+      "name": "styling"
     },
     {
       "dir": "components",
-      "name": "yo"
+      "name": "components",
+      "exclude_from_all": true
+    },
+    {
+      "dir": "apis",
+      "name": "apis",
+      "href": "/apis"
     }
   ]
 }
