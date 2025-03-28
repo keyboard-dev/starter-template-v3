@@ -361,9 +361,6 @@ export default function DocSidebarWrapper(props: Props): JSX.Element {
         border-right: 1px solid rgba(162, 161, 165, 0.2);
       }
 
-      [data-theme='light'] .theme-doc-sidebar-menu {
-        background-color: #FFFFFF;
-      }
 
       [data-theme='light'] .menu__link {
         color: #0A0A0A;
@@ -421,6 +418,15 @@ export default function DocSidebarWrapper(props: Props): JSX.Element {
     fontSize: '14px',
   };
 
+  const sidebarWrapperStyle: React.CSSProperties = {
+    display: 'flex',
+    flexDirection: 'column',
+    width: '300px',
+    height: '100%',
+    transition: 'width 0.3s ease-in-out',
+    borderRight: colorMode === 'dark' ? '1px solid #333' : '1px solid #E0DFE1',
+  };
+
   return (
     <>
       <div className={`doc-sidebar-wrapper ${isCollapsed ? 'collapsed' : ''}`} style={sidebarWrapperStyle}>
@@ -467,13 +473,7 @@ export default function DocSidebarWrapper(props: Props): JSX.Element {
 }
 
 // Additional styles for the sidebar wrapper
-const sidebarWrapperStyle: React.CSSProperties = {
-  display: 'flex',
-  flexDirection: 'column',
-  width: '300px',
-  height: '100%',
-  transition: 'width 0.3s ease-in-out',
-};
+
 
 const dropdownContainerWrapperStyle: React.CSSProperties = {
   padding: '12px 16px 4px',
