@@ -133,6 +133,7 @@ const CustomDropdown = ({ sidebarItems, onCategoryChange }): JSX.Element => {
   }, []);
   
   // Organize sidebar items by category
+
   const categorizedSidebars = organizeSidebarByCategory(sidebarItems);
   
   // Create dropdown items from the categorized sidebars
@@ -320,6 +321,8 @@ export default function DocSidebarWrapper(props: Props): JSX.Element {
   const [isCollapsed, setIsCollapsed] = useState(false);
   
   // Extract the original sidebar items from props
+  console.log("props.sidebar");
+  console.log(props.sidebar);
   const originalSidebarItems = Array.isArray(props.sidebar) ? props.sidebar : [];
   
   // Filter items based on exclude_from_all settings for initial load
@@ -361,15 +364,40 @@ export default function DocSidebarWrapper(props: Props): JSX.Element {
         padding-top: 0 !important;
         margin-top: 0 !important;
         transition: width 0.3s ease-in-out;
+        max-height: 100vh;
+        overflow: hidden;
       }
       
       .theme-doc-sidebar-menu {
         padding-top: 0 !important;
         transition: opacity 0.3s ease-in-out;
+        overflow-y: auto;
+        height: calc(100vh - 110px); /* Adjusting for header space */
+        scrollbar-width: thin;
+      }
+      
+      /* Customizing scrollbar for Webkit browsers */
+      .theme-doc-sidebar-menu::-webkit-scrollbar {
+        width: 6px;
+      }
+      
+      .theme-doc-sidebar-menu::-webkit-scrollbar-track {
+        background: transparent;
+      }
+      
+      .theme-doc-sidebar-menu::-webkit-scrollbar-thumb {
+        background-color: rgba(162, 161, 165, 0.3);
+        border-radius: 6px;
+      }
+      
+      [data-theme='dark'] .theme-doc-sidebar-menu::-webkit-scrollbar-thumb {
+        background-color: rgba(220, 220, 220, 0.2);
       }
 
       .doc-sidebar-wrapper {
         transition: width 0.3s ease-in-out;
+        max-height: 100vh;
+        overflow: hidden;
       }
 
       .doc-sidebar-wrapper.collapsed {
@@ -498,9 +526,11 @@ export default function DocSidebarWrapper(props: Props): JSX.Element {
     display: 'flex',
     flexDirection: 'column',
     width: '300px',
-    height: '100%',
+    height: '100vh',
+    maxHeight: '100vh',
     transition: 'width 0.3s ease-in-out',
     borderRight: colorMode === 'dark' ? '1px solid #333' : '1px solid #E0DFE1',
+    overflow: 'hidden',
   };
 
   return (
@@ -553,6 +583,7 @@ export default function DocSidebarWrapper(props: Props): JSX.Element {
 
 const dropdownContainerWrapperStyle: React.CSSProperties = {
   padding: '12px 16px 4px',
+  flex: '0 0 auto', // Prevent the dropdown from expanding to fill space
 };
 
 const docSidebarContainerStyle: React.CSSProperties = {
