@@ -70,10 +70,11 @@ function organizeSidebarByCategory(items: SidebarItem[]): Record<string, Sidebar
 }
 
 // Custom dropdown component
-function CustomDropdown({ sidebarItems, onCategoryChange }): JSX.Element {
+const CustomDropdown = ({ sidebarItems, onCategoryChange }): JSX.Element => {
   const [isOpen, setIsOpen] = useState(false);
   const [selectedCategory, setSelectedCategory] = useState('All');
   const dropdownRef = useRef<HTMLDivElement>(null);
+  const { colorMode } = useColorMode();
   
   // Add click outside handler
   useEffect(() => {
@@ -136,6 +137,72 @@ function CustomDropdown({ sidebarItems, onCategoryChange }): JSX.Element {
   // Create a hover effect with useState instead of CSS pseudo-classes
   const [hoveredItem, setHoveredItem] = useState<number | null>(null);
 
+  const dropdownButtonStyle: React.CSSProperties = {
+    display: 'flex',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    width: '100%',
+    padding: '10px 16px',
+    backgroundColor: colorMode === 'dark' ? '#1e1e1e' : '#ffffff',
+    color: colorMode === 'dark' ? 'white' : '#1e1e1e',
+    border: `1px solid ${colorMode === 'dark' ? '#333' : '#e5e7eb'}`,
+    borderRadius: '8px',
+    cursor: 'pointer',
+    fontSize: '16px',
+    fontWeight: 500,
+    textAlign: 'left',
+    outline: 'none',
+    transition: 'all 0.2s ease-in-out',
+  };
+
+  const dropdownContainerStyle: React.CSSProperties = {
+    position: 'relative',
+    width: '100%',
+    marginBottom: '8px',
+  };
+  
+  const dropdownMenuStyle: React.CSSProperties = {
+    position: 'absolute',
+    top: 'calc(100% + 4px)',
+    left: 0,
+    width: '100%',
+    borderRadius: "0.5rem",
+    border: colorMode === 'dark' ? '#1e1e1e' : '#ffffff',
+    zIndex: 10,
+    overflow: 'hidden',
+    boxShadow: '0 4px 12px rgba(0, 0, 0, 0.2)',
+    maxHeight: '300px',
+    overflowY: 'auto',
+    backgroundColor: colorMode === 'dark' ? '#1e1e1e' : '#ffffff',
+    color: colorMode === 'dark' ? 'white' : '#1e1e1e',
+  };
+  
+  const dropdownItemStyle: React.CSSProperties = {
+    display: 'flex',
+    alignItems: 'center',
+    padding: '12px 16px',
+    cursor: 'pointer',
+    backgroundColor: colorMode === 'dark' ? '#1e1e1e' : '#ffffff',
+    color: colorMode === 'dark' ? 'white' : '#1e1e1e',
+    transition: 'background-color 0.2s',
+  };
+  
+  const dropdownItemContentStyle: React.CSSProperties = {
+    marginLeft: '12px',
+    flex: 1,
+  };
+  
+  const dropdownItemTitleStyle: React.CSSProperties = {
+    fontSize: '15px',
+    fontWeight: 500,
+    marginBottom: '2px',
+  };
+  
+  const dropdownItemDescStyle: React.CSSProperties = {
+    fontSize: '13px',
+    color: '#999',
+  };
+
   return (
     <div className="custom-dropdown-container" style={dropdownContainerStyle} ref={dropdownRef}>
       <button 
@@ -171,7 +238,7 @@ function CustomDropdown({ sidebarItems, onCategoryChange }): JSX.Element {
               className="dropdown-item" 
               style={{
                 ...dropdownItemStyle,
-                backgroundColor: hoveredItem === index ? '#2a2a2a' : 'transparent'
+                backgroundColor: hoveredItem === index ? (colorMode === 'dark' ? '#2a2a2a' : '#f0f0f0') : 'transparent'
               }}
               onClick={() => handleItemClick(item)}
               onMouseEnter={() => setHoveredItem(index)}
@@ -191,72 +258,11 @@ function CustomDropdown({ sidebarItems, onCategoryChange }): JSX.Element {
 }
 
 // Inline styles
-const dropdownContainerStyle: React.CSSProperties = {
-  position: 'relative',
-  width: '100%',
-  marginBottom: '8px',
-};
 
-const dropdownButtonStyle: React.CSSProperties = {
-  display: 'flex',
-  justifyContent: 'space-between',
-  alignItems: 'center',
-  width: '100%',
-  padding: '10px 16px',
-  backgroundColor: '#1e1e1e',
-  color: 'white',
-  border: '1px solid #333',
-  borderRadius: '8px',
-  cursor: 'pointer',
-  fontSize: '16px',
-  fontWeight: 500,
-  textAlign: 'left',
-  outline: 'none',
-};
-
-const dropdownMenuStyle: React.CSSProperties = {
-  position: 'absolute',
-  top: 'calc(100% + 4px)',
-  left: 0,
-  width: '100%',
-  backgroundColor: '#1e1e1e',
-  border: '1px solid #333',
-  borderRadius: '8px',
-  zIndex: 10,
-  overflow: 'hidden',
-  boxShadow: '0 4px 12px rgba(0, 0, 0, 0.2)',
-  maxHeight: '300px',
-  overflowY: 'auto',
-};
-
-const dropdownItemStyle: React.CSSProperties = {
-  display: 'flex',
-  alignItems: 'center',
-  padding: '12px 16px',
-  cursor: 'pointer',
-  borderBottom: '1px solid #333',
-  transition: 'background-color 0.2s',
-};
-
-const dropdownItemContentStyle: React.CSSProperties = {
-  marginLeft: '12px',
-  flex: 1,
-};
-
-const dropdownItemTitleStyle: React.CSSProperties = {
-  fontSize: '15px',
-  fontWeight: 500,
-  color: 'white',
-  marginBottom: '2px',
-};
-
-const dropdownItemDescStyle: React.CSSProperties = {
-  fontSize: '13px',
-  color: '#999',
-};
 
 export default function DocSidebarWrapper(props: Props): JSX.Element {
   const { colorMode, setColorMode } = useColorMode();
+  const [isCollapsed, setIsCollapsed] = useState(false);
   
   // Extract the original sidebar items from props
   const originalSidebarItems = Array.isArray(props.sidebar) ? props.sidebar : [];
@@ -278,17 +284,118 @@ export default function DocSidebarWrapper(props: Props): JSX.Element {
       .theme-doc-sidebar-container {
         padding-top: 0 !important;
         margin-top: 0 !important;
+        transition: width 0.3s ease-in-out;
       }
       
       .theme-doc-sidebar-menu {
         padding-top: 0 !important;
+        transition: opacity 0.3s ease-in-out;
+      }
+
+      .doc-sidebar-wrapper {
+        transition: width 0.3s ease-in-out;
+      }
+
+      .doc-sidebar-wrapper.collapsed {
+        width: 60px !important;
+      }
+
+      .doc-sidebar-wrapper.collapsed .theme-doc-sidebar-container {
+        width: 60px !important;
+        display: none;
+      }
+
+      .doc-sidebar-wrapper.collapsed .theme-doc-sidebar-menu {
+        display: none;
+      }
+
+      .doc-sidebar-wrapper.collapsed .dropdown-container,
+      .doc-sidebar-wrapper.collapsed .search-container {
+        display: none;
+      }
+
+      .doc-sidebar-wrapper.collapsed .logo-container {
+        display: none;
+      }
+
+      .doc-sidebar-wrapper.collapsed .collapsed-icons {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 12px;
+        padding: 16px 8px;
+      }
+
+      .doc-sidebar-wrapper .collapsed-icons {
+        display: none;
+      }
+
+      .icon-button {
+        background: rgba(255, 255, 255, 0.1);
+        border: none;
+        border-radius: 8px;
+        width: 40px;
+        height: 40px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        transition: background-color 0.2s;
+      }
+
+      .icon-button:hover {
+        background: rgba(255, 255, 255, 0.15);
       }
 
       ${sidebars.navbar_hide ? `
         .navbar--fixed-top {
           display: none !important;
         }
+        [aria-label="Docs sidebar"] {
+          padding-left: 0 !important;
+        }
       ` : ''}
+
+      [data-theme='light'] .doc-sidebar-wrapper {
+        background-color: #FFFFFF;
+        border-right: 1px solid rgba(162, 161, 165, 0.2);
+      }
+
+      [data-theme='light'] .theme-doc-sidebar-menu {
+        background-color: #FFFFFF;
+      }
+
+      [data-theme='light'] .menu__link {
+        color: #0A0A0A;
+      }
+
+      [data-theme='light'] .menu__link:hover {
+        background-color: rgba(162, 161, 165, 0.1);
+      }
+
+      [data-theme='light'] .menu__link--active {
+        background-color: rgba(106, 120, 251, 0.1);
+        color: #6A78FB;
+      }
+
+      [data-theme='light'] .icon-button {
+        background-color: rgba(162, 161, 165, 0.2);
+        color: #0A0A0A;
+      }
+
+      [data-theme='light'] .icon-button:hover {
+        background-color: rgba(162, 161, 165, 0.3);
+      }
+
+      [data-theme='light'] .search-bar {
+        background-color: rgba(162, 161, 165, 0.2);
+        border: none;
+        color: #0A0A0A;
+      }
+
+      [data-theme='light'] .navbar-sidebar__brand {
+        background-color: #FFFFFF;
+      }
     `;
     document.head.appendChild(style);
     
@@ -297,40 +404,61 @@ export default function DocSidebarWrapper(props: Props): JSX.Element {
     };
   }, []);
 
+  const handleCollapse = () => {
+    setIsCollapsed(!isCollapsed);
+  };
+
   const searchButtonStyle: React.CSSProperties = {
     width: '100%',
-    color: 'white',
-    border: '1px solid #333',
+    color: 'inherit',
+    border: 'none',
     borderRadius: '8px',
     display: 'flex',
     justifyContent: 'flex-start',
     alignItems: 'flex-start',
+    padding: '8px 12px',
+    backgroundColor: 'rgba(162, 161, 165, 0.2)',
+    fontSize: '14px',
   };
 
   return (
     <>
-      <div className="doc-sidebar-wrapper" style={sidebarWrapperStyle}>
+      <div className={`doc-sidebar-wrapper ${isCollapsed ? 'collapsed' : ''}`} style={sidebarWrapperStyle}>
+        {/* Collapsed state icons */}
+        <div className="collapsed-icons">
+          <button className="icon-button" onClick={handleCollapse} title="Expand sidebar">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+              <path d="M4 6h16M4 12h16M4 18h16" />
+            </svg>
+          </button>
+        </div>
+
+        {/* Regular sidebar content */}
         <div className="logo-container" style={logoContainerStyle}>
-          <img src={logo} alt="Logo" style={logoImageStyle} />
-          <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-            {sidebars.navbar_hide && (
+          <div style={{ flex: 1, display: 'flex', alignItems: 'center' }}>
+            {sidebars.navbar_hide && !isCollapsed && (
+              <img src={logo} alt="Logo" style={logoImageStyle} />
+            )}
+          </div>
+          <div className="sidebar-buttons" style={sidebarButtonsStyle}>
+            {sidebars.navbar_hide && !isCollapsed && (
               <ColorModeToggle value={colorMode} onChange={setColorMode} />
             )}
-            <button className="collapse-button">
-              <img src="/svgs/collapse.svg" alt="Collapse" />
-            </button>
+            {!isCollapsed && (<button className="collapse-button" onClick={handleCollapse} style={collapseButtonStyle}>
+              <img src="/svgs/collapse.svg" alt="Collapse" style={{ transition: 'transform 0.3s ease-in-out' }} />
+            </button>)}
           </div>
         </div>
-        <div style={searchContainerStyle}>
-          <SearchBar buttonStyle={searchButtonStyle} />
-        </div>
+        {sidebars.navbar_hide && !isCollapsed && (
+          <div style={searchContainerStyle}>
+            <SearchBar buttonStyle={searchButtonStyle} />
+          </div>
+        )}
         <div className="dropdown-container" style={dropdownContainerWrapperStyle}>
           <CustomDropdown 
             sidebarItems={originalSidebarItems} 
             onCategoryChange={setCurrentSidebarItems} 
           />
-        </div>
-        <div className="doc-sidebar-container" style={docSidebarContainerStyle}>
           <DocSidebar {...modifiedProps} />
         </div>
       </div>
@@ -342,7 +470,9 @@ export default function DocSidebarWrapper(props: Props): JSX.Element {
 const sidebarWrapperStyle: React.CSSProperties = {
   display: 'flex',
   flexDirection: 'column',
-  width: '100%',
+  width: '300px',
+  height: '100%',
+  transition: 'width 0.3s ease-in-out',
 };
 
 const dropdownContainerWrapperStyle: React.CSSProperties = {
@@ -361,6 +491,7 @@ const logoContainerStyle: React.CSSProperties = {
   alignItems: 'center',
   alignSelf: 'stretch',
   padding: '16px',
+  gap: '8px',
 };
 
 const logoImageStyle: React.CSSProperties = {
@@ -371,4 +502,26 @@ const logoImageStyle: React.CSSProperties = {
 const searchContainerStyle: React.CSSProperties = {
   padding: '0 16px',
   marginBottom: '8px',
+};
+
+// Add collapse button styles
+const collapseButtonStyle: React.CSSProperties = {
+  background: 'none',
+  border: 'none',
+  cursor: 'pointer',
+  padding: '4px',
+  display: 'flex',
+  alignItems: 'center',
+  justifyContent: 'center',
+  borderRadius: '4px',
+  transition: 'background-color 0.2s',
+};
+
+const sidebarButtonsStyle: React.CSSProperties = {
+  flex: 1,
+  display: 'flex',
+  alignItems: 'center',
+  gap: '8px',
+  justifyContent: 'flex-end',
+  marginLeft: 'auto',
 };
