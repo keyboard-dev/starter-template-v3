@@ -61,10 +61,6 @@ function organizeSidebarByCategory(items: SidebarItem[]): Record<string, Sidebar
   // Filter out excluded items from the "All" category
   const filteredAllItems = items.filter(item => {
     // If it's a category that matches an excluded dir, filter it out
-    console.log("#########################");
-    console.log(item.label);
-    console.log(itemsToExclude);
-    console.log("#########################");
     if (item.type === 'category') {
       return !itemsToExclude.has(item.label.toLowerCase());
     }
@@ -72,9 +68,7 @@ function organizeSidebarByCategory(items: SidebarItem[]): Record<string, Sidebar
     // For non-category items, include them in the All view
     return true;
   });
-  console.log("#########################");
-  console.log(filteredAllItems);
-  console.log("#########################");
+  
   const result: Record<string, SidebarItem[]> = {
     'All': filteredAllItems, // Default category with filtered items
   };
@@ -328,8 +322,29 @@ export default function DocSidebarWrapper(props: Props): JSX.Element {
   // Extract the original sidebar items from props
   const originalSidebarItems = Array.isArray(props.sidebar) ? props.sidebar : [];
   
-  // State to track the current sidebar items
-  const [currentSidebarItems, setCurrentSidebarItems] = useState<SidebarItem[]>(originalSidebarItems);
+  // Filter items based on exclude_from_all settings for initial load
+  const initialFilteredItems = (() => {
+    // Create a set of items to exclude
+    const itemsToExclude = new Set<string>();
+    
+    // Check sidebars.json for items that should be excluded from All
+    sidebars.sidebars.forEach(sidebar => {
+      if (sidebar.exclude_from_all) {
+        itemsToExclude.add(sidebar.dir.toLowerCase());
+      }
+    });
+    
+    // Filter out excluded items
+    return originalSidebarItems.filter(item => {
+      if (item.type === 'category') {
+        return !itemsToExclude.has(item.label.toLowerCase());
+      }
+      return true;
+    });
+  })();
+  
+  // State to track the current sidebar items, initially filtered
+  const [currentSidebarItems, setCurrentSidebarItems] = useState<SidebarItem[]>(initialFilteredItems);
   
   // Create a modified version of the props with our custom sidebar items
   const modifiedProps = {
