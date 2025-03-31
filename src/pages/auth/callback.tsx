@@ -26,7 +26,7 @@ export default function AuthCallback(): JSX.Element {
         redirect: "follow"
       };
       
-      let response = await fetch("http://localhost:3000/codespaces", requestOptions)
+      let response = await fetch("http://localhost:3002/codespaces", requestOptions)
       let data = await response.json();
       return data?.codespace?.name;
     }

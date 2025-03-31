@@ -121,13 +121,13 @@ module.exports = function oramaSearchPlugin(context, options) {
 
       const markdownFiles = await getAllMarkdownFiles(docsDir);
       //const markdownFiles = files.filter(file => file.endsWith('.md'));
-      console.log("this is the files", files);
-      //console.log("this is the markdown files", markdownFiles);
+  
+      //
       // Process each markdown file
       for (const file of markdownFiles) {
-        //console.log("what is the file path", file);
+        //
         const content = await fs.readFile(file, 'utf-8');
-       // console.log(content);
+       // 
    
         
  
@@ -165,7 +165,6 @@ module.exports = function oramaSearchPlugin(context, options) {
           slug: slug,
         });
 
-        //console.log(`Indexed document: ${file}`);
       }
 
       return db;
@@ -173,17 +172,16 @@ module.exports = function oramaSearchPlugin(context, options) {
 
     async contentLoaded({ content, actions }) {
       // You can perform additional actions here if needed
-      console.log('Content loaded. Database size:', db.size);
+  
     },
 
     async postBuild({ siteConfig, routesPaths, outDir }) {
       // You can perform actions after the build is complete
-      console.log('Build completed. Indexed documents:', db.size);
+      
     },
 
     injectHtmlTags() {
     let oramaDb = Object.values(db.data.docs.docs)
-    console.log("this is the orama db", oramaDb)
       // Inject any necessary HTML tags (e.g., for search UI)
    
       return {
@@ -195,7 +193,7 @@ module.exports = function oramaSearchPlugin(context, options) {
             },
             innerHTML: `
             window.oramaDb = ${JSON.stringify(oramaDb)};
-            console.log('Orama search initialized');
+            
         
             `,
           },

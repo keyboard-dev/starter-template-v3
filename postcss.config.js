@@ -12,7 +12,7 @@ module.exports = {
       onImport: (sources) => {
         sources.forEach((source) => {
           if (source.startsWith('@scalar/')) {
-            console.log(`Imported: ${source}`);
+            
           }
         });
       },

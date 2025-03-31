@@ -9,12 +9,6 @@
                     "prependBaseUrlToHref": false
                 },
                 {
-                    "label": "X",
-                    "href": "https://x.com",
-                    "position": "left",
-                    "prependBaseUrlToHref": false
-                },
-                {
                     "label": "GitHub",
                     "href": "https://github.com",
                     "prependBaseUrlToHref": false

@@ -6,7 +6,28 @@ import remarkParse from 'remark-parse';
 import remarkStringify from 'remark-stringify';
 
 
-
+function parseFrontmatter(content) {
+  // Match content between --- markers
+  const frontmatterRegex = /^---\s*\n([\s\S]*?)\n---/;
+  const match = content.match(frontmatterRegex);
+  
+  if (!match) return null;
+  
+  // Parse the yaml-like frontmatter
+  const frontmatter = {};
+  const lines = match[1].split('\n');
+  
+  for (const line of lines) {
+    const [key, ...valueParts] = line.split(':');
+    if (key && valueParts.length) {
+      // Trim whitespace and quotes
+      const value = valueParts.join(':').trim().replace(/^['"](.*)['"]$/, '$1');
+      frontmatter[key.trim()] = value;
+    }
+  }
+  
+  return frontmatter;
+}
 
 
 function sanitizeInput(text) {
@@ -91,14 +112,11 @@ module.exports = function fullLlmsPlugin(context, options) {
 
       const markdownFiles = await getAllMarkdownFiles(docsDir);
       //const markdownFiles = files.filter(file => file.endsWith('.md'));
-      console.log("this is the files", files);
-      //console.log("this is the markdown files", markdownFiles);
-      // Process each markdown file
       let allContent = `Below is all the contents of our docs: \n\n`
       for (const file of markdownFiles) {
-        //console.log("what is the file path", file);
+
         const content = await fs.readFile(file, 'utf-8');
-       // console.log(content);
+
    
         
  
@@ -129,12 +147,12 @@ module.exports = function fullLlmsPlugin(context, options) {
         let slug = parseSlug(content, url);
         let cleanedContent = await markdownToPlainText(markdown)
         allContent += `\n\n This is the content for the doc ${url} \n\n ${cleanedContent}`
-        //console.log(`Indexed document: ${file}`);
+        //
       }
 
     const outputFilePath = path.join(context.siteDir, 'static', 'llms-full.txt');
     await fs.writeFile(outputFilePath, allContent, 'utf-8');
-    console.log(`Content written to ${outputFilePath}`);
+  
     },
 
     async contentLoaded({ content, actions }) {
@@ -143,7 +161,7 @@ module.exports = function fullLlmsPlugin(context, options) {
 
     async postBuild({ siteConfig, routesPaths, outDir }) {
       // You can perform actions after the build is complete
-      console.log('Txt File update');
+     
     },
   };
 };
