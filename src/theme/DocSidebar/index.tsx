@@ -210,8 +210,33 @@ const CustomDropdown = ({ sidebarItems, onCategoryChange }): JSX.Element => {
       window.location.href = matchingSidebar.href;
       return;
     }
+
+    // Find the first available link in the category's items
+    const findFirstLink = (items: SidebarItem[]): string | undefined => {
+      for (const item of items) {
+        if (item.href) {
+          return item.href;
+        }
+        if (item.type === 'category' && item.items) {
+          const nestedLink = findFirstLink(item.items);
+          if (nestedLink) {
+            return nestedLink;
+          }
+        }
+      }
+      return undefined;
+    };
+
+    // If no href in sidebar config, look for first link in the items
+    if (item.sidebarData) {
+      const firstLink = findFirstLink(item.sidebarData);
+      if (firstLink) {
+        window.location.href = firstLink;
+        return;
+      }
+    }
     
-    // Otherwise update the sidebar items as before
+    // If no link found, update the sidebar items as before
     onCategoryChange(item.sidebarData || []);
   };
 

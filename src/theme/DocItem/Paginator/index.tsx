@@ -93,14 +93,15 @@ export default function DocItemPaginator(): JSX.Element {
     console.log("Current category from localStorage:", currentCategory);
 
     // Get excluded directories from sidebars.json
-    const excludedDirs = sidebars.sidebars
+    let excludedDirs = []
+    let currentIsExcluded;
+
+    if(currentCategory === 'All') {
+      excludedDirs = sidebars.sidebars
       .filter(sidebar => sidebar.exclude_from_all === true)
       .map(sidebar => sidebar.dir.toLowerCase());
-    
-    console.log("Excluded directories:", excludedDirs);
-    
-    // Check if current document path is in excluded category
-    const currentIsExcluded = isFromExcludedCategory(metadata.permalink, excludedDirs);
+      currentIsExcluded = isFromExcludedCategory(metadata.permalink, excludedDirs);
+    }
     console.log("Current doc excluded:", currentIsExcluded);
     
     // Check if current document belongs to the selected category
