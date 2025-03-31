@@ -114,7 +114,17 @@ function organizeSidebarByCategory(items: SidebarItem[]): Record<string, Sidebar
 // Custom dropdown component
 const CustomDropdown = ({ sidebarItems, onCategoryChange }): JSX.Element => {
   const [isOpen, setIsOpen] = useState(false);
-  const [selectedCategory, setSelectedCategory] = useState('All');
+  // Initialize from localStorage or default to 'All'
+  const [selectedCategory, setSelectedCategory] = useState(() => {
+    try {
+      // Get the saved category from localStorage if available
+      const savedCategory = localStorage.getItem('docSidebarCategory');
+      return savedCategory || 'All';
+    } catch (error) {
+      // In case of any issues (e.g., localStorage disabled), default to 'All'
+      return 'All';
+    }
+  });
   const dropdownRef = useRef<HTMLDivElement>(null);
   const { colorMode } = useColorMode();
   
@@ -133,8 +143,14 @@ const CustomDropdown = ({ sidebarItems, onCategoryChange }): JSX.Element => {
   }, []);
   
   // Organize sidebar items by category
-
   const categorizedSidebars = organizeSidebarByCategory(sidebarItems);
+  
+  // Apply the initial selected category on component mount
+  useEffect(() => {
+    // Get the initial items for the saved category
+    const initialCategoryItems = categorizedSidebars[selectedCategory] || categorizedSidebars['All'];
+    onCategoryChange(initialCategoryItems);
+  }, []);
   
   // Create dropdown items from the categorized sidebars
   const dropdownItems: DropdownItem[] = Object.entries(categorizedSidebars).map(([category, items]) => {
@@ -172,8 +188,17 @@ const CustomDropdown = ({ sidebarItems, onCategoryChange }): JSX.Element => {
   });
 
   const handleItemClick = (item: DropdownItem) => {
+    // Update the selected category
     setSelectedCategory(item.title);
     setIsOpen(false);
+    
+    // Save the selected category to localStorage
+    try {
+      localStorage.setItem('docSidebarCategory', item.title);
+    } catch (error) {
+      // Silently handle errors (e.g., localStorage disabled or quota exceeded)
+      console.warn('Failed to save category preference to localStorage', error);
+    }
     
     // Check if this category has an href in sidebars.json
     const matchingSidebar = sidebars.sidebars.find(sidebar => 
@@ -321,8 +346,6 @@ export default function DocSidebarWrapper(props: Props): JSX.Element {
   const [isCollapsed, setIsCollapsed] = useState(false);
   
   // Extract the original sidebar items from props
-  console.log("props.sidebar");
-  console.log(props.sidebar);
   const originalSidebarItems = Array.isArray(props.sidebar) ? props.sidebar : [];
   
   // Filter items based on exclude_from_all settings for initial load
