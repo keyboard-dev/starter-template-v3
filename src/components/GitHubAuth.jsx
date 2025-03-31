@@ -3,9 +3,10 @@ import { Button } from './ui/button';
 import { IconGitHub } from './ui/Icon';
 import { AUTH_CONFIG } from '../config/auth';
 import aiConfig from '@site/ai.json';
-import { useColorMode } from '@docusaurus/theme-common'
+import { useColorMode } from '@docusaurus/theme-common';
+import BrowserOnly from '@docusaurus/BrowserOnly';
 
-export default function GitHubAuth() {
+function GitHubAuthContent() {
   const { colorMode } = useColorMode()
   const buttonStyle = {
     borderRadius: '1rem',
@@ -113,5 +114,13 @@ export default function GitHubAuth() {
         </div>
       )}
     </div>
+  );
+}
+
+export default function GitHubAuth() {
+  return (
+    <BrowserOnly>
+      {() => <GitHubAuthContent />}
+    </BrowserOnly>
   );
 } 

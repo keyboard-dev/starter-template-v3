@@ -10,8 +10,9 @@ import rehypeRemark from "rehype-remark";
 import remarkGfm from "remark-gfm";
 import remarkStringify from "remark-stringify";
 import Markdown from "react-markdown";
+import BrowserOnly from '@docusaurus/BrowserOnly';
 
-export default function DocSummary({ content }) {
+function DocSummaryContent({ content }) {
   if (!aiConfig.github_features) {
     return null;
   }
@@ -106,5 +107,13 @@ export default function DocSummary({ content }) {
         </Card>
       )}
     </div>
+  );
+}
+
+export default function DocSummary(props) {
+  return (
+    <BrowserOnly>
+      {() => <DocSummaryContent {...props} />}
+    </BrowserOnly>
   );
 }

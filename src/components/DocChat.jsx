@@ -9,7 +9,7 @@ import { Input } from "../components/ui/input";
 import { badgeVariants, Badge } from "../components/ui/badge";
 import aiConfig from '@site/ai.json';
 import TerminalLogo from '../../static/svgs/terminallogo.svg';
-
+import BrowserOnly from '@docusaurus/BrowserOnly';
 import {
   AlertDialog,
   AlertDialogAction,
@@ -25,13 +25,7 @@ import { Button } from "../components/ui/button";
 import { IconX, IconSend2 } from "@tabler/icons-react";
 import logoJson from "../../logo.json";
 
-import {
-  Carousel,
-  CarouselContent,
-  CarouselItem,
-  CarouselNext,
-  CarouselPrevious,
-} from "../components/ui/carousel";
+
 
 const { logo } = logoJson;
 
@@ -650,4 +644,10 @@ function ChatBox({ messages, onSendMessage, onModeChange }) {
   );
 }
 
-export default ChatBox;
+export default function DocChat(props) {
+  return (
+    <BrowserOnly>
+      {() => <ChatBox {...props} />}
+    </BrowserOnly>
+  );
+}

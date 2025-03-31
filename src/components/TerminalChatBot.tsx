@@ -6,6 +6,7 @@ import TerminalClose from '../../static/svgs/terminalclose.svg';
 import aiConfig from '@site/ai.json';
 import { TerminalMarkdown } from './markdown/TerminalMarkdown';
 import { Terminal } from '@site/src/components/ui/terminal';
+import BrowserOnly from '@docusaurus/BrowserOnly';
 
 // Debounce helper
 const debounce = (fn: Function, ms = 300) => {
@@ -45,7 +46,7 @@ interface ProjectState {
   codespace: string;
 }
 
-export function TerminalChatBot({
+function TerminalChatBotContent({
   initialHeight = 600,
   minHeight = 200,
   maxHeight = window.innerHeight * 0.8,
@@ -816,5 +817,13 @@ Use the terminal below to interact with your project:
         </div>
       )}
     </>
+  );
+}
+
+export function TerminalChatBot(props: TerminalChatBotProps): JSX.Element {
+  return (
+    <BrowserOnly>
+      {() => <TerminalChatBotContent {...props} />}
+    </BrowserOnly>
   );
 }

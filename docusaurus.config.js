@@ -152,12 +152,7 @@ const config = {
             type: 'custom-github-auth',
             position: 'right',
             className: 'navbar-github-auth',
-          },
-          {
-            type: 'custom-codespaces',
-            position: 'right',
-            className: 'navbar-codespaces',
-          },
+          }
         ],
       },
       footer: {

@@ -7,6 +7,7 @@ import logoJson from '../../../logo.json';
 import SearchBar from '../SearchBar';
 import ColorModeToggle from '@theme/ColorModeToggle';
 import { useColorMode } from '@docusaurus/theme-common';
+import BrowserOnly from '@docusaurus/BrowserOnly';
 
 const logo = logoJson.logo;
 
@@ -117,12 +118,13 @@ const CustomDropdown = ({ sidebarItems, onCategoryChange }): JSX.Element => {
   // Initialize from localStorage or default to 'All'
   const [selectedCategory, setSelectedCategory] = useState(() => {
     try {
-      // Get the saved category from localStorage if available
-      const savedCategory = localStorage.getItem('docSidebarCategory');
-      
-
-      
-      return savedCategory || 'All';
+      // Check if we're in a browser environment
+      if (typeof window !== 'undefined') {
+        // Get the saved category from localStorage if available
+        const savedCategory = localStorage.getItem('docSidebarCategory');
+        return savedCategory || 'All';
+      }
+      return 'All';
     } catch (error) {
       // In case of any issues (e.g., localStorage disabled), default to 'All'
       return 'All';
@@ -183,17 +185,17 @@ const CustomDropdown = ({ sidebarItems, onCategoryChange }): JSX.Element => {
       return undefined;
     };
 
-    const firstLink = navigateToFirstLink(initialCategoryItems, window.location.pathname);
-    if (firstLink) {
-      
-      
-      
-      
-      // Only navigate if current path is not found in any of the category items
-      if (!checkPathExists(initialCategoryItems, window.location.pathname)) {
-        window.location.href = firstLink;
+    // Only run client-side navigation logic if window is defined
+    if (typeof window !== 'undefined') {
+      const firstLink = navigateToFirstLink(initialCategoryItems, window.location.pathname);
+      if (firstLink) {
+        // Only navigate if current path is not found in any of the category items
+        if (!checkPathExists(initialCategoryItems, window.location.pathname)) {
+          window.location.href = firstLink;
+        }
       }
     }
+
     onCategoryChange(initialCategoryItems);
   }, []);
   
@@ -237,13 +239,22 @@ const CustomDropdown = ({ sidebarItems, onCategoryChange }): JSX.Element => {
     setSelectedCategory(item.title);
     setIsOpen(false);
     
+    try {
+      if (typeof window !== 'undefined') {
+        localStorage.setItem('docSidebarCategory', item.title);
+      }
+    } catch (error) {
+      // Silently handle errors (e.g., localStorage disabled or quota exceeded)
+      console.warn('Failed to save category preference to localStorage', error);
+    }
+  
     // Check if this category has an href in sidebars.json
     const matchingSidebar = sidebars.sidebars.find(sidebar => 
       sidebar.dir.toLowerCase() === item.title.toLowerCase()
     );
     
-    if (matchingSidebar && matchingSidebar.href) {
-      // If href exists, navigate to that URL without saving to localStorage
+    if (matchingSidebar && matchingSidebar.href && typeof window !== 'undefined') {
+      // If href exists, navigate to that URL
       window.location.href = matchingSidebar.href;
       return;
     }
@@ -264,24 +275,14 @@ const CustomDropdown = ({ sidebarItems, onCategoryChange }): JSX.Element => {
       return undefined;
     };
 
-    try {
-      localStorage.setItem('docSidebarCategory', item.title);
-    } catch (error) {
-      // Silently handle errors (e.g., localStorage disabled or quota exceeded)
-      console.warn('Failed to save category preference to localStorage', error);
-    }
-
     // If no href in sidebar config, look for first link in the items
-    if (item.sidebarData) {
+    if (item.sidebarData && typeof window !== 'undefined') {
       const firstLink = findFirstLink(item.sidebarData);
       if (firstLink) {
         window.location.href = firstLink;
         return;
       }
     }
-    
-    // Only save to localStorage if no href was found and navigation didn't occur
-
     
     // Update the sidebar items
     onCategoryChange(item.sidebarData || []);
@@ -414,6 +415,14 @@ const CustomDropdown = ({ sidebarItems, onCategoryChange }): JSX.Element => {
 
 
 export default function DocSidebarWrapper(props: Props): JSX.Element {
+  return (
+    <BrowserOnly>
+      {() => <DocSidebarContent {...props} />}
+    </BrowserOnly>
+  );
+}
+
+function DocSidebarContent(props: Props): JSX.Element {
   const { colorMode, setColorMode } = useColorMode();
   const [isCollapsed, setIsCollapsed] = useState(false);
   

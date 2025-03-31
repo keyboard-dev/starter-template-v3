@@ -10,6 +10,7 @@ import { IconWand, IconPlayerPlay, IconExternalLink } from '@tabler/icons-react'
 import { cn } from '@site/src/utils';
 import { useColorMode } from '@docusaurus/theme-common';
 import { CodespaceOpener } from '@site/src/components/CodespaceOpener';
+import BrowserOnly from '@docusaurus/BrowserOnly';
 import {
   Dialog,
   DialogContent,
@@ -60,7 +61,7 @@ const copyToClipboard = async (text: string): Promise<boolean> => {
   }
 };
 
-export default function CopyButton({code, className}: Props): JSX.Element {
+function CopyButtonContent({code, className}: Props): JSX.Element {
   const [isCopied, setIsCopied] = useState(false);
   const [prompt, setPrompt] = useState('');
   const [rewrittenCode, setRewrittenCode] = useState('');
@@ -488,5 +489,13 @@ export default function CopyButton({code, className}: Props): JSX.Element {
         </div>
       )}
     </div>
+  );
+}
+
+export default function CopyButton(props: Props): JSX.Element {
+  return (
+    <BrowserOnly>
+      {() => <CopyButtonContent {...props} />}
+    </BrowserOnly>
   );
 }
