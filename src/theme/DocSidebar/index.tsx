@@ -8,6 +8,7 @@ import SearchBar from '../SearchBar';
 import ColorModeToggle from '@theme/ColorModeToggle';
 import { useColorMode } from '@docusaurus/theme-common';
 import BrowserOnly from '@docusaurus/BrowserOnly';
+import GitHubAuth from '@site/src/components/GitHubAuth';
 
 const logo = logoJson.logo;
 
