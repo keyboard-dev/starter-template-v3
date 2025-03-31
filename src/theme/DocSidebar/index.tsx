@@ -468,7 +468,7 @@ function DocSidebarContent(props: Props): JSX.Element {
         padding-top: 0 !important;
         margin-top: 0 !important;
         transition: width 0.3s ease-in-out;
-        max-height: 100vh;
+        max-height: 100%;
         overflow: hidden;
       }
       
@@ -500,7 +500,7 @@ function DocSidebarContent(props: Props): JSX.Element {
 
       .doc-sidebar-wrapper {
         transition: width 0.3s ease-in-out;
-        max-height: 100vh;
+        max-height: 100%;
         overflow: hidden;
       }
 
@@ -630,8 +630,8 @@ function DocSidebarContent(props: Props): JSX.Element {
     display: 'flex',
     flexDirection: 'column',
     width: '300px',
-    height: '100vh',
-    maxHeight: '100vh',
+    height: '100%',
+    maxHeight: '100%',
     transition: 'width 0.3s ease-in-out',
     borderRight: colorMode === 'dark' ? '1px solid #333' : '1px solid #E0DFE1',
     overflow: 'hidden',
