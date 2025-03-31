@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import {useDoc, useAllDocsData, useDocsSidebar} from '@docusaurus/plugin-content-docs/client';
+import {useDoc, useDocsSidebar} from '@docusaurus/plugin-content-docs/client';
 import DocPaginator from '@theme/DocPaginator';
 import sidebarsJson from '@site/sidebars.json';
 
@@ -10,12 +10,10 @@ import sidebarsJson from '@site/sidebars.json';
 export default function DocItemPaginator(): JSX.Element {
   
   const {metadata} = useDoc();
-  const allDocsData = useAllDocsData();
   const sidebar = useDocsSidebar();
   const [filteredPrevious, setFilteredPrevious] = useState(metadata.previous);
   const [filteredNext, setFilteredNext] = useState(metadata.next);
   const [sidebarItems, setSidebarItems] = useState<any[]>([]);
-  const [showSidebar, setShowSidebar] = useState(false);
   
   console.log("this is the sidebar", sidebar)
   // Get the sidebar configuration
@@ -35,6 +33,12 @@ export default function DocItemPaginator(): JSX.Element {
     return excludedDirs.some(dir => permalink.includes(`/${dir}/`));
   };
 
+  // Helper function to check if a permalink belongs to a specific category
+  const isFromCategory = (permalink: string | undefined, category: string): boolean => {
+    if (!permalink || category === 'All') return true;
+    return permalink.includes(`/${category.toLowerCase()}/`);
+  };
+
   // Recursive function to flatten sidebar items
   const flattenSidebarItems = (items: any[]): any[] => {
     return items.reduce((acc: any[], item) => {
@@ -47,12 +51,17 @@ export default function DocItemPaginator(): JSX.Element {
 
   // Function to find the correct previous and next navigation items
   const findCorrectNavItems = (flatItems: any[], currentDocId: string, excludedDirs: string[]) => {
+    let currentCategory = localStorage.getItem('docSidebarCategory') || 'All';
+    
     // Filter out category items and keep only document links
     const docItems = flatItems.filter(item => 
       item.type === 'link' && 
       item.docId && 
-      !isFromExcludedCategory(item.href, excludedDirs)
+      !isFromExcludedCategory(item.href, excludedDirs) &&
+      isFromCategory(item.href, currentCategory)
     );
+    
+    console.log("Filtered doc items for category:", currentCategory, docItems);
     
     if (docItems.length === 0) return { prev: undefined, next: undefined };
     
@@ -79,6 +88,10 @@ export default function DocItemPaginator(): JSX.Element {
   useEffect(() => {
     if (!sidebar || !sidebar.items) return;
 
+    // Get current category from localStorage
+    const currentCategory = localStorage.getItem('docSidebarCategory') || 'All';
+    console.log("Current category from localStorage:", currentCategory);
+
     // Get excluded directories from sidebars.json
     const excludedDirs = sidebars.sidebars
       .filter(sidebar => sidebar.exclude_from_all === true)
@@ -90,165 +103,43 @@ export default function DocItemPaginator(): JSX.Element {
     const currentIsExcluded = isFromExcludedCategory(metadata.permalink, excludedDirs);
     console.log("Current doc excluded:", currentIsExcluded);
     
-    // If the current document is from an excluded category,
-    // use the default navigation
-    if (currentIsExcluded) {
-      setFilteredPrevious(metadata.previous);
-      setFilteredNext(metadata.next);
-      
-      // Get sidebar items and flatten them
-      const flattenedItems = flattenSidebarItems(sidebar.items);
-      setSidebarItems(flattenedItems);
-      return;
-    }
+    // Check if current document belongs to the selected category
+    const currentInSelectedCategory = isFromCategory(metadata.permalink, currentCategory);
+    console.log("Current doc in selected category:", currentInSelectedCategory);
     
     // Flatten the sidebar items for easier processing
     const flattenedItems = flattenSidebarItems(sidebar.items);
     setSidebarItems(flattenedItems);
+    
+    // If the current document is from an excluded category or not in the selected category,
+    // use the default navigation
+    if (currentIsExcluded || (currentCategory !== 'All' && !currentInSelectedCategory)) {
+      setFilteredPrevious(metadata.previous);
+      setFilteredNext(metadata.next);
+      return;
+    }
     
     // Find the correct previous and next navigation items
     const { prev, next } = findCorrectNavItems(flattenedItems, metadata.id, excludedDirs);
     
     console.log("Calculated navigation:", { prev, next });
     
-    // If metadata has previous/next, check if they should be excluded
-    if (metadata.previous && isFromExcludedCategory(metadata.previous.permalink, excludedDirs)) {
-      setFilteredPrevious(prev);
-    } else {
-      setFilteredPrevious(metadata.previous || prev);
-    }
+    // If metadata has previous/next, check if they should be excluded or are outside of selected category
+    const previousIsValid = metadata.previous && 
+      !isFromExcludedCategory(metadata.previous.permalink, excludedDirs) && 
+      isFromCategory(metadata.previous.permalink, currentCategory);
+      
+    const nextIsValid = metadata.next && 
+      !isFromExcludedCategory(metadata.next.permalink, excludedDirs) && 
+      isFromCategory(metadata.next.permalink, currentCategory);
     
-    if (metadata.next && isFromExcludedCategory(metadata.next.permalink, excludedDirs)) {
-      setFilteredNext(next);
-    } else {
-      setFilteredNext(metadata.next || next);
-    }
+    setFilteredPrevious(previousIsValid ? metadata.previous : prev);
+    setFilteredNext(nextIsValid ? metadata.next : next);
     
   }, [metadata, sidebar, sidebars]);
 
-  const toggleSidebar = () => {
-    setShowSidebar(!showSidebar);
-  };
-
-  // Helper function to render sidebar item based on type
-  const renderSidebarItem = (item: any) => {
-    const isCurrentItem = item.docId === metadata.id;
-    const style = {
-      margin: '8px 0', 
-      padding: '8px', 
-      borderRadius: '4px',
-      borderLeft: '3px solid',
-      ...(isCurrentItem ? { 
-        fontWeight: 'bold',
-        boxShadow: '0 0 5px rgba(0,0,0,0.3)'
-      } : {})
-    };
-
-    switch (item.type) {
-      case 'category':
-        return (
-          <div style={{ 
-            ...style, 
-            backgroundColor: '#e6f7ff', 
-            borderLeftColor: '#1890ff'
-          }}>
-            <strong>Category:</strong> {item.label}<br />
-            {item.collapsible !== undefined && <><strong>Collapsible:</strong> {item.collapsible ? 'Yes' : 'No'}<br /></>}
-            {item.collapsed !== undefined && <><strong>Collapsed:</strong> {item.collapsed ? 'Yes' : 'No'}<br /></>}
-          </div>
-        );
-      case 'link':
-        return (
-          <div style={{ 
-            ...style,
-            backgroundColor: isCurrentItem ? '#fffbe6' : '#f6ffed', 
-            borderLeftColor: isCurrentItem ? '#faad14' : '#52c41a'
-          }}>
-            <strong>Link:</strong> {item.label}<br />
-            <strong>URL:</strong> {item.href}<br />
-            {item.docId && <><strong>ID:</strong> {item.docId}<br /></>}
-            {isCurrentItem && <span style={{ color: '#faad14' }}>← Current Document</span>}
-          </div>
-        );
-      case 'doc':
-        return (
-          <div style={{ 
-            ...style,
-            backgroundColor: isCurrentItem ? '#fffbe6' : '#fff7e6', 
-            borderLeftColor: isCurrentItem ? '#faad14' : '#fa8c16'
-          }}>
-            <strong>Doc:</strong> {item.label}<br />
-            <strong>ID:</strong> {item.id}<br />
-            {item.customProps && <><strong>Custom Props:</strong> {JSON.stringify(item.customProps)}<br /></>}
-            {isCurrentItem && <span style={{ color: '#faad14' }}>← Current Document</span>}
-          </div>
-        );
-      default:
-        return (
-          <div style={{ ...style, backgroundColor: 'white', borderLeftColor: '#d9d9d9' }}>
-            <pre>{JSON.stringify(item, null, 2)}</pre>
-          </div>
-        );
-    }
-  };
-
   return (
     <>
-      <div style={{ marginBottom: '20px' }}>
-        <button 
-          onClick={toggleSidebar}
-          style={{
-            padding: '8px 16px',
-            backgroundColor: '#6A78FB',
-            color: 'white',
-            border: 'none',
-            borderRadius: '4px',
-            cursor: 'pointer',
-            marginBottom: '10px'
-          }}
-        >
-          {showSidebar ? 'Hide Docusaurus Sidebar Items' : 'Show Docusaurus Sidebar Items'}
-        </button>
-        
-        {showSidebar && (
-          <div style={{ 
-            border: '1px solid #ddd', 
-            borderRadius: '4px', 
-            padding: '16px',
-            marginBottom: '20px',
-            backgroundColor: '#f7f7f7',
-            maxHeight: '500px',
-            overflowY: 'auto'
-          }}>
-            <h3>Docusaurus Sidebar Items</h3>
-            <p><strong>Current Document ID:</strong> {metadata.id}</p>
-            
-            <div style={{ 
-              marginBottom: '10px',
-              padding: '10px',
-              border: '1px solid #d9d9d9',
-              borderRadius: '4px',
-              backgroundColor: '#fff'
-            }}>
-              <h4>Navigation</h4>
-              <strong>Previous:</strong> {filteredPrevious ? filteredPrevious.title : 'None'}<br />
-              <strong>Next:</strong> {filteredNext ? filteredNext.title : 'None'}
-            </div>
-            
-            <div>
-              {sidebarItems.length > 0 ? (
-                sidebarItems.map((item, index) => (
-                  <div key={index}>
-                    {renderSidebarItem(item)}
-                  </div>
-                ))
-              ) : (
-                <p>No sidebar items available.</p>
-              )}
-            </div>
-          </div>
-        )}
-      </div>
       <DocPaginator previous={filteredPrevious} next={filteredNext} />
     </>
   );
