@@ -119,6 +119,9 @@ const CustomDropdown = ({ sidebarItems, onCategoryChange }): JSX.Element => {
     try {
       // Get the saved category from localStorage if available
       const savedCategory = localStorage.getItem('docSidebarCategory');
+      
+
+      
       return savedCategory || 'All';
     } catch (error) {
       // In case of any issues (e.g., localStorage disabled), default to 'All'
@@ -149,6 +152,48 @@ const CustomDropdown = ({ sidebarItems, onCategoryChange }): JSX.Element => {
   useEffect(() => {
     // Get the initial items for the saved category
     const initialCategoryItems = categorizedSidebars[selectedCategory] || categorizedSidebars['All'];
+    
+    const checkPathExists = (items: SidebarItem[], currentPath: string): boolean => {
+      for (const item of items) {
+        if (item.href && item.href === currentPath) {
+          return true;
+        }
+        if (item.type === 'category' && item.items) {
+          if (checkPathExists(item.items, currentPath)) {
+            return true;
+          }
+        }
+      }
+      return false;
+    };
+
+    const navigateToFirstLink = (items: SidebarItem[], currentPath: string): string | undefined => {
+      for (const item of items) {
+        if (item.href) {
+          return item.href;
+        }
+        
+        if (item.type === 'category' && item.items) {
+          const nestedLink = navigateToFirstLink(item.items, currentPath);
+          if (nestedLink) {
+            return nestedLink;
+          }
+        }
+      }
+      return undefined;
+    };
+
+    const firstLink = navigateToFirstLink(initialCategoryItems, window.location.pathname);
+    if (firstLink) {
+      console.log("firstLink", firstLink);
+      console.log("window.location", window.location);
+      console.log("sidebars", categorizedSidebars);
+      
+      // Only navigate if current path is not found in any of the category items
+      if (!checkPathExists(initialCategoryItems, window.location.pathname)) {
+        window.location.href = firstLink;
+      }
+    }
     onCategoryChange(initialCategoryItems);
   }, []);
   
@@ -192,21 +237,13 @@ const CustomDropdown = ({ sidebarItems, onCategoryChange }): JSX.Element => {
     setSelectedCategory(item.title);
     setIsOpen(false);
     
-    // Save the selected category to localStorage
-    try {
-      localStorage.setItem('docSidebarCategory', item.title);
-    } catch (error) {
-      // Silently handle errors (e.g., localStorage disabled or quota exceeded)
-      console.warn('Failed to save category preference to localStorage', error);
-    }
-    
     // Check if this category has an href in sidebars.json
     const matchingSidebar = sidebars.sidebars.find(sidebar => 
       sidebar.dir.toLowerCase() === item.title.toLowerCase()
     );
     
     if (matchingSidebar && matchingSidebar.href) {
-      // If href exists, navigate to that URL
+      // If href exists, navigate to that URL without saving to localStorage
       window.location.href = matchingSidebar.href;
       return;
     }
@@ -227,6 +264,13 @@ const CustomDropdown = ({ sidebarItems, onCategoryChange }): JSX.Element => {
       return undefined;
     };
 
+    try {
+      localStorage.setItem('docSidebarCategory', item.title);
+    } catch (error) {
+      // Silently handle errors (e.g., localStorage disabled or quota exceeded)
+      console.warn('Failed to save category preference to localStorage', error);
+    }
+
     // If no href in sidebar config, look for first link in the items
     if (item.sidebarData) {
       const firstLink = findFirstLink(item.sidebarData);
@@ -236,7 +280,10 @@ const CustomDropdown = ({ sidebarItems, onCategoryChange }): JSX.Element => {
       }
     }
     
-    // If no link found, update the sidebar items as before
+    // Only save to localStorage if no href was found and navigation didn't occur
+
+    
+    // Update the sidebar items
     onCategoryChange(item.sidebarData || []);
   };
 
