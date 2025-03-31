@@ -19,7 +19,7 @@ export function useWebSocket(
       if (!socket) return;
 
       socket.onopen = () => {
-        console.log('Connected to WebSocket');
+        
         setWs(socket);
         reconnectAttemptsRef.current = 0;
       };
@@ -28,7 +28,7 @@ export function useWebSocket(
         setWs(null);
         // Don't reconnect on authentication failures
         if (event.code !== 1008) {
-          console.log('WebSocket disconnected, attempting to reconnect...');
+          
           reconnectAttemptsRef.current += 1;
           reconnectTimeoutRef.current = setTimeout(connect, 3000);
         }

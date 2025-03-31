@@ -147,7 +147,7 @@ module.exports = function fullLlmsPlugin(context, options) {
         let slug = parseSlug(content, url);
         let cleanedContent = await markdownToPlainText(markdown)
         allContent += `\n\n This is the content for the doc ${url} \n\n ${cleanedContent}`
-        //console.log(`Indexed document: ${file}`);
+        //
       }
 
     const outputFilePath = path.join(context.siteDir, 'static', 'llms-full.txt');

@@ -29,7 +29,7 @@ export default function DocSummary({ content }) {
     setLoading(true);
     try {
       const htmlContent = document.querySelector(".markdown")?.outerHTML;
-      console.log("Extracted text content:", htmlContent);
+      
 
       const page = await unified()
         .use(rehypeParse) // Parse HTML content to a syntax tree
@@ -46,7 +46,7 @@ export default function DocSummary({ content }) {
       myHeaders.append("X-GitHub-Token", token);
       myHeaders.append("Content-Type", "application/json");
 
-      console.log(pageContent);
+      
 
       const raw = JSON.stringify({
         messages: [
@@ -74,7 +74,7 @@ export default function DocSummary({ content }) {
         requestOptions
       );
       let aiData = await data.json();
-      console.log(aiData);
+      
       setSummary(aiData.choices[0].message.content);
       setLoading(false);
       // Rest of your code...

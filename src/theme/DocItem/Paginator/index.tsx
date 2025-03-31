@@ -15,7 +15,7 @@ export default function DocItemPaginator(): JSX.Element {
   const [filteredNext, setFilteredNext] = useState(metadata.next);
   const [sidebarItems, setSidebarItems] = useState<any[]>([]);
   
-  console.log("this is the sidebar", sidebar)
+  
   // Get the sidebar configuration
   const sidebars = sidebarsJson as {
     navbar_hide: boolean;
@@ -61,7 +61,7 @@ export default function DocItemPaginator(): JSX.Element {
       isFromCategory(item.href, currentCategory)
     );
     
-    console.log("Filtered doc items for category:", currentCategory, docItems);
+    
     
     if (docItems.length === 0) return { prev: undefined, next: undefined };
     
@@ -90,7 +90,7 @@ export default function DocItemPaginator(): JSX.Element {
 
     // Get current category from localStorage
     const currentCategory = localStorage.getItem('docSidebarCategory') || 'All';
-    console.log("Current category from localStorage:", currentCategory);
+    
 
     // Get excluded directories from sidebars.json
     let excludedDirs = []
@@ -102,11 +102,11 @@ export default function DocItemPaginator(): JSX.Element {
       .map(sidebar => sidebar.dir.toLowerCase());
       currentIsExcluded = isFromExcludedCategory(metadata.permalink, excludedDirs);
     }
-    console.log("Current doc excluded:", currentIsExcluded);
+    
     
     // Check if current document belongs to the selected category
     const currentInSelectedCategory = isFromCategory(metadata.permalink, currentCategory);
-    console.log("Current doc in selected category:", currentInSelectedCategory);
+    
     
     // Flatten the sidebar items for easier processing
     const flattenedItems = flattenSidebarItems(sidebar.items);
@@ -123,7 +123,7 @@ export default function DocItemPaginator(): JSX.Element {
     // Find the correct previous and next navigation items
     const { prev, next } = findCorrectNavItems(flattenedItems, metadata.id, excludedDirs);
     
-    console.log("Calculated navigation:", { prev, next });
+    
     
     // If metadata has previous/next, check if they should be excluded or are outside of selected category
     const previousIsValid = metadata.previous && 

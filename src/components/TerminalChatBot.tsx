@@ -356,8 +356,8 @@ Booting up chat...
             // Execute commands sequentially
             for (const command of commands) {
               try {
-                console.log("getting to the command")
-                console.log(command)
+                
+                
                 const terminalResponse = await fetch('http://localhost:3002/codespaces/terminal', {
                   method: 'POST',
                   headers: {
@@ -521,7 +521,7 @@ Use the terminal below to interact with your project:
                 const data = JSON.parse(jsonData);
 
                 // Add debug logging
-                console.log('Received data:', data);
+                
 
                 // Handle error messages from the stream
                 if (data.error) {

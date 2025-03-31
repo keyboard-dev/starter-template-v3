@@ -22,7 +22,7 @@
 <CodeSnippets>
 ```javascript::index.js
 
-console.log("hello world")
+
 
 ```
 

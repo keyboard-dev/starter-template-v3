@@ -69,10 +69,10 @@ function parseOpenApiInfo(openapiData) {
   try {
     if(typeof obj === 'string') obj = JSON.parse(obj)
   } catch (error) {
-    // console.log("this is the error", error)
+    // 
     return {}
   }
-  // console.log("this is the object", obj)
+  // 
   for (const [key, value] of Object.entries(obj)) {
       const newKey = parentKey ? `${parentKey}.${key}` : key;
 
@@ -113,7 +113,7 @@ function findMatchingItem(items, metadata) {
 
         // If the current item has nested items, search recursively
         if (item.item) {
-            // console.log("item.item", item.item)
+            // 
             const foundItem = findMatchingItem(item.item, metadata);
             if (foundItem) {
                 return foundItem;
@@ -129,8 +129,8 @@ function findMatchingItem(items, metadata) {
       }
    })
 
-  //  console.log("this is justUrls", justUrls)
-  //  console.log("this is metadata",  metadata.api.path)   
+  //  
+  //  
 
     // Return null if no matching item is found
     return null;
@@ -166,11 +166,11 @@ function generatePostmanItem(item, metadata) {
       }
 
         let finalItem = findMatchingItem(flatItems, metadata);
-        // console.log("finalItem", finalItem != undefined)
-        // console.log("finalItem", finalItem)
+        // 
+        // 
         metadata.postmanItem = finalItem
         const template = generateTemplate(metadata.postmanItem, metadata);
-        // console.log("this is the metadata", metadata)
+        // 
         return template
      //  if(metadata.postmanItem) fs.writeFileSync("output.json", JSON.stringify(metadata, null, 2))
      //  return JSON.stringify(metadata, null, 2);
@@ -181,13 +181,13 @@ function generatePostmanItem(item, metadata) {
 }
 
 function handleQuery(url) {
-  // console.log("this is the url query", url)
+  // 
   if(!url.query) return {}
   let queryJson = {}
   for (let queryItem of url?.query) {
     queryJson[queryItem.key] = queryItem
   }
-  // console.log("this is the", queryJson)
+  // 
   return queryJson
 }
 
@@ -197,19 +197,19 @@ function handleHeaders(headers) {
   for (let header of headers) {
     headerJson[header.key] = header
   }
-  // console.log("this is the", headerJson )
+  // 
   return headerJson 
 }
 
 function handleMetadataBody(bodyJson, decodedJSON) {
-  console.log("this is the decodedJSON", decodedJSON)
+  
 
   try {
     if(!decodedJSON) return bodyJson
     if (!decodedJSON["application/json"]?.schema) return bodyJson
     let schema = decodedJSON["application/json"].schema;
     let propertiesSchemaKeys = Object.keys(schema);
-  console.log(schema)
+  
     let propertiesItem;
     if(schema.properties) {
       propertiesItem = schema
@@ -229,13 +229,13 @@ function handleMetadataBody(bodyJson, decodedJSON) {
     let { properties } = propertiesItem;
     // let descriptions = [];
     for (let [key, value] of Object.entries(properties)) {
-      console.log("this is the bodyJson", bodyJson[key])
+      
       bodyJson[key] = {...value, type: bodyJson[key] }
     }
     return bodyJson
 
   } catch(e) {
-    console.log(e)
+    
     return bodyJson
   }
 
@@ -244,9 +244,9 @@ function handleMetadataBody(bodyJson, decodedJSON) {
 
 function generateTemplate(data, metadata) {
 try {
-  // console.log("this is the data", data)
+  // 
   if(!data) return ""
-  // console.log(data)
+  // 
   let bodyJsonPlacehoder;
   if(data?.request?.body?.raw) {
     bodyJsonPlacehoder = flattenJson(data?.request?.body?.raw)
@@ -266,7 +266,7 @@ try {
   var encodedBodyData = Buffer.from(bodyData).toString('base64');
   
   var encodedUrlData = Buffer.from(url).toString('base64');
-  console.log("what is the encoded string query", encodedUrlData)
+  
   var encodedHeadersData = Buffer.from(headers).toString('base64');
   var encodedMetadata = Buffer.from(fullMetadataBody).toString('base64')
 
@@ -303,7 +303,7 @@ ${metadata.description}
    `;
 
 } catch(e) {
-  console.log(e)
+  
 }
 
    
@@ -322,7 +322,7 @@ const apiConfig = {
     markdownGenerators: {
       createApiPageMD: (metadata) => {
          return generatePostmanItem("pestore", metadata)
-         // console.log("metadata", metadata);
+         // 
          
       },
     },

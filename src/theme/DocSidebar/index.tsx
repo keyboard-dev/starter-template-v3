@@ -185,9 +185,9 @@ const CustomDropdown = ({ sidebarItems, onCategoryChange }): JSX.Element => {
 
     const firstLink = navigateToFirstLink(initialCategoryItems, window.location.pathname);
     if (firstLink) {
-      console.log("firstLink", firstLink);
-      console.log("window.location", window.location);
-      console.log("sidebars", categorizedSidebars);
+      
+      
+      
       
       // Only navigate if current path is not found in any of the category items
       if (!checkPathExists(initialCategoryItems, window.location.pathname)) {

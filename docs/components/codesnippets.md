@@ -27,7 +27,7 @@ You can include multiple code blocks within a single `CodeSnippet` component:
 ```javascript::frontend.js
 fetch('/api/data')
   .then(response => response.json())
-  .then(data => console.log(data));
+  .then(data => 
 ```
 
 ```python::backend.py
@@ -47,7 +47,7 @@ def get_data():
 ```javascript::frontend.js
 fetch('/api/data')
   .then(response => response.json())
-  .then(data => console.log(data));
+  .then(data => 
 ```
 
 ```python::backend.py

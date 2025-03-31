@@ -146,8 +146,8 @@ module.exports = function oramaSearchPlugin(context, options) {
 
       const markdownFiles = await getAllMarkdownFiles(docsDir);
       //const markdownFiles = files.filter(file => file.endsWith('.md'));
-      console.log("this is the files", files);
-      //console.log("this is the markdown files", markdownFiles);
+      
+      //
       // Process each markdown file
       for (const file of markdownFiles) {
         const content = await fs.readFile(file, 'utf-8'); 
@@ -174,9 +174,9 @@ module.exports = function oramaSearchPlugin(context, options) {
         const { frontmatter, markdown } = divideContent(content);
         extractMarkdownCodeBlocksWithoutMultilineFlag(markdown, file, codeCollection)
  
-        //console.log(`Indexed document: ${file}`);
+        //
       }
-      console.log("all the codeblocks", codeCollection)
+      
       const outputFilePath = path.join(context.siteDir, 'allCodeExamples.json');
       await fs.writeFile(outputFilePath, JSON.stringify(codeCollection), 'utf-8');
       return
@@ -184,12 +184,12 @@ module.exports = function oramaSearchPlugin(context, options) {
 
     async contentLoaded({ content, actions }) {
       // You can perform additional actions here if needed
-      console.log('Content loaded. Database size:', db?.size);
+      
     },
 
     async postBuild({ siteConfig, routesPaths, outDir }) {
       // You can perform actions after the build is complete
-      console.log('Build completed. Indexed documents:', db?.size);
+      
     },
   };
 };

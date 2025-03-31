@@ -60,7 +60,7 @@ function OramaSearchModalComponent({
                 properties: ['title', 'content'],
                 limit: 5
             })
-            console.log("what is the hits", hits);
+            
             setResults(hits)
         } catch (error) {
             console.error('Search failed:', error)
