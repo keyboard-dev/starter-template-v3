@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { Button } from './ui/button';
 import { IconGitHub } from './ui/Icon';
-import { AUTH_CONFIG } from '../config/auth';
 import aiConfig from '@site/ai.json';
+import { AUTH_CONFIG } from '../../src/config/auth.ts'
 import { useColorMode } from '@docusaurus/theme-common';
 import BrowserOnly from '@docusaurus/BrowserOnly';
 
@@ -47,15 +47,15 @@ function GitHubAuthContent() {
   const handleLogin = () => {
     try {
       const state = Math.random().toString(36).substring(7);
-      let currentUrl = `${window.location.origin}/auth/callback`;
-      let values = JSON.stringify({
-        url: currentUrl,
-        state: state
-      });
-      values = btoa(values);
-      localStorage.setItem('oauth_state', values);
-      const githubAuthUrl = new URL('http://localhost:3000/auth/github');
-      githubAuthUrl.searchParams.append('state', values);
+      localStorage.setItem('oauth_state', state);
+      console.log(AUTH_CONFIG.authorizationEndpoint)
+      const githubAuthUrl = new URL(AUTH_CONFIG.authorizationEndpoint);
+      githubAuthUrl.searchParams.append('state', state);
+      githubAuthUrl.searchParams.append('client_id', AUTH_CONFIG.clientId);
+      githubAuthUrl.searchParams.append('redirect_uri', AUTH_CONFIG.redirectUri);
+      githubAuthUrl.searchParams.append('scope', AUTH_CONFIG.scope);
+      console.log(AUTH_CONFIG.authorizationEndpoint)
+      console.log(githubAuthUrl.toString());
       window.location.href = githubAuthUrl.toString();
     } catch (err) {
       console.error('Login error:', err);

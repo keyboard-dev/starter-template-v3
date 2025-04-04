@@ -477,8 +477,9 @@ function DocSidebarContent(props: Props): JSX.Element {
         padding-top: 0 !important;
         transition: opacity 0.3s ease-in-out;
         overflow-y: auto;
-        height: calc(100vh - 110px); /* Adjusting for header space */
+        height: calc(100vh - 180px); /* Adjusted to account for header and GitHubAuth */
         scrollbar-width: thin;
+        padding-bottom: 70px; /* Added to prevent content from being hidden behind GitHubAuth */
       }
       
       /* Customizing scrollbar for Webkit browsers */
@@ -678,6 +679,17 @@ function DocSidebarContent(props: Props): JSX.Element {
           />
           <DocSidebar {...modifiedProps} />
         </div>
+
+        <div className="github-auth-container" style={{
+          position: 'absolute',
+          bottom: 0,
+          left: 0,
+          right: 0,
+          padding: '16px',
+        }}>
+          <GitHubAuth />
+        </div>
+    
       </div>
     </>
   );

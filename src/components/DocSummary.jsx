@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import { Button } from "./ui/button";
 import { Card, CardContent } from "./ui/card";
 import { IconFileDescription } from "@tabler/icons-react";
-import { AUTH_CONFIG } from "../config/auth";
 import aiConfig from "@site/ai.json";
 import { unified } from "unified";
 import rehypeParse from "rehype-parse";
