@@ -10,6 +10,7 @@ import { IconWand, IconPlayerPlay, IconExternalLink } from '@tabler/icons-react'
 import { cn } from '@site/src/utils';
 import { useColorMode } from '@docusaurus/theme-common';
 import { CodespaceOpener } from '@site/src/components/CodespaceOpener';
+import { AUTH_CONFIG } from '@site/src/config/auth';
 import BrowserOnly from '@docusaurus/BrowserOnly';
 import {
   Dialog,
@@ -219,7 +220,7 @@ function CopyButtonContent({code, className}: Props): JSX.Element {
         body: raw,
       };
 
-      const response = await fetch("http://localhost:3000/copilot/chat/completions", requestOptions);
+      const response = await fetch(`${AUTH_CONFIG.interactiveDocsBaseUrl}/copilot/chat/completions`, requestOptions);
       
       if (!response.ok) {
         throw new Error(`HTTP error! status: ${response.status}`);

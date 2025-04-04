@@ -10,6 +10,7 @@ import remarkGfm from "remark-gfm";
 import remarkStringify from "remark-stringify";
 import Markdown from "react-markdown";
 import BrowserOnly from '@docusaurus/BrowserOnly';
+import { AUTH_CONFIG } from "../config/auth.ts"
 
 function DocSummaryContent({ content }) {
   if (!aiConfig.github_features) {
@@ -70,7 +71,7 @@ function DocSummaryContent({ content }) {
       };
 
       let data = await fetch(
-        "http://localhost:3000/copilot/chat/completions",
+        `${AUTH_CONFIG.interactiveDocsBaseUrl}/copilot/chat/completions`,
         requestOptions
       );
       let aiData = await data.json();

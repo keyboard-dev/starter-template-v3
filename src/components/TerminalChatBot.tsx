@@ -7,7 +7,7 @@ import aiConfig from '@site/ai.json';
 import { TerminalMarkdown } from './markdown/TerminalMarkdown';
 import { Terminal } from '@site/src/components/ui/terminal';
 import BrowserOnly from '@docusaurus/BrowserOnly';
-
+import { AUTH_CONFIG } from "../config/auth.ts"
 // Debounce helper
 const debounce = (fn: Function, ms = 300) => {
   let timeoutId: ReturnType<typeof setTimeout>;
@@ -451,7 +451,7 @@ Use the terminal below to interact with your project:
         stream: true,
       });
 
-      const response = await fetch('http://localhost:3000/copilot/chat/completions', {
+      const response = await fetch(`${AUTH_CONFIG.interactiveDocsBaseUrl}/copilot/chat/completions`, {
         method: 'POST',
         headers: myHeaders,
         body: raw,

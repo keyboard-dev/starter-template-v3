@@ -24,6 +24,7 @@ import {
 import { Button } from "../components/ui/button";
 import { IconX, IconSend2 } from "@tabler/icons-react";
 import logoJson from "../../logo.json";
+import { AUTH_CONFIG } from "../config/auth.ts"
 
 
 
@@ -251,7 +252,7 @@ function ChatBox({ messages, onSendMessage, onModeChange }) {
         redirect: 'follow',
       };
 
-      const response = await fetch('http://localhost:3000/copilot/chat/completions', requestOptions);
+      const response = await fetch(`${AUTH_CONFIG.interactiveDocsBaseUrl}/copilot/chat/completions`, requestOptions);
       if (!response.ok) {
         throw new Error('Failed to get response from server');
       }
