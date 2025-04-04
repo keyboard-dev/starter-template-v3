@@ -46,6 +46,7 @@ interface DropdownItem {
   description: string;
   icon: React.ReactNode;
   sidebarData?: SidebarItem[];
+  href?: string;
 }
 
 // Function to organize sidebar items by category
@@ -239,10 +240,10 @@ const CustomDropdown = ({ sidebarItems, onCategoryChange }): JSX.Element => {
     // Update the selected category
     setSelectedCategory(item.title);
     setIsOpen(false);
-    
+    console.log(item);
     try {
       if (typeof window !== 'undefined') {
-        localStorage.setItem('docSidebarCategory', item.title);
+          localStorage.setItem('docSidebarCategory', item.title);
       }
     } catch (error) {
       // Silently handle errors (e.g., localStorage disabled or quota exceeded)
@@ -256,6 +257,7 @@ const CustomDropdown = ({ sidebarItems, onCategoryChange }): JSX.Element => {
     
     if (matchingSidebar && matchingSidebar.href && typeof window !== 'undefined') {
       // If href exists, navigate to that URL
+      localStorage.removeItem('docSidebarCategory');
       window.location.href = matchingSidebar.href;
       return;
     }
