@@ -5,6 +5,7 @@ import { Input } from "../components/ui/input"
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "../components/ui/dialog"
 import { Card, CardContent } from "../components/ui/card"
 import { Search, Loader2, MessageSquare } from 'lucide-react'
+import BrowserOnly from '@docusaurus/BrowserOnly';
 // import useIsDarkTheme from '@docusaurus/theme-common/internal/hooks/useIsDarkTheme';
 import {useColorMode} from '@docusaurus/theme-common';
 
@@ -145,4 +146,10 @@ function OramaSearchModalComponent({
     );
 }
 
-export default OramaSearchModalComponent;
+export default function SearchBar(props) {
+  return (
+    <BrowserOnly>
+      {() => <OramaSearchModalComponent {...props} />}
+    </BrowserOnly>
+  );
+}

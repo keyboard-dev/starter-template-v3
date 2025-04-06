@@ -3,8 +3,9 @@ import styles from './GitHubCodespaces.module.css';
 import { IconExternalLink } from '@tabler/icons-react';
 import { CodespaceOpener } from '@site/src/components/CodespaceOpener';
 import clsx from 'clsx';
+import BrowserOnly from '@docusaurus/BrowserOnly';
 
-export default function GitHubCodespaces() {
+function GitHubCodespacesContent() {
   // Check if we're in a codespace by looking for the CODESPACES environment variable
   const isInCodespace = localStorage.getItem('codespace')
 
@@ -21,5 +22,13 @@ export default function GitHubCodespaces() {
 
   return (
     <CodespaceOpener />
+  );
+}
+
+export default function GitHubCodespaces() {
+  return (
+    <BrowserOnly>
+      {() => <GitHubCodespacesContent />}
+    </BrowserOnly>
   );
 } 
