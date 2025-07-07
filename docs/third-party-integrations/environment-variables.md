@@ -52,7 +52,7 @@ You can set environment variables through two primary methods:
 
 * Select 'Codespaces'
 
-* Add variables in the 'Repository secrets' section
+* Add variables that start with prefix "KEYBOARD\_" in the 'Repository secrets' section
 
 ## Best Practices for AI-Driven Environment Variable Naming
 
