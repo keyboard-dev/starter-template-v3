@@ -54,16 +54,6 @@ You can set environment variables through two primary methods:
 
 * Add variables in the 'Repository secrets' section
 
-#### Some Example Variables
-
-```bash
-# AI Integration Configuration
-KEYBOARD_OPENAI_API_KEY=your_openai_secret
-KEYBOARD_LOCAL_LLM_MODEL=gemma3:1b
-KEYBOARD_INTEGRATION_WEBHOOK_URL=https://your-integration-endpoint.com
-KEYBOARD_ENCRYPTION_SECRET=your_encryption_key
-```
-
 ## Best Practices for AI-Driven Environment Variable Naming
 
 ✅ Do:
