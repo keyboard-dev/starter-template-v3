@@ -1,45 +1,85 @@
 ---
-slug: "/"
-title: "Welcome"
+slug: /
+title: Welcome
 sidebar_position: 1
 ---
+# Welcome to Keyboard: Your Model Context Protocol Server
 
-# Getting Started with the Dev-Docs Starter Template
+## Introduction to Keyboard
 
-The Dev-Docs starter template is designed to help you create your own documentation quickly and easily. Whether you're building public-facing documentation for your APIs, SDKs, or applications, or internal documentation for your software engineering organization, this template provides a solid foundation to get started.
+Keyboard is a powerful Model Context Protocol (MCP) server designed to transform how you interact with AI clients like Claude by enabling direct code execution and task automation. It provides a flexible and secure platform for executing complex tasks across various domains.
 
-## Setting Up the Template
+## What Can Keyboard Do?
 
-1. **Clone the repository**: Start by cloning the Dev-Docs starter template repository to your local machine.
+Keyboard allows users to extend the capabilities of AI clients by:
+- Creating slides programmatically
+- Sending emails through code execution
+- Automating workflows
+- Executing context-specific tasks using a robust server infrastructure
 
-2. **Install dependencies**: Navigate to the project directory and install the required dependencies by running the appropriate command for your package manager (e.g., `npm install` or `yarn install`).
+## Key Features
 
-3. **Customize the content**: The template comes with a basic structure and some sample content to help you get started. Modify the existing files or create new ones to suit your documentation needs.
+### Secure Code Execution
+- Run code safely within controlled environments
+- Support for multiple execution contexts
+- Built-in security mechanisms to prevent malicious actions
 
-4. **Configure the theme**: The template uses a modern and responsive theme out of the box, but you can customize it further by modifying the styles and layout according to your project's branding and requirements.
+### Multi-Client Support
+- Compatible with Claude and other MCP clients
+- Flexible integration with various AI services
+- Extensible architecture for future client support
 
-5. **Build and preview**: Use the provided build scripts to generate a static version of your documentation. Most static site generators also include a local development server, allowing you to preview your changes in real-time as you make them.
+### Task Automation
+- Create complex, multi-step workflows
+- Automate repetitive tasks
+- Integrate with various services and APIs
 
-6. **Deploy**: Once you're satisfied with your documentation, deploy it to your preferred hosting platform. Many static site generators provide seamless integration with popular hosting services like GitHub Pages, Netlify, or AWS S3.
+## Getting Started
 
-## Folder Structure
+### Prerequisites
+- Node.js (version 18 or higher)
+- Access to an MCP-compatible AI client
+- GitHub Personal Access Token (for some advanced features)
 
-The Dev-Docs starter template follows a standard folder structure to help you organize your content:
+### Quick Setup
+```bash
+# Clone the Keyboard repository
+git clone https://github.com/your-org/keyboard-mcp.git
 
-- `docs/`: This directory contains the source files for your documentation, typically written in Markdown or another markup language supported by your chosen static site generator.
-- `public/`: This directory is used to store the generated, static HTML files after the build process.
-- `src/`: This directory contains the source code for any custom components, plugins, or scripts you might add to your documentation site.
-- `static/`: This directory is for static assets like images, stylesheets, and JavaScript files used by your documentation.
+# Install dependencies
+npm install
 
-## Customization and Extensibility
+# Start the Keyboard server
+npm start
+```
 
-The Dev-Docs starter template is built with extensibility in mind, allowing you to customize and enhance it according to your specific needs. You can:
+## Core Concepts
 
-- **Add new pages**: Create new Markdown files in the `docs/` directory to add more pages to your documentation.
-- **Integrate with external services**: Leverage the extensibility of your chosen static site generator to integrate with external services like search engines, analytics tools, or comment systems.
-- **Develop custom components**: Use the `src/` directory to develop custom React components, Vue components, or other reusable elements to enhance the functionality and user experience of your documentation.
-- **Enhance the theme**: Modify the existing theme styles and layouts by editing the provided CSS and template files, or create your own custom theme from scratch.
+### Model Context Protocol (MCP)
+Keyboard implements the Model Context Protocol, which provides a standardized way for AI clients to interact with execution environments, enabling more dynamic and powerful interactions.
 
-By leveraging the Dev-Docs starter template, you can kickstart your documentation project and focus on creating high-quality content while benefiting from the flexibility and extensibility of modern static site generators.
+### Execution Tools
+Keyboard provides a range of tools for different execution scenarios:
+- WebSocket communication
+- Code evaluation
+- Resource management
+- Secure token-based execution
 
+## Security First
 
+Keyboard is designed with security at its core:
+- Token-based authentication
+- Controlled execution environments
+- Comprehensive security checks
+- Approval workflows for sensitive operations
+
+## Next Steps
+- Explore the documentation
+- Check out example workflows
+- Join our community discussions
+
+## Contributing
+Interested in improving Keyboard? We welcome contributions! Please see our contribution guidelines for more information.
+
+## License
+Keyboard is open-source software licensed under [Your License Here].
