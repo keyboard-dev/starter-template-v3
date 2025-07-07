@@ -85,10 +85,6 @@ KEYBOARD_ENCRYPTION_SECRET=your_encryption_key
 ### Examples of Excellent Environment Variable Names
 
 ```bash
-# AI Model Configuration
-KEYBOARD_AI_MODEL_DEFAULT=gemma3:1b
-KEYBOARD_AI_TEMPERATURE=0.7
-KEYBOARD_AI_MAX_TOKENS=1024
 
 # Third-Party Integration Secrets
 KEYBOARD_OPENAI_API_KEY
