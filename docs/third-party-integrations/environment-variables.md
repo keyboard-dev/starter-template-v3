@@ -84,22 +84,6 @@ KEYBOARD_GOOGLE_SLIDES_KEY
 KEYBOARD_GOOGLE_DOCS_KEY_READ_ONLY
 ```
 
-## Security Considerations for AI Environment Variables
-
-⚠️ Critical Security Guidelines:
-
-* Never commit AI secrets to version control
-
-* Use GitHub's encrypted secret management
-
-* Rotate AI credentials regularly
-
-* Implement strict access controls
-
-* Validate and sanitize AI-generated code
-
-* Monitor and log AI interactions
-
 ## Discretionary Use Warning
 
 Disclaimer: Environment variables in an AI-powered system require extra caution:
