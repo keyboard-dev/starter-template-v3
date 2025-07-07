@@ -56,8 +56,6 @@ You can set environment variables through two primary methods:
 
 #### Some Example Variables
 
-Create a .env file in your project root:
-
 ```bash
 # AI Integration Configuration
 KEYBOARD_OPENAI_API_KEY=your_openai_secret
