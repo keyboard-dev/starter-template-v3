@@ -102,7 +102,7 @@ Disclaimer: Environment variables in an AI-powered system require extra caution:
 
 Some key KEYBOARD-specific environment variables:
 
-* `KB_ENCRYPTION_SECRET`: Used for Encrypting and Decrypting
+* `KB_ENCRYPTION_SECRET`: Used for Encrypting and Decrypting, should match your CODE\_ENCRYPTION
 
 ## Conclusion
 
