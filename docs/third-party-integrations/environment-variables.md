@@ -102,7 +102,7 @@ Disclaimer: Environment variables in an AI-powered system require extra caution:
 
 Some key KEYBOARD-specific environment variables:
 
-* `KEYBOARD_ENCRYPTION_SECRET`: Used for securing AI-generated code
+* `KB_ENCRYPTION_SECRET`: Used for securing AI-generated code
 
 * `KEYBOARD_LOCAL_LLM_MODEL`: Configures default local language model
 
