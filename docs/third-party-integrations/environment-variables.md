@@ -102,7 +102,7 @@ Disclaimer: Environment variables in an AI-powered system require extra caution:
 
 Some key KEYBOARD-specific environment variables:
 
-* `KB_ENCRYPTION_SECRET`: Used for Encrypting and Decrypting, should match your CODE\_ENCRYPTION\_KEY in the Desktop Approver App
+* `KB_ENCRYPTION_SECRET`: Used for Encrypting and Decrypting, should match your `CODE_ENCRYPTION_KEY` in the Desktop Approver App
 
 ## Conclusion
 
