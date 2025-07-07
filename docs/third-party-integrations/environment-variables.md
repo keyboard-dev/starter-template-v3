@@ -80,6 +80,7 @@ You can set environment variables through two primary methods:
 KEYBOARD_OPENAI_API_KEY
 KEYBOARD_TYPEFORM_KEY
 KEYBOARD_ASANA_API_KEY
+KEYBOARD_GOOGLE_SLIDES_KEY
 ```
 
 ## Security Considerations for AI Environment Variables
