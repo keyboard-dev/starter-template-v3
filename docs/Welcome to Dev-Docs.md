@@ -7,13 +7,13 @@ sidebar_position: 1
 
 ## Introduction to Keyboard
 
-Keyboard is a powerful Model Context Protocol (MCP) server designed to transform how you interact with AI clients like Claude by enabling direct code execution and task automation. It provides a flexible and secure platform for executing complex tasks across various domains.
+Keyboard is a powerful Model Context Protocol (MCP) server designed to transform how you interact with AI clients like Claude by enabling direct code execution and task automation. It provides a flexible and secure platform for connecting your internal applications to your AI client and executing complex tasks across various domains.
 
 ## What Can Keyboard Do?
 
 Keyboard allows users to extend the capabilities of AI clients by:
-- Creating slides programmatically
-- Sending emails through code execution
+- Connect various apps to your AI client via one secure MCP server
+- Execute the tasks within your own environment
 - Automating workflows
 - Executing context-specific tasks using a robust server infrastructure
 
@@ -79,7 +79,7 @@ Keyboard is designed with security at its core:
 - Join our community discussions
 
 ## Contributing
-Interested in improving Keyboard? We welcome contributions! Please see our contribution guidelines for more information.
+Interested in improving Keyboard? We welcome contributions! Please join our #contributing channel on Discord and ping us there!
 
 ## License
 Keyboard is open-source software licensed under [Your License Here].
