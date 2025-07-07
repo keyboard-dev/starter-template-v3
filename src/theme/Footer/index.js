@@ -7,7 +7,7 @@ import { useColorMode } from '@docusaurus/theme-common';
 import GlobalDarkModeHandler from '@site/src/components/GlobalDarkModeHandler';
 import '@fontsource/inter';
 import { BackgroundGradientAnimation } from "@site/src/components/background-gradient-animation";
-import { ChatManager } from '@site/src/components/ChatManager';
+
 
 
 
@@ -71,7 +71,7 @@ export default function FooterWrapper(props) {
     <>
 
       <GlobalDarkModeHandler />
-      <ChatManager />
+
 
 
         <Footer {...props} />
