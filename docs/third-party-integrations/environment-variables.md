@@ -104,12 +104,6 @@ Some key KEYBOARD-specific environment variables:
 
 * `KB_ENCRYPTION_SECRET`: Used for securing AI-generated code
 
-* `KEYBOARD_LOCAL_LLM_MODEL`: Configures default local language model
-
-* `KEYBOARD_AI_TEMPERATURE`: Controls AI code generation randomness
-
-* `KEYBOARD_MAX_EXECUTION_TIME`: Sets timeout for AI code execution
-
 ## Conclusion
 
 Properly managed environment variables are crucial for creating secure, intelligent, and flexible AI-driven code generation and execution in the KEYBOARD development ecosystem.
