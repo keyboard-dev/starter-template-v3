@@ -75,7 +75,9 @@ npm run build
 
 ```
 # Clone the Keyboard Desktop App
-git clone https://github.com/keyboard-dev/keyboard-mcp.git
+git clone https://github.com/keyboard-dev/approver-client.git
+
+# Install dependencies
 ```
 
 ## Core Concepts
