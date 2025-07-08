@@ -37,9 +37,7 @@ npm install
 npm run dev
 ```
 
-To install the keyboard MCP server, you'll use the build command provided in the project's `package.json`.
-
-### Clone the Repository
+## Setting up with Claude Desktop
 
 ```bash
 git clone https://github.com/keyboard-dev/keyboard-mcp.git
