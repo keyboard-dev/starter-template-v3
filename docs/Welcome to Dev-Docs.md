@@ -83,7 +83,10 @@ npm install
 npm run dev
 ```
 
-## Core Concepts
+Login and you are off to the races\
+\
+Core Concepts
+-------------
 
 ### Model Context Protocol (MCP)
 
