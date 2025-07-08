@@ -1,4 +1,3 @@
-
 # Quickstart: Setting Up the Keyboard MCP Server
 
 ## Prerequisites
@@ -11,7 +10,7 @@ Before getting started, ensure you have the following installed:
 
 * Git
 
-## 1. Install the Keyboard MCP Server
+## 1. Clone both
 
 To install the keyboard MCP server, you'll use the build command provided in the project's `package.json`.
 
@@ -23,7 +22,9 @@ cd keyboard-mcp
 ```
 
 ### Install Dependencies
-=======
+
+\=======
+
 # Step 1: Set Up Approver Client
 
 ## Prerequisites
@@ -61,11 +62,9 @@ cd approver-client
 
 2. Install dependencies:
 
-
 ```bash
 npm install
 ```
-
 
 ### Build the Project
 
@@ -93,7 +92,9 @@ Next Steps:\
 \
 In order for this to work we have to set up the Desktop Approver App.
 ---------------------------------------------------------------------
-=======
+
+\=======
+
 ## Running the Approver Client
 
 Start the desktop application:
@@ -137,4 +138,3 @@ The application uses OAuth 2.0 with PKCE (Proof Key for Code Exchange) for secur
 * Configure additional settings
 
 * Review detailed documentation for advanced usage
-
