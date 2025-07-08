@@ -10,7 +10,32 @@ Before getting started, ensure you have the following installed:
 
 * Git
 
-## 1. Clone both
+1\. Clone both projects\
+\
+Quick Setup
+-----------
+
+```bash
+# Clone the Keyboard repository
+git clone https://github.com/keyboard-dev/keyboard-mcp.git
+
+# Install dependencies
+npm install
+
+# Start the Keyboard server
+npm run build
+```
+
+```
+# Clone the Keyboard Desktop App
+git clone https://github.com/keyboard-dev/approver-client.git
+
+# Install dependencies
+npm install
+
+# run the Electron App
+npm run dev
+```
 
 To install the keyboard MCP server, you'll use the build command provided in the project's `package.json`.
 
