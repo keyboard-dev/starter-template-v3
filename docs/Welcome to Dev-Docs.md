@@ -70,6 +70,8 @@ Once you fork that repo generate a GitHub PAT that only has access to that repo 
 
 ![](/img/pat.png)Once you add generate the PAT go back to Claude Desktop and add that PAT in the UI.
 
+## Download and clone the approver App
+
 ```
 # Clone the Keyboard Desktop App
 git clone https://github.com/keyboard-dev/approver-client.git
