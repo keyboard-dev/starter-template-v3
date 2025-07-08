@@ -80,7 +80,8 @@ git clone https://github.com/keyboard-dev/approver-client.git
 # Install dependencies
 npm install
 
-#
+# run the Electron App
+npm run dev
 ```
 
 ## Core Concepts
