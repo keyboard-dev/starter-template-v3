@@ -37,6 +37,8 @@ Copy that PAT in the Claude  UI.
 ```
 # Clone the Keyboard Desktop App
 git clone https://github.com/keyboard-dev/approver-client.git
+
+cd approver-client
 ```
 
 ## Add .env for the Desktop App
@@ -66,7 +68,7 @@ In this project we also use [dotenvx](https://dotenvx.com) to encrypt the creden
 ```bash
 
 npx @dotenvx/dotenvx encrypt
-npx dotenvx ext gitignore
+npx @dotenvx/dotenvx ext gitignore
 
 ```
 
