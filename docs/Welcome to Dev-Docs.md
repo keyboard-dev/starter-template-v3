@@ -60,7 +60,7 @@ Keyboard allows users to extend the capabilities of AI clients by:
 
 * GitHub Personal Access Token (for some advanced features)
 
-### Quick Setup with Claude Desktop You will need to
+### Quick Setup with Claude Desktop You will need to drag and drop the
 
 ```
 # Clone the Keyboard Desktop App
