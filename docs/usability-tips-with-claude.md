@@ -1,42 +1,22 @@
-# Usability Tips with Claude
+# Using Keyoard in Claude
 
-## Introduction
+Before getting started: 
 
-When working with Claude and the Keyboard development environment, there are several key usability tips to ensure smooth code execution and interaction.
+* Visit the Quickstart guide to ensure you have Keyboard installed with the proper permissions
 
-## Prerequisites
-
-Before getting started, ensure you have:
-
-* A GitHub Codespace
-
-* WebSocket connection
-
-* Claude Desktop client
+* Connect Keyboard to the third party apps you want to give Claude access to (see here if you haven't already)
 
 ## Key Execution Requirements
 
-### Codespace Setup
+1. Log into Keyboard 
 
-To execute code effectively with Claude, you'll need to:
+2. Open Claude and ensure Keyboard is connected. (Tip: you can ask Claude if it is connected to Keyboard)
 
-1. Set up a GitHub Codespace
-
-2. Establish a secure WebSocket connection
-
-3. Have the appropriate GitHub Personal Access Token (PAT)
-
-### WebSocket Connection
-
-A WebSocket connection is critical for:
-
-* Real-time code execution
-
-* Secure communication between Claude and your development environment
-
-* Enabling instant task automation and context transfer
+3. Keep the Keyboard desktop app open so you can approve the workflows as they come up
 
 ## Getting Started with Keyboard
+
+You're ready to go! Just go into Claude and start asking it to perform tasks in the various apps you connected. 
 
 ### Initial Prompt Requirement
 
@@ -65,11 +45,3 @@ keyboard: Please run some hello world code
 * Ensure Codespace is properly configured
 
 * Validate GitHub PAT permissions
-
-## Next Steps
-
-* Explore advanced code execution workflows
-
-* Learn more about the Model Context Protocol (MCP)
-
-* Join community discussions for advanced usage tips
