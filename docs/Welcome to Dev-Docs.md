@@ -79,6 +79,8 @@ git clone https://github.com/keyboard-dev/approver-client.git
 
 # Install dependencies
 npm install
+
+#
 ```
 
 ## Core Concepts
