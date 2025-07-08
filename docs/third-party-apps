@@ -20,7 +20,7 @@ Environment variables provide a powerful and secure mechanism for AI to:
 
 ## AI-Powered Environment Variable Use Cases
 
-KEYBOARD's environment variables are specifically designed to empower AI to:
+Keyboard's environment variables are specifically designed to empower AI to:
 
 * Authenticate with external APIs
 
@@ -52,7 +52,7 @@ You can set environment variables through two primary methods:
 
 * Select 'Codespaces'
 
-* Add variables that start with prefix "KEYBOARD\_" in the 'Repository secrets' section
+* Add variables that start with prefix "KEYBOARD_" in the 'Repository secrets' section
 
 ## Best Practices for AI-Driven Environment Variable Naming
 
@@ -100,13 +100,13 @@ Disclaimer: Environment variables in an AI-powered system require extra caution:
 
 ## AI-Specific Environment Configuration
 
-Some key KEYBOARD-specific environment variables:
+Some key Keyboard specific environment variables:
 
 * `KB_ENCRYPTION_SECRET`: Used for Encrypting and Decrypting, should match your `CODE_ENCRYPTION_KEY` in the Desktop Approver App
 
 ## Conclusion
 
-Properly managed environment variables are crucial for creating secure, intelligent, and flexible AI-driven code generation and execution in the KEYBOARD development ecosystem.
+Properly managed environment variables are crucial for creating secure, intelligent, and flexible AI-driven code generation and execution in the Keyboard development ecosystem.
 
 ## Next Steps
 
