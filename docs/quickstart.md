@@ -1,35 +1,69 @@
-# Quickstart: Setting Up the Keyboard MCP Server
+## Getting Started
 
-## Prerequisites
+### Prerequisites
 
-Before getting started, ensure you have the following installed:
+* Node.js (version 18 or higher)
 
-* Node.js (version 18.0.0 or higher)
+* Access to an Claude Desktop. with an account that can integrations and MCP servers
 
-* npm (Node Package Manager)
+* GitHub Personal Access Token scoped to use codespaces
 
-* Git
+### Fork the codespace repo
 
-1\. Clone both projects\
-\
-Quick Setup
------------
+Go fork this repo: [repo](https://github.com/keyboard-dev/codespace-executor).
 
-```bash
-# Clone the Keyboard repository
-git clone https://github.com/keyboard-dev/keyboard-mcp.git
+### Generate a GitHub Pat for the codespace repo
 
-# Install dependencies
-npm install
+Generate a GitHub PAT that only has access to tho the codespace-executor repo and has the following codespaces permissions below in the screenshots:
 
-# Start the Keyboard server
-npm run build
-```
+![select-repo](/img/select_repo.png)
+
+![generate-pat](/img/pat.png)
+
+You will need to copy and paste this PAT in the next step.
+
+### Setup with Claude Desktop 
+
+You will need to drag and drop the keyboard-mcp.dxt file found here: [repo](https://github.com/keyboard-dev/keyboard-mcp/releases)
+
+![](/img/desktop.png)
+
+Just Drag and drop and then click "install". 
+
+Copy that PAT in the Claude  UI.
+
+## Clone clone the approver App
 
 ```
 # Clone the Keyboard Desktop App
 git clone https://github.com/keyboard-dev/approver-client.git
+```
 
+## Add .env for the Desktop App
+
+### Generate encryption keys
+
+run this script at the root of project to create your encyrption keys.  You will need to copy and paste them in the next step.
+
+```
+node generate-encryption-key.js
+```
+
+### Create the .env file
+
+Create a `.env` file in the project root with the following configuration.  Use the generate script(todo andrew fix).
+
+```bash
+# Required
+ENCRYPTION_KEY=RANDOM_ENCRYPTION_KEY
+
+# Optional: Enable message encryption
+#CODE_ENCRYPTION_KEY=RANDOM_ENCRYPTION_KEY
+```
+
+Now run the project
+
+```
 # Install dependencies
 npm install
 
@@ -37,116 +71,7 @@ npm install
 npm run dev
 ```
 
-## Setting up with Claude Desktop
-
-In order to use with Claude Desktop you have to set add it using the Claude
-
-```bash
-git clone https://github.com/keyboard-dev/keyboard-mcp.git
-cd keyboard-mcp
-```
-
-### Install Dependencies
-
-\=======
-
-# Step 1: Set Up Approver Client
-
-## Prerequisites
-
-Before you begin, ensure you have the following:
-
-* Node.js (version 16 or later)
-
-* npm (Node Package Manager)
-
-* A GitHub Personal Access Token (PAT)
-
-## Setting Up Environmental Variables
-
-Create a `.env` file in the project root with the following configuration:
-
-```bash
-
-# Required
-ENCRYPTION_KEY=RANDOM_ENCRYPTION_KEY
-API_URL=API_URL_OF_KEYBOARD
-
-# Optional: Enable message encryption
-#CODE_ENCRYPTION_KEY=RANDOM_ENCRYPTION_KEY
-```
-
-## Installation
-
-1. Clone the repository:
-
-```bash
-git clone https://github.com/your-repo/approver-client.git
-cd approver-client
-```
-
-2. Install dependencies:
-
-```bash
-npm install
-```
-
-### Build the Project
-
-```bash
-npm run build
-```
-
-This command will compile the TypeScript source code into JavaScript and make the server executable.
-
-## 2. Understanding the MCP Server
-
-The Keyboard MCP (Model Context Protocol) Server is designed to provide a flexible, extensible platform for interactive computing tasks. It includes several key tools and capabilities:
-
-* WebSocket connection management
-
-* Message sending and approval workflows
-
-* GitHub Codespace integration
-
-* Script template management
-
-* Code execution in secure environments
-
-Next Steps:\
-\
-In order for this to work we have to set up the Desktop Approver App.
----------------------------------------------------------------------
-
-\=======
-
-## Running the Approver Client
-
-Start the desktop application:
-
-```bash
-npm run dev
-```
-
-## Connecting to MCP Server
-
-The Approver Client is designed to connect to a Keyboard MCP (Message Coordination Protocol) server:
-
-1. Ensure the MCP server is running
-
-2. The application will automatically attempt to establish a WebSocket connection
-
-3. Configure server endpoints in your application settings if needed
-
-## Authentication
-
-The application uses OAuth 2.0 with PKCE (Proof Key for Code Exchange) for secure authentication:
-
-* Click 'Login' in the application
-
-* You'll be redirected to an authentication page
-
-* Complete the OAuth flow to access the application
+Create an account and get started.
 
 ## Troubleshooting
 
