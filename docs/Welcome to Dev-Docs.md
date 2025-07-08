@@ -68,7 +68,7 @@ Before you do that please go fork: <https://github.com/keyboard-dev/codespace-ex
 \
 Once you fork that repo generate a GitHub PAT that only has access to that repo and has the following codespaces permissions below in the screenshot:
 
-![](upload)
+![](/img/select_repo.png)
 
 ```
 # Clone the Keyboard Desktop App
