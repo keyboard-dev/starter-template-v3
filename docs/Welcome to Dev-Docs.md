@@ -64,7 +64,7 @@ Keyboard allows users to extend the capabilities of AI clients by:
 
 ```bash
 # Clone the Keyboard repository
-git clone https://github.com/your-org/keyboard-mcp.git
+git clone https://github.com/keyboard-dev/keyboard-mcp.git
 
 # Install dependencies
 npm install
