@@ -37,7 +37,10 @@ npm install
 npm run dev
 ```
 
-## Setting up with Claude Desktop
+Setting up with Claude Desktop\
+\
+In order to use with Claude
+---------------------------
 
 ```bash
 git clone https://github.com/keyboard-dev/keyboard-mcp.git
