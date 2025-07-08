@@ -66,6 +66,8 @@ Keyboard allows users to extend the capabilities of AI clients by:
 \
 Before you do that please go fork: <https://github.com/keyboard-dev/codespace-executor>.\
 \
+Once you fork that r\
+\
 Go to GitHub and generate a personal access token with following permissions below"
 
 ```
