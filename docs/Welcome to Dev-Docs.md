@@ -93,40 +93,56 @@ Keyboard is designed with security at its core:
 
 Interested in improving Keyboard? We welcome contributions! Please join our #contributing channel on Discord and ping us there!
 
-## Getting Started
+---
 
-### Prerequisites
+## ⚠️ Warning and Disclaimer
 
-* Node.js (version 18 or higher)
+**USE AT YOUR OWN RISK**
 
-* Access to an Claude Desktop. with an account that can integrations and MCP servers
+The keyboard automation tools and scripts provided in this documentation are intended for educational and productivity purposes only. By using these tools, you acknowledge and agree to the following:
 
-* GitHub Personal Access Token scoped to use codespaces
+### Important Warnings
 
-### Quick Setup with Claude Desktop You will need to drag and drop the keyboard-mcp.dxt file found here: [repo](https://github.com/keyboard-dev/keyboard-mcp/releases)
+- **Codespace Environment Impact**: Keyboard automation can interact with your codespace environment and applications in ways that may cause unexpected behavior, data loss, or environment instability.
+- **Security Considerations**: Automated keyboard inputs may inadvertently trigger security features, access sensitive information, or interact with applications in unintended ways within your codespace.
+- **Application Compatibility**: Not all applications handle automated input the same way. Some may block or misinterpret automated keystrokes within the codespace environment.
+- **Rate Limiting**: Rapid automated inputs may trigger rate limiting, security measures, or cause applications to become unresponsive within your codespace.
+- **Environment Isolation**: While codespaces provide isolation, automated inputs can still affect your workspace, files, and running processes within the container.
 
-![](/img/desktop.png)Just Drag and drop and then click "install". From there you will be prompted to add a GitHub PAT.
+### Disclaimer of Liability
 
-Before you do that please go fork: [repo](https://github.com/keyboard-dev/codespace-executor).
+The developers and maintainers of this keyboard automation system:
 
-Once you fork that repo generate a GitHub PAT that only has access to that repo and has the following codespaces permissions below in the screenshot:![](/img/select_repo.png)
+- Provide this software "AS IS" without warranty of any kind, either express or implied
+- Are not responsible for any damage, data loss, security breaches, or other issues that may arise from use of these tools
+- Do not guarantee compatibility with all codespace configurations, applications, or use cases
+- Are not liable for any direct, indirect, incidental, special, or consequential damages
 
-![](/img/pat.png)Once you add generate the PAT go back to Claude Desktop and add that PAT in the UI.
+### User Responsibilities
 
-## Download and clone the approver App
+By using these tools, you agree to:
 
-```
-# Clone the Keyboard Desktop App
-git clone https://github.com/keyboard-dev/approver-client.git
+- Test thoroughly in safe environments before production use
+- Understand the implications of automated keyboard input in your specific codespace context
+- Comply with all applicable laws, regulations, and terms of service
+- Use these tools ethically and responsibly
+- Take full responsibility for any consequences of their use
+- Ensure your codespace usage complies with your hosting provider's terms of service
 
-# Install dependencies
-npm install
+### Ethical Use
 
-# run the Electron App
-npm run dev
-```
+These tools should only be used for legitimate purposes such as:
+- Personal productivity automation
+- Testing and development
+- Educational purposes
+- Authorized system administration tasks within your codespace
 
-Login and you are off to the races
+**Do not use these tools for:**
+- Unauthorized access to systems or data
+- Circumventing security measures
+- Violating terms of service
+- Any illegal or unethical activities
+
 
 
 
