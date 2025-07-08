@@ -10,7 +10,7 @@
 
 ### Fork the codespace repo
 
-Go fork this repo: [repo](https://github.com/keyboard-dev/codespace-executor).
+Go fork this repo: [repo link](https://github.com/keyboard-dev/codespace-executor).
 
 ### Generate a GitHub Pat for the codespace repo
 
@@ -24,7 +24,7 @@ You will need to copy and paste this PAT in the next step.
 
 ### Setup with Claude Desktop 
 
-You will need to drag and drop the keyboard-mcp.dxt file found here: [repo](https://github.com/keyboard-dev/keyboard-mcp/releases)
+You will need to drag and drop the keyboard-mcp.dxt file found here: [dxt github release](https://github.com/keyboard-dev/keyboard-mcp/releases)
 
 ![](/img/desktop.png)
 
@@ -59,6 +59,15 @@ ENCRYPTION_KEY=RANDOM_ENCRYPTION_KEY
 
 # Optional: Enable message encryption
 #CODE_ENCRYPTION_KEY=RANDOM_ENCRYPTION_KEY
+```
+
+In this project we also use [dotenvx](https://dotenvx.com) to encrypt the credentials to rest.  So make sure to run this command below.
+
+```bash
+
+npx @dotenvx/dotenvx encrypt
+npx dotenvx ext gitignore
+
 ```
 
 Now run the project
