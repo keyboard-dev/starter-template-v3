@@ -75,7 +75,7 @@ npm run build
 
 ```
 # Clone the Keyboard Desktop App
-git clone https://github.com/
+git clone https://github.com/keyboard-dev/keyboard-mcp.git
 ```
 
 ## Core Concepts
