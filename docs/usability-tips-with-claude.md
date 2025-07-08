@@ -40,7 +40,7 @@ A WebSocket connection is critical for:
 
 ### Initial Prompt Requirement
 
-🔑 **Important**: When interacting with the system, always begin your prompt with the word 'keyboard'. This signals the system that you're ready to initiate a development or execution context.
+🔑 **Important**: When interacting with the system, always begin your prompt with the word 'keyboard'. This signals the system that you want to use Keyboard not accidentally trigger another tool.
 
 Example:
 
