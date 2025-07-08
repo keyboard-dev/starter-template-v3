@@ -66,11 +66,7 @@ Keyboard allows users to extend the capabilities of AI clients by:
 \
 Before you do that please go fork: <https://github.com/keyboard-dev/codespace-executor>.\
 \
-Once you fork that repo generate a GitHub PAT that only has access to that repo and has the following permissions below:\
-\
-\
-\
-Go to GitHub and generate a personal access token with following permissions below"
+Once you fork that repo generate a GitHub PAT that only has access to that repo and has the following permissions below:
 
 ```
 # Clone the Keyboard Desktop App
