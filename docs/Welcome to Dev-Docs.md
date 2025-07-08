@@ -60,18 +60,7 @@ Keyboard allows users to extend the capabilities of AI clients by:
 
 * GitHub Personal Access Token (for some advanced features)
 
-### Quick Setup
-
-```bash
-# Clone the Keyboard repository
-git clone https://github.com/keyboard-dev/keyboard-mcp.git
-
-# Install dependencies
-npm install
-
-# Start the Keyboard server
-npm run build
-```
+### Quick Setup You will need to
 
 ```
 # Clone the Keyboard Desktop App
