@@ -50,41 +50,6 @@ Keyboard allows users to extend the capabilities of AI clients by:
 
 * Integrate with various services and APIs
 
-## Getting Started
-
-### Prerequisites
-
-* Node.js (version 18 or higher)
-
-* Access to an Claude Desktop. with an account that can integrations and MCP servers
-
-* GitHub Personal Access Token scoped to use codespaces
-
-### Quick Setup with Claude Desktop You will need to drag and drop the keyboard-mcp.dxt file found here: [repo](https://github.com/keyboard-dev/keyboard-mcp/releases)
-
-![](/img/desktop.png)Just Drag and drop and then click "install". From there you will be prompted to add a GitHub PAT.
-
-Before you do that please go fork: [repo](https://github.com/keyboard-dev/codespace-executor).
-
-Once you fork that repo generate a GitHub PAT that only has access to that repo and has the following codespaces permissions below in the screenshot:![](/img/select_repo.png)
-
-![](/img/pat.png)Once you add generate the PAT go back to Claude Desktop and add that PAT in the UI.
-
-## Download and clone the approver App
-
-```
-# Clone the Keyboard Desktop App
-git clone https://github.com/keyboard-dev/approver-client.git
-
-# Install dependencies
-npm install
-
-# run the Electron App
-npm run dev
-```
-
-Login and you are off to the races
-
 Core Concepts
 -------------
 
@@ -128,6 +93,41 @@ Keyboard is designed with security at its core:
 
 Interested in improving Keyboard? We welcome contributions! Please join our #contributing channel on Discord and ping us there!
 
-## License
+## Getting Started
 
-Keyboard is open-source software licensed under \[Your License Here].
+### Prerequisites
+
+* Node.js (version 18 or higher)
+
+* Access to an Claude Desktop. with an account that can integrations and MCP servers
+
+* GitHub Personal Access Token scoped to use codespaces
+
+### Quick Setup with Claude Desktop You will need to drag and drop the keyboard-mcp.dxt file found here: [repo](https://github.com/keyboard-dev/keyboard-mcp/releases)
+
+![](/img/desktop.png)Just Drag and drop and then click "install". From there you will be prompted to add a GitHub PAT.
+
+Before you do that please go fork: [repo](https://github.com/keyboard-dev/codespace-executor).
+
+Once you fork that repo generate a GitHub PAT that only has access to that repo and has the following codespaces permissions below in the screenshot:![](/img/select_repo.png)
+
+![](/img/pat.png)Once you add generate the PAT go back to Claude Desktop and add that PAT in the UI.
+
+## Download and clone the approver App
+
+```
+# Clone the Keyboard Desktop App
+git clone https://github.com/keyboard-dev/approver-client.git
+
+# Install dependencies
+npm install
+
+# run the Electron App
+npm run dev
+```
+
+Login and you are off to the races
+
+
+
+
