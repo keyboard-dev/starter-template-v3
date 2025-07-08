@@ -52,8 +52,6 @@ keyboard: Please run some hello world code
 
 * Always verify your WebSocket connection is stable
 
-* Keep your GitHub PAT secure and updated
-
 * Start prompts with 'keyboard' to ensure proper context
 
 * Use the Claude Desktop client for integrated experiences
