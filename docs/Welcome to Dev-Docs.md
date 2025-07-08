@@ -63,9 +63,9 @@ Keyboard allows users to extend the capabilities of AI clients by:
 ### Quick Setup with Claude Desktop You will need to drag and drop the keyboard-mcp.dxt file found here: <https://github.com/keyboard-dev/keyboard-mcp/releases>
 
 ![](/img/desktop.png)Just Drag and drop and then click "install". From there you will be prompted to add a GitHub PAT.\
-\
-Before you do that please go fork: <https://github.com/keyboard-dev/codespace-executor>.\
-\
+
+Before you do that please go fork: <https://github.com/keyboard-dev/codespace-executor>.
+
 Once you fork that repo generate a GitHub PAT that only has access to that repo and has the following codespaces permissions below in the screenshot:![](/img/select_repo.png)
 
 ![](/img/pat.png)Once you add generate the PAT go back to Claude Desktop and add that PAT in the UI.
@@ -83,8 +83,8 @@ npm install
 npm run dev
 ```
 
-Login and you are off to the races\
-\
+Login and you are off to the races
+
 Core Concepts
 -------------
 
