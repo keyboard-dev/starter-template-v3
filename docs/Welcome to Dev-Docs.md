@@ -74,6 +74,7 @@ npm run build
 ```
 
 ```
+# Clone the Keyboard Desktop App
 ```
 
 ## Core Concepts
