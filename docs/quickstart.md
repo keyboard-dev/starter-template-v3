@@ -4,7 +4,7 @@
 
 * Node.js (version 18 or higher)
 
-* Access to an Claude Desktop. with an account that can integrations and MCP servers
+* Access to an Claude Desktop. with an account that can add integrations and MCP servers.
 
 * GitHub Personal Access Token scoped to use codespaces
 
@@ -51,7 +51,7 @@ node generate-encryption-key.js
 
 ### Create the .env file
 
-Create a `.env` file in the project root with the following configuration.  Use the generate script(todo andrew fix).
+Create a `.env` file in the project root with the following configuration.  If in Claude Desktop you want to optionally encrypt messages sent from your local MCP server to your codespace execution server the `CODE_ENCRYPTION_KEY` will be used to add an additional layer of encryption to the data in transit.  You will also need to add an env variable to the codespace-executor called `KB_ENCRYPTION_KEY` that will be the same value as `CODE_ENCRYPTION_KEY`.  
 
 ```bash
 # Required
