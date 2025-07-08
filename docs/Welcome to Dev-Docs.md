@@ -56,9 +56,9 @@ Keyboard allows users to extend the capabilities of AI clients by:
 
 * Node.js (version 18 or higher)
 
-* Access to an MCP-compatible AI client
+* Access to an Claude Desktop. with an account that can integrations and MCP servers
 
-* GitHub Personal Access Token (for some advanced features)
+* GitHub Personal Access Token scoped to use codespaces
 
 ### Quick Setup with Claude Desktop You will need to drag and drop the keyboard-mcp.dxt file found here: <https://github.com/keyboard-dev/keyboard-mcp/releases>
 
