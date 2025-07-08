@@ -68,7 +68,7 @@ Before you do that please go fork: <https://github.com/keyboard-dev/codespace-ex
 \
 Once you fork that repo generate a GitHub PAT that only has access to that repo and has the following codespaces permissions below in the screenshot:![](/img/select_repo.png)
 
-![](/img/pat.png)Once you add generate the PAT go back to Claude Desktop and add that
+![](/img/pat.png)Once you add generate the PAT go back to Claude Desktop and add that PAT in the UI.
 
 ```
 # Clone the Keyboard Desktop App
