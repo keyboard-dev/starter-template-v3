@@ -62,7 +62,7 @@ Keyboard allows users to extend the capabilities of AI clients by:
 
 ### Quick Setup with Claude Desktop You will need to drag and drop the keyboard-mcp.dxt file found here: <https://github.com/keyboard-dev/keyboard-mcp/releases>
 
-![](upload)
+![](/img/desktop.png)
 
 ```
 # Clone the Keyboard Desktop App
