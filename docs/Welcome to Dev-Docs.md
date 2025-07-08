@@ -62,7 +62,9 @@ Keyboard allows users to extend the capabilities of AI clients by:
 
 ### Quick Setup with Claude Desktop You will need to drag and drop the keyboard-mcp.dxt file found here: <https://github.com/keyboard-dev/keyboard-mcp/releases>
 
-![](/img/desktop.png)Just Drag and drop and then click "install". From there you will prompted to add a GitHub PAT. Go to GitHub and generate a personal access token with following permissions below"
+![](/img/desktop.png)Just Drag and drop and then click "install". From there you will prompted to add a GitHub PAT. Before you do that please go fork:\
+\
+Go to GitHub and generate a personal access token with following permissions below"
 
 ```
 # Clone the Keyboard Desktop App
