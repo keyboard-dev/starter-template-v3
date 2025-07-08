@@ -60,7 +60,7 @@ Keyboard allows users to extend the capabilities of AI clients by:
 
 * GitHub Personal Access Token (for some advanced features)
 
-### Quick Setup with Claude Desktop You will need to drag and drop the <https://github.com/keyboard-dev/keyboard-mcp/releases>
+### Quick Setup with Claude Desktop You will need to drag and drop the keyboard-mcp.dxt file found here: <https://github.com/keyboard-dev/keyboard-mcp/releases>
 
 ```
 # Clone the Keyboard Desktop App
