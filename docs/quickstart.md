@@ -22,7 +22,7 @@ Generate a GitHub PAT that only has access to tho the codespace-executor repo an
 
 You will need to copy and paste this PAT in the next step.
 
-### Setup with Claude Desktop
+### Setup with Claude Desktop In Claude Desktop
 
 You will need to drag and drop the keyboard-mcp.dxt file found here: [dxt github release](https://github.com/keyboard-dev/keyboard-mcp/releases)
 
