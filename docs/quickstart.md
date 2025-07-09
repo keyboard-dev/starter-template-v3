@@ -85,6 +85,8 @@ Create an account and get started.
 
 ## Connect the Keyboard Desktop App to Claude
 
+After you login into the desk
+
 ![](/img/click-settings.png)
 
 ![](/img/websocket-copy-key.png)
