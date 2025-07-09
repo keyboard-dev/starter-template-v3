@@ -90,7 +90,7 @@ After you login into the desktop app find the "Settings" button. Once there find
 
 ![](/img/websocket-copy-key.png)After you copy it navigate back to Claude to and add in the WebSocket Connection Key
 
-![](/img/add-socket-key-to-claude.png)
+![](/img/add-socket-key-to-claude.png)That's it, setup should be done
 
 ## Troubleshooting
 
@@ -99,6 +99,8 @@ After you login into the desktop app find the "Settings" button. Once there find
 * Check network connectivity
 
 * Ensure the MCP server is running and accessible
+
+*
 
 ## Next Steps
 
