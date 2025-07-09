@@ -22,15 +22,15 @@ Generate a GitHub PAT that only has access to tho the codespace-executor repo an
 
 You will need to copy and paste this PAT in the next step.
 
-### Setup with Claude Desktop 
+### Setup with Claude Desktop
 
 You will need to drag and drop the keyboard-mcp.dxt file found here: [dxt github release](https://github.com/keyboard-dev/keyboard-mcp/releases)
 
 ![](/img/desktop.png)
 
-Just Drag and drop and then click "install". 
+Just Drag and drop and then click "install".
 
-Copy that PAT in the Claude  UI.
+Copy that PAT in the Claude UI.
 
 ## Clone clone the approver App
 
@@ -45,7 +45,7 @@ cd approver-client
 
 ### Generate encryption keys
 
-run this script at the root of project to create your encyrption keys.  You will need to copy and paste them in the next step.
+run this script at the root of project to create your encyrption keys. You will need to copy and paste them in the next step.
 
 ```
 node generate-encryption-key.js
@@ -53,7 +53,7 @@ node generate-encryption-key.js
 
 ### Create the .env file
 
-Create a `.env` file in the project root with the following configuration.  If in Claude Desktop you want to optionally encrypt messages sent from your local MCP server to your codespace execution server the `CODE_ENCRYPTION_KEY` will be used to add an additional layer of encryption to the data in transit.  You will also need to add an env variable to the codespace-executor called `KB_ENCRYPTION_KEY` that will be the same value as `CODE_ENCRYPTION_KEY`.  
+Create a `.env` file in the project root with the following configuration. If in Claude Desktop you want to optionally encrypt messages sent from your local MCP server to your codespace execution server the `CODE_ENCRYPTION_KEY` will be used to add an additional layer of encryption to the data in transit. You will also need to add an env variable to the codespace-executor called `KB_ENCRYPTION_KEY` that will be the same value as `CODE_ENCRYPTION_KEY`.
 
 ```bash
 # Required
@@ -63,13 +63,12 @@ ENCRYPTION_KEY=RANDOM_ENCRYPTION_KEY
 #CODE_ENCRYPTION_KEY=RANDOM_ENCRYPTION_KEY
 ```
 
-In this project we also use [dotenvx](https://dotenvx.com) to encrypt the credentials to rest.  So make sure to run this command below.
+In this project we also use [dotenvx](https://dotenvx.com) to encrypt the credentials to rest. So make sure to run this command below.
 
 ```bash
 
 npx @dotenvx/dotenvx encrypt
 npx @dotenvx/dotenvx ext gitignore
-
 ```
 
 Now run the project
