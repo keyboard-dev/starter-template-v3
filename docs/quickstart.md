@@ -85,7 +85,7 @@ Create an account and get started.
 
 ## Connect the Keyboard Desktop App to Claude
 
-![](upload)
+![](/img/click-settings.png)
 
 ## Troubleshooting
 
