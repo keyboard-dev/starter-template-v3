@@ -89,7 +89,7 @@ Create an account and get started.
 
 ![](/img/websocket-copy-key.png)
 
-![](upload)
+![](/img/add-socket-key-to-claude.png)
 
 ## Troubleshooting
 
