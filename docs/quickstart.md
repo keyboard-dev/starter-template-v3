@@ -100,7 +100,7 @@ After you login into the desktop app find the "Settings" button. Once there find
 
 * Ensure the MCP server is running and accessible
 
-*
+* If Claude is not loading trying quiting the Claude Desktop app and opening again
 
 ## Next Steps
 
