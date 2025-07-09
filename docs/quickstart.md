@@ -83,10 +83,10 @@ npm run dev
 
 Create an account and get started.
 
-Connect the Keyboard Desktop App to Claude
+## Connect the Keyboard Desktop App to Claude
 
 After you login into the desktop app find the "Settings" button. Once there find your web socket key and copy it.
------------------------------------------------------------------------------------------------------------------
+
 
 ![](/img/websocket-copy-key.png)
 
