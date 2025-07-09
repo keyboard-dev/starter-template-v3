@@ -87,7 +87,7 @@ Create an account and get started.
 
 After you login into the desktop app find the "Settings" button. Once there find your web socket key and copy it.
 
-![](/img/websocket-copy-key.png)After you copy it navigate back to Claude to and add it back to the Web
+![](/img/websocket-copy-key.png)After you copy it navigate back to Claude to and add in the WebSocket Connection Key
 
 ![](/img/add-socket-key-to-claude.png)
 
