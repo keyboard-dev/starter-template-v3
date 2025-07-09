@@ -87,7 +87,7 @@ Create an account and get started.
 
 ![](/img/click-settings.png)
 
-![](upload)
+![](/img/websocket-connection.png)
 
 ## Troubleshooting
 
