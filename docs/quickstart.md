@@ -87,8 +87,6 @@ Create an account and get started.
 
 ![](/img/click-settings.png)
 
-![](/img/websocket-connection.png)
-
 ## Troubleshooting
 
 * Verify your `.env` file contains the correct info
