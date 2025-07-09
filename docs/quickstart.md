@@ -83,6 +83,8 @@ npm run dev
 
 Create an account and get started.
 
+## Connect the Desktop App to Claude
+
 ## Troubleshooting
 
 * Verify your `.env` file contains the correct info
