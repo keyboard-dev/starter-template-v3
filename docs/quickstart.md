@@ -85,7 +85,7 @@ Create an account and get started.
 
 ## Connect the Keyboard Desktop App to Claude
 
-After you login into the desktop app find the "s
+After you login into the desktop app find the "Settings" button.
 
 ![](/img/click-settings.png)
 
