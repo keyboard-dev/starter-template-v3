@@ -85,6 +85,8 @@ Create an account and get started.
 
 ## Connect the Keyboard Desktop App to Claude
 
+![](upload)
+
 ## Troubleshooting
 
 * Verify your `.env` file contains the correct info
