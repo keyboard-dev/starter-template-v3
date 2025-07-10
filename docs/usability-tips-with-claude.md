@@ -1,4 +1,4 @@
-# Using Keyoard in Claude
+# Using Keyboard in Claude
 
 Before getting started: 
 
