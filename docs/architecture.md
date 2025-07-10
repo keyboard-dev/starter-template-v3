@@ -1,4 +1,8 @@
 ---
+<<<<<<< HEAD
+=======
+slug: /architecture
+>>>>>>> 05773f662f1937d717762a918f68d6409d73fa66
 title: Architecture
 sidebar_position: 3
 ---
