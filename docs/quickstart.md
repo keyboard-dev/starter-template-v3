@@ -10,10 +10,10 @@ sidebar_position: 2
 
 * Node.js (version 18 or higher)
 
-* Access to an Claude Desktop. with an account that can add integrations and MCP servers.
+* Access to Claude Desktop with an account that can add integrations and MCP servers
 
-* GitHub Personal Access Token scoped to use codespaces
-
+* GitHub Personal Access Token scoped to use codespaces (instructionso n how to create it below)
+  
 ### Fork the Codespace Repo
 
 Go fork this [repo](https://github.com/keyboard-dev/codespace-executor).
