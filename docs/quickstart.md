@@ -1,8 +1,5 @@
 ---
-<<<<<<< HEAD
-=======
 slug: /quickstart
->>>>>>> 05773f662f1937d717762a918f68d6409d73fa66
 title: Quickstart
 sidebar_position: 2
 ---
