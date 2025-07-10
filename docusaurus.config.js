@@ -15,6 +15,10 @@ const fs = require("fs");
 
 /** @type {import('@docusaurus/types').Config} */
 const config = {
+  markdown: {
+    mermaid: true,
+  },
+  themes: ["@docusaurus/theme-mermaid"],
   scripts: [
     {
       src: "https://kit.fontawesome.com/c11e540390.js",

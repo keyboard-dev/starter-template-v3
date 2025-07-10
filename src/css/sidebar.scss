@@ -1,9 +1,9 @@
 
-// import design-preferences.scss
+import design-preferences.scss
 
-// [aria-label="Docs sidebar"] {
-//   padding-left: 2.5rem !important;
-// }
+[aria-label="Docs sidebar"] {
+  padding-left: 2.5rem !important;
+}
 
 .menu__link--active:not(.menu__link--sublist) {
   border-radius: 7px;

@@ -1,5 +1,4 @@
 ---
-slug: /
 title: Architecture
 sidebar_position: 3
 ---
