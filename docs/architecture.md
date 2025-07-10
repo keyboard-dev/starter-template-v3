@@ -77,7 +77,7 @@ flowchart LR
 
 5. **Execution**: Code runs in codespace
 
-6. User reviews and decides to send back response
+6. **Review**: User reviews and decides to send back response
 
 7. **Response**: Result returned to MCP Client
 
