@@ -14,11 +14,11 @@ sidebar_position: 2
 
 * GitHub Personal Access Token scoped to use codespaces
 
-### Fork the codespace repo
+### Fork the Codespace Repo
 
-Go fork this repo: [repo link](https://github.com/keyboard-dev/codespace-executor).
+Go fork this [repo](https://github.com/keyboard-dev/codespace-executor).
 
-### Generate a GitHub Pat for the codespace repo
+### Generate a GitHub PAT for the Codespace Repo
 
 Generate a GitHub PAT that only has access to tho the codespace-executor repo and has the following codespaces permissions below in the screenshots:
 
@@ -28,17 +28,19 @@ Generate a GitHub PAT that only has access to tho the codespace-executor repo an
 
 You will need to copy and paste this PAT in the next step.
 
-### Setup with Claude Desktop In Claude Desktop
+### Setup with Claude Desktop in Claude Desktop
 
-You will need to drag and drop the keyboard-mcp.dxt file found here: [dxt github release](https://github.com/keyboard-dev/keyboard-mcp/releases)
+Download the keyboard-mcp.dxt file found here: [dxt github release](https://github.com/keyboard-dev/keyboard-mcp/releases)
+
+Navigate to the Claude Desktop app Extensions page via the Claude settings page. 
 
 ![](/img/desktop.png)
 
-Just Drag and drop and then click "install".
+Drag and drop the downloaded keyboard-mcp.dxt file and click "Install".
 
-Copy that PAT in the Claude UI.
+Copy the GitHub PAT generated in the previous step into the Claude UI.
 
-## Clone clone the approver App
+## Clone the Approver App
 
 ```
 # Clone the Keyboard Desktop App
@@ -49,15 +51,15 @@ cd approver-client
 
 ## Add .env for the Desktop App
 
-### Generate encryption keys
+### Generate Encryption keys
 
-run this script at the root of project to create your encyrption keys. You will need to copy and paste them in the next step.
+Run this script at the root of project to create your encyrption keys. You will need to copy and paste them in the next step.
 
 ```
 node generate-encryption-key.js
 ```
 
-### Create the .env file
+### Create the .env File
 
 Create a `.env` file in the project root with the following configuration. If in Claude Desktop you want to optionally encrypt messages sent from your local MCP server to your codespace execution server the `CODE_ENCRYPTION_KEY` will be used to add an additional layer of encryption to the data in transit. You will also need to add an env variable to the codespace-executor called `KB_ENCRYPTION_KEY` that will be the same value as `CODE_ENCRYPTION_KEY`.
 
@@ -69,7 +71,7 @@ ENCRYPTION_KEY=RANDOM_ENCRYPTION_KEY
 #CODE_ENCRYPTION_KEY=RANDOM_ENCRYPTION_KEY
 ```
 
-In this project we also use [dotenvx](https://dotenvx.com) to encrypt the credentials to rest. So make sure to run this command below.
+In this project we also use [dotenvx](https://dotenvx.com) to encrypt credentials at rest. Run the command below:
 
 ```bash
 
@@ -77,7 +79,7 @@ npx @dotenvx/dotenvx encrypt
 npx @dotenvx/dotenvx ext gitignore
 ```
 
-Now run the project
+Now run the project.
 
 ```
 # Install dependencies
@@ -100,7 +102,7 @@ After you copy it navigate back to Claude to and add in the WebSocket Connection
 
 ![](/img/add-socket-key-to-claude.png)
 
-That's it, setup should be done
+That's it, setup should be done.
 
 ## Troubleshooting
 
