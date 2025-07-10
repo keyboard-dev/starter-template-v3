@@ -3,19 +3,13 @@
         {
             "items": [
                 {
-                    "label": "Instagram",
-                    "href": "https://www.instagram.com",
-                    "position": "left",
-                    "prependBaseUrlToHref": false
-                },
-                {
                     "label": "GitHub",
-                    "href": "https://github.com",
+                    "href": "https://github.com/keyboard-dev",
                     "prependBaseUrlToHref": false
                 },
                 {
                     "label": "Discord",
-                    "href": "https://discord.com",
+                    "href": "https://discord.gg/FdCD6ExV",
                     "prependBaseUrlToHref": false
                 }
             ],
@@ -24,13 +18,13 @@
         {
             "items": [
                 {
-                    "label": "Tutorial",
-                    "to": "/docs/intro",
+                    "label": "Intro",
+                    "to": "/docs",
                     "prependBaseUrlToHref": true
                 },
                 {
                     "label": "About",
-                    "href": "/about",
+                    "href": "https://www.keyboard.dev",
                     "prependBaseUrlToHref": true,
                     "position": "left"
                 }
@@ -40,18 +34,8 @@
         {
             "items": [
                 {
-                    "label": "Stack Overflow",
-                    "href": "https://stackoverflow.com/questions/tagged/docusaurus",
-                    "prependBaseUrlToHref": false
-                },
-                {
                     "label": "Discord",
-                    "href": "https://discordapp.com/invite/docusaurus",
-                    "prependBaseUrlToHref": false
-                },
-                {
-                    "label": "Twitter",
-                    "href": "https://twitter.com/docusaurus",
+                    "href": "https://discord.gg/FdCD6ExV",
                     "prependBaseUrlToHref": false
                 }
             ],
