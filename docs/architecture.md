@@ -1,3 +1,10 @@
+---
+slug: /
+title: Architecture
+sidebar_position: 3
+---
+
+
 # Architecture
 
 The Keyboard Development MCP (Model Context Protocol) system is designed with a modular, secure, and interactive architecture that facilitates code execution across different environments. This document outlines the key components and their interactions.
