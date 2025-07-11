@@ -43,10 +43,13 @@ Copy the GitHub PAT generated in the previous step into the Claude UI.
 ## Clone the Approver App
 
 ```
-# Clone the Keyboard Desktop App
-git clone https://github.com/keyboard-dev/approver-client.git
+# Get access to both repos
+git clone --recursive https://github.com/keyboard-dev/keyboard-local.git
+cd keyboard-local
 
-cd approver-client
+# Work on desktop electron app
+cd apps/approver-client
+npm install && npm run dev
 ```
 
 ## Add .env for the Desktop App
