@@ -118,6 +118,12 @@ That's it, setup should be done.
 
 * If Claude is not loading trying quiting the Claude Desktop app and opening again
 
+* On Mac if login on the electron app is not redirecting properly run
+
+```
+/System/Library/Frameworks/CoreServices.framework/Frameworks/LaunchServices.framework/Support/lsregister -kill -r -domain local -domain system -domain user
+```
+
 ## Next Steps
 
 * Explore message approval workflows
