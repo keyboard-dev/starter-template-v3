@@ -49,7 +49,8 @@ cd keyboard-local
 
 # Work on desktop electron app
 cd apps/approver-client
-npm install && npm run dev
+git checkout main
+git pull origin main
 ```
 
 ## Add .env for the Desktop App
