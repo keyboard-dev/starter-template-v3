@@ -97,45 +97,12 @@ Interested in improving Keyboard? We welcome contributions! Please join our #con
 
 ## ⚠️ Warning and Disclaimer
 
-**USE AT YOUR OWN RISK**
+**Use at your own risk.** Keyboard is experimental software that executes code in your environment. While we've designed it with security in mind, you should:
 
-The keyboard automation tools and scripts provided in this documentation are intended for educational and productivity purposes only. By using these tools, you acknowledge and agree to the following:
-
-### Important Warnings
-
-- **Codespace Environment Impact**: Keyboard automation can interact with your codespace environment and applications in ways that may cause unexpected behavior, data loss, or environment instability.
-- **Security Considerations**: Automated keyboard inputs may inadvertently trigger security features, access sensitive information, or interact with applications in unintended ways within your codespace.
-- **Application Compatibility**: Not all applications handle automated input the same way. Some may block or misinterpret automated keystrokes within the codespace environment.
-- **Rate Limiting**: Rapid automated inputs may trigger rate limiting, security measures, or cause applications to become unresponsive within your codespace.
-- **Environment Isolation**: While codespaces provide isolation, automated inputs can still affect your workspace, files, and running processes within the container.
-
-### Disclaimer of Liability
-
-The developers and maintainers of this keyboard automation system:
-
-- Provide this software "AS IS" without warranty of any kind, either express or implied
-- Are not responsible for any damage, data loss, security breaches, or other issues that may arise from use of these tools
-- Do not guarantee compatibility with all codespace configurations, applications, or use cases
-- Are not liable for any direct, indirect, incidental, special, or consequential damages
-
-### User Responsibilities
-
-By using these tools, you agree to:
-
-- Test thoroughly in safe environments before production use
-- Understand the implications of automated keyboard input in your specific codespace context
-- Comply with all applicable laws, regulations, and terms of service
-- Use these tools ethically and responsibly
-- Take full responsibility for any consequences of their use
-- Ensure your codespace usage complies with your hosting provider's terms of service
-
-### Ethical Use
-
-These tools should only be used for legitimate purposes such as:
-- Personal productivity automation
-- Testing and development
-- Educational purposes
-- Authorized system administration tasks within your codespace
+- Review all code before approving execution
+- Only connect trusted applications
+- Understand that API calls may have real-world effects
+- Use in non-production environments initially
 
 **Do not use these tools for:**
 - Unauthorized access to systems or data
@@ -143,7 +110,5 @@ These tools should only be used for legitimate purposes such as:
 - Violating terms of service
 - Any illegal or unethical activities
 
-
-
-
+---
 
