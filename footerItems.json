@@ -4,12 +4,12 @@
             "items": [
                 {
                     "label": "GitHub",
-                    "href": "https://github.com/keyboard-dev",
+                    "href": "https://github.com/keyboard-dev/keyboard-local",
                     "prependBaseUrlToHref": false
                 },
                 {
                     "label": "Discord",
-                    "href": "https://discord.gg/FdCD6ExV",
+                    "href": "https://discord.gg/UxsRWtV6M2",
                     "prependBaseUrlToHref": false
                 }
             ],
@@ -24,7 +24,7 @@
                 },
                 {
                     "label": "About",
-                    "href": "https://www.keyboard.dev",
+                    "href": "https://github.com/keyboard-dev/keyboard-local",
                     "prependBaseUrlToHref": true,
                     "position": "left"
                 }
