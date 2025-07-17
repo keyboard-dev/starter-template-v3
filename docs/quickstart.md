@@ -12,7 +12,7 @@ sidebar_position: 2
 
 * Access to Claude Desktop with an account that can add integrations and MCP servers
 
-* GitHub Personal Access Token scoped to use codespaces (instructionso n how to create it below)
+* GitHub Personal Access Token scoped to use codespaces (instructions on how to create it below)
   
 ### Fork the Codespace Repo
 
