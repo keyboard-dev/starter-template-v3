@@ -26,7 +26,7 @@ You're ready to get started! Go into Claude and start asking it to perform tasks
 
 ### Initial Prompt Requirement
 
-🔑 **Important**: When interacting with the system, always begin your prompt with the word 'keyboard'. This signals the system that you want to use Keyboard not accidentally trigger another tool.
+**Important**: When interacting with the system, always begin your prompt with the word 'keyboard'. This signals the system that you want to use Keyboard not accidentally trigger another tool.
 
 Example:
 
@@ -38,7 +38,11 @@ keyboard: Please run some hello world code
 
 When prompted to execute a task Claude will create a GitHub codespace, ensure it's connected to the necessary third-party apps and then write code to execute the task. By default, you will need to approve the code before Claude executes the code to undertake the task at hand. 
 
+<br></br>
+
 You will see a notification in the Keyboard desktop app to approve or deny the request
+
+<br></br>
 
 **Tip: Check the Keyboard desktop app if Claude seems to be stuck before executing a taks. You may have to approve it before it gets executed.**
 
@@ -46,9 +50,15 @@ You will see a notification in the Keyboard desktop app to approve or deny the r
 
 Claude will work to write a new script for each task it is asked to execute. Keyboard has the functionality to save a script once it's successful so that Claude can recall that script to save time the next time you want to access an app. 
 
+<br></br>
+
 Try asking Claude to save a script after a task was successfully executed so you can go back and recall that script the next time you want a similar task to be taken. You can give it any name you want. 
 
+<br></br>
+
 For example if you successfully created a Google Doc with Claude you can tell Claude: *Save this script in Keyboard and call it 'Create Google Slides'* 
+
+<br></br>
 
 The next time you want to create a Google Doc simply add *'Keyboard use the create Google Slides script'* in your prompt. 
 

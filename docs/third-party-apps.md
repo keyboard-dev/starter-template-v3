@@ -27,11 +27,11 @@ Follow the steps below to securely connect the apps you'd like you use within Cl
 
 ## Security Overview
 
-### 🔒 What does Keyboard have access to? 
+### What does Keyboard have access to? 
 
 Keyboard does not have access to the API keys you input. Those are stored in your private GitHub repo. Keyboard only knows that the environment variable is available to point Claude to when ready to execute a task. By default you will always have the ability to to approve or deny any task before Claude goes and executes a task leveraging the API key (*you can also turn this final approval off if you want*).
 
-### ✅ Best Practices for AI-Driven Environment Variable Naming
+### Best Practices for AI-Driven Environment Variable Naming
 
 **Do:**
 * Use uppercase names with the **KEYBOARD_** prefix
@@ -52,7 +52,7 @@ KEYBOARD_GOOGLE_DOCS_API_KEY_READ_ONLY
 KEYBOARD_GITHUB_TOKEN_FOR_API
 ```
 
-### ❌ Avoid These Common Mistakes
+### Avoid These Common Mistakes
 
 * Generic names like KEY, SECRET, or TOKEN
 * Lowercase or mixed-case names
@@ -62,7 +62,7 @@ KEYBOARD_GITHUB_TOKEN_FOR_API
 
 ## Step-by-Step Integration Examples
 
-### 🔷 Typeform Integration
+### Typeform Integration
 
 **Getting Your Typeform API Key:**
 1. Log in to [Typeform](https://typeform.com)
@@ -76,7 +76,7 @@ KEYBOARD_GITHUB_TOKEN_FOR_API
 - **Secret Name**: KEYBOARD_TYPEFORM_API_KEY
 - **Secret Value**: tfp_your_actual_token_here
 
-### 📧 SendGrid Email Integration
+### SendGrid Email Integration
 
 **Getting Your SendGrid API Key:**
 1. Log in to [SendGrid](https://sendgrid.com)
