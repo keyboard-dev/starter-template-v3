@@ -22,8 +22,6 @@ Fork this [repo](https://github.com/keyboard-dev/codespace-executor).
 
 If you are unfamiliar with how to create a GitHuB Personal Access Token (PAT) then refer to GitHub's docs [here](https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/managing-your-personal-access-tokens#creating-a-fine-grained-personal-access-token) for how to quickly create one. 
 
-<br></br>
-
 Generate a fine-grained GitHub PAT that only has access to the codespace-executor repo you forked  and has the following codespaces permissions below (screenshots to follow): 
 * Codespaces: Read and write
 * Codespaces lifecycle admin: Read and write
@@ -38,17 +36,13 @@ You will need to copy and paste this PAT in the next step.
 
 ### Setup with Claude Desktop in Claude Desktop
 
-Download the keyboard-mcp.dxt file found here: [dxt github release](https://github.com/keyboard-dev/keyboard-mcp/releases)
-
-<br></br>
+Download the keyboard-mcp.dxt file found here: [dxt github release](https://github.com/keyboard-dev/keyboard-mcp/releases/latest)
 
 Navigate to the Claude Desktop app Extensions page via the Claude settings page. 
 
 ![](/img/desktop.png)
 
 Drag and drop the downloaded keyboard-mcp.dxt file and click "Install".
-
-<br></br>
 
 Copy the GitHub PAT generated in the previous step into the Claude UI.
 
