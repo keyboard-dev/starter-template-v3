@@ -14,7 +14,7 @@ Follow the steps below to securely connect the apps you'd like you use within Cl
 3. In the left sidebar, click **Secrets and variables**
 4. Click **Codespaces**
 
-### Step 2: Add Repository Secrets**
+### Step 2: Add Repository Secrets
 1. Click **New repository secret**
 2. Enter the secret name with **KEYBOARD_** prefix in the following format KEYBOARD_APPNAME_API_KEY (e.g. KEYBOARD_TYPEFORM_API_KEY)
 3. Enter the secret value (your actual API key)
