@@ -8,9 +8,9 @@ sidebar_position: 4
 
 Before getting started: 
 
-* Visit the quickstart guide to ensure you have Keyboard installed with the proper permissions
+* Visit the [quickstart](https://docs.keyboard.dev/docs/quickstart) guide to ensure you have Keyboard installed with the proper permissions
 
-* Connect Keyboard to the third party apps you want to give Claude access to (see here if you haven't already)
+* Connect Keyboard to the third party apps you want to give Claude access to (see [here](https://docs.keyboard.dev/docs/connectapps) if you haven't already)
 
 ## Key Execution Requirements
 

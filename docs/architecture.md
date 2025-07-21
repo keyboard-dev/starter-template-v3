@@ -4,7 +4,6 @@ title: System Architecture
 sidebar_position: 5
 ---
 
-
 # Architecture
 
 The Keyboard Development MCP (Model Context Protocol) system is designed with a modular, secure, and interactive architecture that facilitates code execution across different environments. This document outlines the key components and their interactions.
@@ -57,7 +56,7 @@ flowchart LR
 
 ### Code Execution Environment
 
-* Indvidual Secure GitHub Codespace
+* Indvidual, secure, GitHub Codespace
 
 * Executes interpolated and evaluated code
 
