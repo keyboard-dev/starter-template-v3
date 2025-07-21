@@ -31,7 +31,7 @@ Keyboard's environment variables are specifically designed to empower AI to:
 This is the most secure method and works for all codespaces created from your repository.
 
 **Step 1: Navigate to Repository Settings**
-1. Go to your GitHub repository
+1. Go to your GitHub repository that you forked, it should have the name "codespace-executor".
 2. Click on the **Settings** tab (you need admin access)
 3. In the left sidebar, click **Secrets and variables**
 4. Click **Codespaces**
@@ -128,7 +128,6 @@ Properly managed environment variables are crucial for creating secure, intellig
 **Need Help?**
 - Check the specific API documentation for each service you're integrating
 - Review GitHub Codespaces documentation for secrets management
-- Use the provided test scripts to validate your setup
 - Monitor your third-party service dashboards for usage and errors
 - Follow security best practices and rotate keys regularly
 
