@@ -1,3 +1,9 @@
+---
+slug: /disclaimer
+title: Disclaimer
+sidebar_position: 6
+---
+
 ## ⚠️ Warning and Disclaimer
 
 **Use at your own risk.** Keyboard is experimental software that executes code in your environment. While we've designed it with security in mind, you should:

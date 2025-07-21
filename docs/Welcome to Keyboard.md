@@ -6,11 +6,11 @@ sidebar_position: 1
 
 
 
-# Welcome to Keyboard: Your Model Context Protocol Server
+# Welcome to Keyboard: Your Universal Model Context Protocol Server
 
-## Introduction to Keyboard
+## Introduction
 
-Keyboard is a powerful Model Context Protocol (MCP) server designed to transform how you interact with AI clients like Claude by enabling direct code execution and task automation. It provides a flexible and secure platform for connecting your internal applications to your AI client and executing complex tasks across various domains.
+Keyboard is a Model Context Protocol (MCP) server designed to transform how you interact with AI clients like Claude via direct code execution and task automation. It provides a flexible and secure platform for connecting your internal applications to your AI client and executing complex tasks across various domains.
 
 ## What Can Keyboard Do?
 
@@ -80,18 +80,3 @@ Keyboard is designed with security at its core:
 * Comprehensive security checks
 
 * Approval workflows for sensitive operations
-
-## Next Steps
-
-* Explore the documentation
-
-* Check out example workflows
-
-* Join our community discussions
-
-## Contributing
-
-Interested in improving Keyboard? We welcome contributions! Please join our #contributing channel on Discord and ping us there!
-
-
-

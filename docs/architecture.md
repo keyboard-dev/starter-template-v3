@@ -1,7 +1,7 @@
 ---
 slug: /architecture
-title: Architecture
-sidebar_position: 3
+title: System Architecture
+sidebar_position: 5
 ---
 
 

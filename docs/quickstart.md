@@ -12,15 +12,23 @@ sidebar_position: 2
 
 * Access to Claude Desktop with an account that can add integrations and MCP servers
 
-* GitHub Personal Access Token scoped to use codespaces (instructions on how to create it below)
+* MacOS required (for now!): This guide and the current release are for Mac users. We’re working on support for other platforms—stay tuned!
   
 ### Fork the Codespace Repo
 
-Go fork this [repo](https://github.com/keyboard-dev/codespace-executor).
+Fork this [repo](https://github.com/keyboard-dev/codespace-executor).
 
 ### Generate a GitHub PAT for the Codespace Repo
 
-Generate a GitHub PAT that only has access to tho the codespace-executor repo and has the following codespaces permissions below in the screenshots:
+If you are unfamiliar with how to create a GitHuB Personal Access Token (PAT) then refer to GitHub's docs [here](https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/managing-your-personal-access-tokens#creating-a-fine-grained-personal-access-token) for how to quickly create one. 
+
+Generate a fine-grained GitHub PAT that only has access to the codespace-executor repo you forked  and has the following codespaces permissions below: 
+* Codespaces: Read and write
+* Codespaces lifecycle admin: Read and write
+* Codespaces metadata: Read-only
+* Metadata: Read-only (this is preselected and mandatory on all fine-grained GitHub PATs)
+
+See screenshots below for what you should see
 
 ![select-repo](/img/select_repo.png)
 
@@ -123,11 +131,3 @@ That's it, setup should be done.
 ```
 /System/Library/Frameworks/CoreServices.framework/Frameworks/LaunchServices.framework/Support/lsregister -kill -r -domain local -domain system -domain user
 ```
-
-## Next Steps
-
-* Explore message approval workflows
-
-* Configure additional settings
-
-* Review detailed documentation for advanced usage
