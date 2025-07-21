@@ -38,7 +38,7 @@ keyboard: Please run some hello world code
 
 When prompted to execute a task Claude will create a GitHub codespace, ensure it's connected to the necessary third-party apps and then write code to execute the task. By default, you will need to approve the code before Claude executes the code to undertake the task at hand. 
 
-<br></br>
+<br>
 
 You will see a notification in the Keyboard desktop app to approve or deny the request
 
