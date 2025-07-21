@@ -1,15 +1,5 @@
 # Add Third Party Apps to Keyboard
 
-## 📋 Table of Contents
-1. [Overview](#overview)
-2. [Why Environment Variables Matter](#why-environment-variables-matter)
-3. [Setting Up GitHub Codespaces Environment Variables](#setting-up-github-codespaces-environment-variables)
-4. [Step-by-Step Integration Examples](#step-by-step-integration-examples)
-5. [Security Best Practices](#security-best-practices)
-6. [Testing Your Setup](#testing-your-setup)
-7. [Troubleshooting](#troubleshooting)
-8. [Quick Reference](#quick-reference)
-
 ## Overview
 
 Environment variables are crucial for enabling AI-powered code generation and execution in the Keyboard development ecosystem. These variables help AI intelligently interact with third-party services, generate contextually appropriate code, and securely manage integration capabilities.
